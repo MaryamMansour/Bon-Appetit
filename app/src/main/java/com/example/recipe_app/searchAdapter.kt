@@ -20,6 +20,7 @@ class searchAdapter(var mealList: List<MealX>,
 
 
 ) : RecyclerView.Adapter<mealAdapter.Holder> () , Filterable {
+    val mealListFull = ArrayList<MealX>(mealList)
     class Holder(val row: View) : RecyclerView.ViewHolder(row){
 
 
@@ -57,11 +58,11 @@ class searchAdapter(var mealList: List<MealX>,
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
                 if(charSearch.isEmpty()){
-                    mealList = mealList
+                    mealList = mealListFull
                 }else{
                     val resultList = ArrayList<MealX>()
-                    for(row in mealList){
-                        if(row.strMeal.lowercase(Locale.ROOT).contains(charSearch.lowercase(Locale.ROOT))){
+                    for(row in mealListFull){
+                        if(row.strMeal.lowercase(Locale.getDefault()).contains(charSearch.lowercase(Locale.getDefault()))){
                             resultList.add(row)
                         }
                     }
