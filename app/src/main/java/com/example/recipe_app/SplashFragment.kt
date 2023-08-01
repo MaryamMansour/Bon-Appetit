@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -24,12 +25,11 @@ class SplashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launch (Dispatchers.IO){
-            delay(5000)
-            withContext(Dispatchers.Main){
-                view.findNavController().navigate(R.id.loginFragment)
-            }
+        lifecycleScope.launch{
+            delay(3000)
+            findNavController().navigate(R.id.loginFragment)
         }
+        findNavController().popBackStack()
 
     }
 }

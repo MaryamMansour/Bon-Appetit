@@ -2,7 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Recipe_app" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+<!--        <item name="colorPrimary">@color/purple_500</item>-->
+        <item name="colorPrimary">#03A9F4</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -13,4 +14,8 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-</resources>
+    <style name="EditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">#03A9F4</item>
+        <item name="hintTextColor">#03A9F4</item>
+    </style>
+    </resources>

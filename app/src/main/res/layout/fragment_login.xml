@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".LoginFragment">
 
 
@@ -24,7 +25,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editTextLayout_email"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/EditText"
         android:layout_width="match_parent"
         android:layout_height="81dp"
         android:layout_marginStart="16dp"
@@ -46,7 +47,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/editTextLayoutPassword"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -68,11 +69,11 @@
         android:id="@+id/textView_createAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="26dp"
         android:layout_marginTop="16dp"
-        android:text="Already Have an account ?"
+        android:text="Don't Have an account ?"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/editTextLayoutPassword"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextLayoutPassword" />
 
     <TextView
@@ -81,9 +82,25 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:backgroundTint="@color/white"
-        android:text="Create new account "
+        android:text="Create new one "
         android:textColor="#15A2ED"
         android:textSize="14sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView_createAccount"
         app:layout_constraintStart_toEndOf="@+id/textView_createAccount" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="55dp"
+        android:backgroundTint="#03A9F4"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="Login"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextLayoutPassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>

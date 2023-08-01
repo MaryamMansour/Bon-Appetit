@@ -29,9 +29,11 @@ class LoginFragment : Fragment() {
         btntosignup.setOnClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
             view.findNavController().navigate(action)
+
         }
 
     }
+
 
 
 }
