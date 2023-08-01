@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Recipe_app" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Recipe_app" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -12,5 +12,11 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="App_BarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="menuItemsText" parent="android:TextAppearance.Widget.PopupMenu.Small">
+        <item name ="android:textColor" >@android:color/black</item>
+
     </style>
 </resources>

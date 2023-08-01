@@ -16,12 +16,25 @@
 <!--        app:layout_constraintTop_toTopOf="parent">-->
 
 <!--    </FrameLayout>-->
-    <include  layout="@layout/home_content"
+    <include
+        android:id="@+id/include"
+        layout="@layout/home_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
-            app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include2" />
+
+    <include
+        android:id="@+id/include2"
+        layout="@layout/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/include"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
         <com.google.android.material.bottomnavigation.BottomNavigationView

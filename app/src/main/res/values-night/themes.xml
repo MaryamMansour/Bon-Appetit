@@ -13,4 +13,9 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="App_BarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
+    <style name="menuItemsText" parent="android:TextAppearance.Widget.PopupMenu.Small">
+        <item name ="android:textColor" >@android:color/black</item>
+
+    </style>
 </resources>

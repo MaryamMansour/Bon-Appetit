@@ -39,7 +39,6 @@ class mealAdapter(
             OnClick.onClick(meal)
 
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -55,5 +54,6 @@ class mealAdapter(
         var imageView = row.findViewById<ImageView>(R.id.image_view)
 
     }
+
 
 }

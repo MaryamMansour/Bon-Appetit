@@ -20,4 +20,14 @@
         android:name="com.example.recipe_app.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.example.recipe_app.aboutFragment"
+        android:label="fragment_about"
+        tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/signoutFragment"
+        android:name="com.example.recipe_app.signoutFragment"
+        android:label="fragment_signout"
+        tools:layout="@layout/fragment_signout" />
 </navigation>
