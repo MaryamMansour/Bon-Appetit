@@ -15,7 +15,8 @@ import java.util.Locale
 
 class searchAdapter(var mealList: List<MealX>,
                     var  context: Context,
-                    var OnClick : OnClickListener
+                    private var onClickitem:(MealX)->Unit
+
 
 
 ) : RecyclerView.Adapter<mealAdapter.Holder> () , Filterable {
@@ -45,42 +46,40 @@ class searchAdapter(var mealList: List<MealX>,
 //        holder.descriptionView.text=mealList[position].strInstructions
         Glide.with(context).load(mealList[position].strMealThumb).into(holder.imageView)
         holder.itemView.setOnClickListener {
-            OnClick.onClick(meal)
+            onClickitem(meal)
 
         }
     }
 
 
     override fun getFilter(): Filter {
-        return object : Filter() {
-            var FilterList = ArrayList<String>()
+        return object : Filter(){
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val charSearch = constraint.toString()
-                if (charSearch.isEmpty()) {
-                    FilterList = mealList as ArrayList<String>
-                } else {
-                    val resultList = ArrayList<String>()
-                    for (row in mealList) {
-                        if (row.strMeal.lowercase(Locale.ROOT)
-                                .contains(charSearch.lowercase(Locale.ROOT))
-                        ) {
-                            resultList.add(row.toString())
+                if(charSearch.isEmpty()){
+                    mealList = mealList
+                }else{
+                    val resultList = ArrayList<MealX>()
+                    for(row in mealList){
+                        if(row.strMeal.lowercase(Locale.ROOT).contains(charSearch.lowercase(Locale.ROOT))){
+                            resultList.add(row)
                         }
                     }
-                    FilterList = resultList
+                    mealList = resultList
                 }
                 val filterResults = FilterResults()
-                filterResults.values = FilterList
+                filterResults.values = mealList
                 return filterResults
             }
 
-            @Suppress("UNCHECKED_CAST")
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                FilterList = results?.values as ArrayList<String>
+                mealList = results?.values as ArrayList<MealX>
                 notifyDataSetChanged()
+
             }
 
         }
+
     }
     fun setFilteredList(mealList: List<MealX>){
         this.mealList = mealList

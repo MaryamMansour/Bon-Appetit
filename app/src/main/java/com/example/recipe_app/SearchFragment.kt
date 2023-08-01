@@ -36,10 +36,12 @@ class SearchFragment : Fragment() ,OnClickListener {
         // var recyclerAdapter : mealAdapter
 
         searchView = view.findViewById(R.id.searchView)
-        viewModel.listOfMeals.observe(this) { meals ->
+        viewModel.listOfMeals.observe(viewLifecycleOwner) { meals ->
 
             recyclerView = view.findViewById(R.id.searchRecyclerView)
-            recyclerAdapter = searchAdapter(meals, requireActivity(), this)
+            recyclerAdapter = searchAdapter(meals, requireActivity(), ){
+                Toast.makeText(requireActivity(), "Meal Clicked ${it.strMeal} ", Toast.LENGTH_SHORT).show()
+            }
             recyclerView.adapter = recyclerAdapter
             recyclerView.layoutManager =
                 LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
