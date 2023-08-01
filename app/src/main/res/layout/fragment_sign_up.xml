@@ -76,14 +76,14 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextLayoutEmail">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextPassword"
+            android:id="@+id/editText_Password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_login"
         android:layout_width="wrap_content"
         android:layout_height="55dp"
         android:backgroundTint="#03A9F4"

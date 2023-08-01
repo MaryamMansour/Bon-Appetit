@@ -11,5 +11,7 @@ data class PersonInfo (
     val email :String,
     val password :String,
 
+        ){
+    var name :String ="default"
 
-        )
+}
