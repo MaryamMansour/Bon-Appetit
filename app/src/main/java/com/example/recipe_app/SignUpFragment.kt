@@ -21,6 +21,8 @@ class SignUpFragment : Fragment() {
     lateinit var  et_password: TextInputEditText
     lateinit var btn_signUp: Button
     lateinit var et_layout_email : TextInputLayout
+    lateinit var et_layout_name : TextInputLayout
+    lateinit var et_layout_password : TextInputLayout
 
 
     lateinit var db : PersonInfoDatabase
@@ -40,6 +42,8 @@ class SignUpFragment : Fragment() {
         et_password = view.findViewById(R.id.et_Password)
         btn_signUp = view.findViewById(R.id.btn_create_account)
         et_layout_email = view.findViewById(R.id.editTextLayoutEmail)
+        et_layout_name = view.findViewById(R.id.editTextLayoutName)
+        et_layout_password = view.findViewById(R.id.editTextLayoutPassword)
         db = PersonInfoDatabase.getintstance(requireActivity())
         dao= db.personinfodao()
 
@@ -60,21 +64,21 @@ class SignUpFragment : Fragment() {
             }
             var e_pass=when(password.isEmpty()){
                 true -> {
-                    et_password.error = "password is required"
+                    et_layout_password.error = "password is required"
                     true
                 }
                 false -> {
-                    et_password.error = null
+                    et_layout_password.error = null
                     false
                 }
             }
             var e_name=when(name.isEmpty()){
                 true -> {
-                    et_name.error = "name is required"
+                    et_layout_name.error = "name is required"
                     true
                 }
                 false -> {
-                    et_name.error = null
+                    et_layout_name.error = null
                     false
                 }
             }
