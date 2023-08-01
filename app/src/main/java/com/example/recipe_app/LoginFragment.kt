@@ -6,25 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
 
 class LoginFragment : Fragment() {
 
     lateinit var btntosignup: TextView
-    lateinit var edittextemail : TextInputEditText
-    lateinit var edittextpassword : TextInputEditText
-    lateinit var btnlogin : Button
-
-
+    lateinit var edittextemail: TextInputEditText
+    lateinit var edittextpassword: TextInputEditText
+    lateinit var btnlogin: Button
+    lateinit var db: PersonInfoDatabase
+    lateinit var dao: PersonInfoDao
 
 
     override fun onCreateView(
@@ -38,60 +37,53 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        edittextemail= view.findViewById(R.id.editText_email)
-        edittextpassword= view.findViewById(R.id.editText_Password)
+        edittextemail = view.findViewById(R.id.editText_email)
+        edittextpassword = view.findViewById(R.id.et_Password)
+        btnlogin = view.findViewById(R.id.btn_create_account)
 
-        btnlogin= view.findViewById(R.id.button_login)
+        db = PersonInfoDatabase.getintstance(requireActivity())
+        dao = db.personinfodao()
         btnlogin.setOnClickListener {
 
             val email = edittextemail.text.toString()
             val password = edittextpassword.text.toString()
-            val database = PersonInfoDatabase.getintstance(requireActivity())
-            val dao= database.personinfodao()
+            var result: PersonInfo? = null
+            var currentuser : PersonInfo = PersonInfo(0, email, password)
             lifecycleScope.launch(Dispatchers.IO) {
+                result= dao.getPersonInfo(email)
+                withContext(Dispatchers.Main){
+                    if(result!=null){
+                        if(result?.password.equals(currentuser.password)){
+                                Toast.makeText(context, "Login Successful", Toast.LENGTH_LONG).show()
+                                //val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                        }
+                        else{
+                                Toast.makeText(context, "Incorrect Password", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    else{
+                            Toast.makeText(context, "User not found please create an account", Toast.LENGTH_LONG).show()
 
-                val userdatabase = dao.getAllPersonInfo()
-                val currentuser = PersonInfo(0 , email, password )
-                if(currentuser in userdatabase){
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(context, "login", Toast.LENGTH_LONG).show()
                     }
                 }
-                else{
-                    //todo 2 possibilities of enetring email right but wrong passwprd
-
-                  withContext(Dispatchers.Main)  {
-                      Toast.makeText(context , "user not found , please sign up " , Toast.LENGTH_LONG).show()
-                  }
-
-
-                }
-
-
             }
 
+
+
+
         }
-
-
-
         btntosignup = view.findViewById(R.id.textview_createAccount)
         btntosignup.setOnClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
-            view.findNavController().navigate(action)
+            findNavController().navigate(action)
 
         }
-
-
-
-
-
-
-
-
-
-
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        db.close()
+    }
 
 }
+

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class PersonInfo (
     @PrimaryKey(autoGenerate = true)
-    val id :Int,
+    var id :Int,
     val email :String,
     val password :String,
 

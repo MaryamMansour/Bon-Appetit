@@ -17,6 +17,9 @@ interface PersonInfoDao {
     @Delete
     suspend fun delete(personinfo: PersonInfo)
 
+    @Query("SELECT * FROM PersonInfo WHERE email = :email")
+    suspend fun getPersonInfo(email : String) : PersonInfo
+
 
 
 
