@@ -27,7 +27,7 @@ class SplashFragment : Fragment() {
         lifecycleScope.launch (Dispatchers.IO){
             delay(5000)
             withContext(Dispatchers.Main){
-                view.findNavController().navigate(R.id.signUpFragment)
+                view.findNavController().navigate(R.id.loginFragment)
             }
         }
 
