@@ -15,8 +15,6 @@ class HomeActivity : AppCompatActivity(){
     lateinit var navController: NavController
     lateinit var navHostFragment : NavHostFragment
     lateinit var  bottomNavigationView : BottomNavigationView
-    private lateinit var fragmentManager: FragmentManager
-    private lateinit var fragmentTrans: FragmentTransaction
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
