@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.withCreated
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.Dispatchers
@@ -37,13 +36,13 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        et_name = view.findViewById(R.id.et_name)
-        et_email = view.findViewById(R.id.et_email)
-        et_password = view.findViewById(R.id.et_Password)
+        et_name = view.findViewById(R.id.et_name_signup)
+        et_email = view.findViewById(R.id.et_email_signup)
+        et_password = view.findViewById(R.id.et_password_signup)
         btn_signUp = view.findViewById(R.id.btn_create_account)
-        et_layout_email = view.findViewById(R.id.editTextLayoutEmail)
-        et_layout_name = view.findViewById(R.id.editTextLayoutName)
-        et_layout_password = view.findViewById(R.id.editTextLayoutPassword)
+        et_layout_email = view.findViewById(R.id.et_layot_email_signup)
+        et_layout_name = view.findViewById(R.id.et_layout_name_signup)
+        et_layout_password = view.findViewById(R.id.et_layout_password_signup)
         db = PersonInfoDatabase.getintstance(requireActivity())
         dao= db.personinfodao()
 
@@ -82,14 +81,17 @@ class SignUpFragment : Fragment() {
                     false
                 }
             }
-            var valid_email = when(email.contains("@") && email.contains(".")){
+            var valid_email = when((email.contains("@") && email.contains(".")) ){
                 true -> {
                     et_layout_email.error = null
                     false
                 }
                 false -> {
-                    et_layout_email.error = "Email is not valid"
-                    true
+                    if(!e_email){
+                        et_layout_email.error = "Email is not valid"
+                        true
+                    }
+                    false
                 }
             }
             if(!(e_email || e_pass || e_name||valid_email)){

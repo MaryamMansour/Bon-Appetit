@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -20,8 +19,8 @@ import kotlinx.coroutines.withContext
 class LoginFragment : Fragment() {
 
     lateinit var btntosignup: TextView
-    lateinit var edittextemail: TextInputEditText
-    lateinit var edittextpassword: TextInputEditText
+    lateinit var et_email_login: TextInputEditText
+    lateinit var et_password_login: TextInputEditText
     lateinit var ettxtlayout_email:TextInputLayout
     lateinit var ettxtlayout_password:TextInputLayout
     lateinit var btnlogin: Button
@@ -40,23 +39,19 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        edittextemail = view.findViewById(R.id.editText_email)
-        edittextpassword = view.findViewById(R.id.et_Password)
+        et_email_login = view.findViewById(R.id.editText_email)
+        et_password_login = view.findViewById(R.id.et_password)
         btnlogin = view.findViewById(R.id.btn_create_account)
         ettxtlayout_email = view.findViewById(R.id.editTextLayout_email)
-        ettxtlayout_password = view.findViewById(R.id.editTextLayoutPassword)
+        ettxtlayout_password = view.findViewById(R.id.et_layout_password)
 
         db = PersonInfoDatabase.getintstance(requireActivity())
         dao = db.personinfodao()
-//        val email = edittextemail.text.toString()
-//        val password = edittextpassword.text.toString()
 
         btnlogin.setOnClickListener {
 
-            var emaill= ettxtlayout_email.editText.toString()
-            var passwordd = ettxtlayout_password.editText.toString()
-            var email = edittextemail.editableText.toString()
-            var password = edittextpassword.editableText.toString()
+            var email = et_email_login.text.toString()
+            var password = et_password_login.text.toString()
 
             var e_email=when(email.isEmpty()){
                 true -> {
@@ -78,55 +73,51 @@ class LoginFragment : Fragment() {
                     false
                 }
             }
-            var valid_email = when(email.contains("@") && email.contains(".")){
+            var valid_email = when((email.contains("@") && email.contains(".")) ){
                 true -> {
                     ettxtlayout_email.error = null
                     false
                 }
                 false -> {
-                    ettxtlayout_email.error = "Email is not valid"
-                    true
+                    if(!e_email){
+                        ettxtlayout_email.error = "Email is not valid"
+                        true
+                    }
+                    false
                 }
             }
-
-
-            var result: PersonInfo? = null
-            var currentuser : PersonInfo = PersonInfo(0, email, password)
-            lifecycleScope.launch(Dispatchers.IO) {
-                result= dao.getPersonInfo(email)
-                withContext(Dispatchers.Main){
-                    if(result!=null){
-                        if(result?.password.equals(currentuser.password)){
+            if(!(e_email || e_pass || valid_email)){
+                var currentuser= PersonInfo(0, email, password)
+                lifecycleScope.launch(Dispatchers.IO) {
+                   var  result= dao.getPersonInfo(email)
+                    withContext(Dispatchers.Main){
+                        if(result!=null){
+                            if(result?.password.equals(currentuser.password)){
                                 Toast.makeText(context, "Login Successful", Toast.LENGTH_LONG).show()
-                                //val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                                // todo val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
+                            }
+                            else{
+                                Toast.makeText(context, "Incorrect Password", Toast.LENGTH_LONG).show()
+                            }
                         }
                         else{
-                                Toast.makeText(context, "Incorrect Password", Toast.LENGTH_LONG).show()
-                        }
-                    }
-                    else{
                             Toast.makeText(context, "User not found please create an account", Toast.LENGTH_LONG).show()
 
+                        }
                     }
                 }
             }
-
-
-
 
         }
         btntosignup = view.findViewById(R.id.textview_createAccount)
         btntosignup.setOnClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
             findNavController().navigate(action)
-
         }
     }
-
     override fun onDestroy() {
         super.onDestroy()
         db.close()
     }
-
 }
 

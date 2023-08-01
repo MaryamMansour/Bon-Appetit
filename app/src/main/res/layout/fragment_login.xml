@@ -27,7 +27,7 @@
         android:id="@+id/editTextLayout_email"
         style="@style/EditText"
         android:layout_width="match_parent"
-        android:layout_height="81dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -46,12 +46,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/editTextLayoutPassword"
+        android:id="@+id/et_layout_password"
         style="@style/EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:hint="Password"
         android:padding="10dp"
@@ -60,7 +60,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextLayout_email">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_Password"
+            android:id="@+id/et_password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="text" />
@@ -71,11 +71,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="26dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:text="Don't Have an account ?"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextLayoutPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/et_layout_password" />
 
     <TextView
         android:id="@+id/textview_createAccount"
@@ -91,8 +91,10 @@
 
     <Button
         android:id="@+id/btn_create_account"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="55dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="26dp"
         android:backgroundTint="#03A9F4"
         android:paddingLeft="32dp"
         android:paddingRight="32dp"
@@ -103,5 +105,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextLayoutPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_createAccount" />
 </androidx.constraintlayout.widget.ConstraintLayout>
