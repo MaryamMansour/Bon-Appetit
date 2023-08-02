@@ -15,7 +15,7 @@ import java.util.Locale
 
 class searchAdapter(var mealList: List<MealX>,
                     var  context: Context,
-                    private var onClickitem:(MealX)->Unit
+                    var OnClick : OnClickListener
 
 
 
@@ -47,8 +47,11 @@ class searchAdapter(var mealList: List<MealX>,
 //        holder.descriptionView.text=mealList[position].strInstructions
         Glide.with(context).load(mealList[position].strMealThumb).into(holder.imageView)
         holder.itemView.setOnClickListener {
-            onClickitem(meal)
+            OnClick.onClick(meal)
 
+        }
+        holder.favItem.setOnClickListener{
+            OnClick.onFav(holder.favItem)
         }
     }
 
