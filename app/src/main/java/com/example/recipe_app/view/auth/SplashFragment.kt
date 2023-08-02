@@ -1,17 +1,16 @@
-package com.example.recipe_app
+package com.example.recipe_app.view.auth
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.example.recipe_app.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 
@@ -25,11 +24,25 @@ class SplashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launch{
+
+        //if user is logged in then navigate to home activity else navigate to login fragment
+        var pref=requireActivity().getSharedPreferences("mypref",0)
+        var isloggedin=pref.getBoolean("isloggedin",false)
+        lifecycleScope.launch {
             delay(3000)
-            findNavController().navigate(R.id.loginFragment)
+            if(isloggedin){
+                withContext(Dispatchers.Main){
+                    findNavController().navigate(R.id.homeActivity)
+                    activity?.finish()
+                }
+            }
+            else{
+                withContext(Dispatchers.Main){
+                    findNavController().navigate(R.id.loginFragment)
+
+                }
+            }
         }
-        findNavController().popBackStack()
 
     }
 }

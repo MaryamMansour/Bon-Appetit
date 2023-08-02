@@ -1,6 +1,7 @@
-package com.example.recipe_app.model
+package com.example.recipe_app.local.dao
 
 import androidx.room.*
+import com.example.recipe_app.model.MealX
 
 
 @Dao

@@ -1,4 +1,4 @@
-package com.example.recipe_app
+package com.example.recipe_app.view.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,10 +11,15 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recipe_app.R
+import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
+import com.example.recipe_app.repository.RepositoryImpl
+import com.example.recipe_app.viewModels.HomeMealsViewModel
+import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
 
 
-class SearchFragment : Fragment() ,OnClickListener {
+class SearchFragment : Fragment() , OnClickListener {
     lateinit var HomeViewModel: HomeMealsViewModel
     lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
@@ -111,7 +116,7 @@ class SearchFragment : Fragment() ,OnClickListener {
 
     private fun getViewModelReady() {
         val mealsFactory = HomeMealsViewModelFactory(
-            requireActivity()
+            RepositoryImpl(LocalSourceImp(requireActivity()))
         )
         HomeViewModel= ViewModelProvider(this,mealsFactory).get(HomeMealsViewModel::class.java)
     }

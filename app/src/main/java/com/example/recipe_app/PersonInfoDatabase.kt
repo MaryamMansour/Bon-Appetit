@@ -4,11 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.recipe_app.local.dao.PersonInfoDao
+import com.example.recipe_app.model.PersonInfo
 
 @Database(entities = [PersonInfo::class], version = 1)
 abstract class PersonInfoDatabase : RoomDatabase() {
 
-abstract fun personinfodao():PersonInfoDao
+abstract fun personinfodao(): PersonInfoDao
 
 companion object {
     @Volatile

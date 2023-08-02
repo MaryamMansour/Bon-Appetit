@@ -1,4 +1,4 @@
-package com.example.recipe_app
+package com.example.recipe_app.view.auth
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.example.recipe_app.PersonInfoDatabase
+import com.example.recipe_app.R
+import com.example.recipe_app.local.LocalSourceImp
+import com.example.recipe_app.model.PersonInfo
+import com.example.recipe_app.local.dao.PersonInfoDao
+import com.example.recipe_app.local.db.MealDataBase
+import com.example.recipe_app.repository.RepositoryImpl
+import com.example.recipe_app.viewModels.AuthViewModel
+import com.example.recipe_app.viewModels.AuthViewModelFactory
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.Dispatchers
@@ -22,10 +33,11 @@ class SignUpFragment : Fragment() {
     lateinit var et_layout_email : TextInputLayout
     lateinit var et_layout_name : TextInputLayout
     lateinit var et_layout_password : TextInputLayout
+    lateinit var viewModel: AuthViewModel
+    lateinit var authViewModelFactory: AuthViewModelFactory
 
 
-    lateinit var db : PersonInfoDatabase
-    lateinit var dao : PersonInfoDao
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,8 +55,9 @@ class SignUpFragment : Fragment() {
         et_layout_email = view.findViewById(R.id.et_layot_email_signup)
         et_layout_name = view.findViewById(R.id.et_layout_name_signup)
         et_layout_password = view.findViewById(R.id.et_layout_password_signup)
-        db = PersonInfoDatabase.getintstance(requireActivity())
-        dao= db.personinfodao()
+        authViewModelFactory= AuthViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity())))
+        viewModel= ViewModelProvider(this,authViewModelFactory).get(AuthViewModel::class.java)
+
 
         btn_signUp.setOnClickListener {
             var name = et_name.text.toString()
@@ -98,9 +111,18 @@ class SignUpFragment : Fragment() {
                 var user = PersonInfo(0, email, password)
                 user.name = name
                 lifecycleScope.launch(Dispatchers.IO) {
-                    dao.insert(user)
+                    viewModel.insertUser(user)
                     withContext(Dispatchers.Main) {
                         Toast.makeText(context, "user created", Toast.LENGTH_LONG).show()
+                       findNavController().navigate(R.id.homeActivity)
+                        var pref = requireActivity().getSharedPreferences("mypref", 0)
+                        var editor = pref.edit()
+                        editor.putBoolean("isloggedin", true)
+                        editor.apply()
+                        activity?.finish()
+
+
+
                     }
                 }
             }
@@ -114,8 +136,5 @@ class SignUpFragment : Fragment() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        db.close()
-    }
+
 }

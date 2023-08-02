@@ -1,4 +1,4 @@
-package com.example.recipe_app
+package com.example.recipe_app.view.auth
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,8 +8,19 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.recipe_app.PersonInfoDatabase
+import com.example.recipe_app.R
+import com.example.recipe_app.local.LocalSourceImp
+import com.example.recipe_app.model.PersonInfo
+import com.example.recipe_app.local.dao.PersonInfoDao
+import com.example.recipe_app.local.db.MealDataBase
+import com.example.recipe_app.repository.Repository
+import com.example.recipe_app.repository.RepositoryImpl
+import com.example.recipe_app.viewModels.AuthViewModel
+import com.example.recipe_app.viewModels.AuthViewModelFactory
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.Dispatchers
@@ -24,8 +35,9 @@ class LoginFragment : Fragment() {
     lateinit var ettxtlayout_email:TextInputLayout
     lateinit var ettxtlayout_password:TextInputLayout
     lateinit var btnlogin: Button
-    lateinit var db: PersonInfoDatabase
-    lateinit var dao: PersonInfoDao
+    lateinit var viewModel: AuthViewModel
+    lateinit var authViewModelFactory: AuthViewModelFactory
+
 
 
     override fun onCreateView(
@@ -38,6 +50,8 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        authViewModelFactory= AuthViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity())))
+        viewModel= ViewModelProvider(this,authViewModelFactory).get(AuthViewModel::class.java)
 
         et_email_login = view.findViewById(R.id.editText_email)
         et_password_login = view.findViewById(R.id.et_password)
@@ -45,8 +59,7 @@ class LoginFragment : Fragment() {
         ettxtlayout_email = view.findViewById(R.id.editTextLayout_email)
         ettxtlayout_password = view.findViewById(R.id.et_layout_password)
 
-        db = PersonInfoDatabase.getintstance(requireActivity())
-        dao = db.personinfodao()
+
 
         btnlogin.setOnClickListener {
 
@@ -88,24 +101,29 @@ class LoginFragment : Fragment() {
             }
             if(!(e_email || e_pass || valid_email)){
                 var currentuser= PersonInfo(0, email, password)
-                lifecycleScope.launch(Dispatchers.IO) {
-                   var  result= dao.getPersonInfo(email)
-                    withContext(Dispatchers.Main){
-                        if(result!=null){
-                            if(result?.password.equals(currentuser.password)){
-                                Toast.makeText(context, "Login Successful", Toast.LENGTH_LONG).show()
-                                // todo val action = LoginFragmentDirections.actionLoginFragmentToHomeFragment()
-                            }
-                            else{
-                                Toast.makeText(context, "Incorrect Password", Toast.LENGTH_LONG).show()
-                            }
-                        }
-                        else{
-                            Toast.makeText(context, "User not found please create an account", Toast.LENGTH_LONG).show()
+                viewModel.user.observe(viewLifecycleOwner){result->
+                    if(result!=null){
+                        if(result?.password.equals(currentuser.password)){
+                            Toast.makeText(context, "Login Successful", Toast.LENGTH_LONG).show()
+                            var pref=requireActivity().getSharedPreferences("mypref",0)
+                            var editor=pref.edit()
+                            editor.putBoolean("isloggedin",true)
+                            editor.apply()
+                            findNavController().navigate(R.id.homeActivity)
+                            activity?.finish()
+
 
                         }
+                        else{
+                            Toast.makeText(context, "Incorrect Password", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    else{
+                        Toast.makeText(context, "User not found please create an account", Toast.LENGTH_LONG).show()
+
                     }
                 }
+
             }
 
         }
@@ -115,9 +133,6 @@ class LoginFragment : Fragment() {
             findNavController().navigate(action)
         }
     }
-    override fun onDestroy() {
-        super.onDestroy()
-        db.close()
-    }
+
 }
 

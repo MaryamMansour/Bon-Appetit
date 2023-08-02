@@ -1,26 +1,24 @@
-package com.example.recipe_app
+package com.example.recipe_app.viewModels
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.network.ApiClient
+import com.example.recipe_app.repository.Repository
 import kotlinx.coroutines.launch
 
-class HomeMealsViewModel (val context: Context)  : ViewModel() {
+class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
 
     private val _listOfMeals = MutableLiveData<List<MealX>>()
     val listOfMeals: LiveData<List<MealX>> = _listOfMeals
 
     private val _listOfFavMeals = MutableLiveData<List<MealX>>()
     val listOfFavMeals: LiveData<List<MealX>> = _listOfFavMeals
-
-
-
-
+    //TODO: get meals from api via repository
     fun getMeals(){
         viewModelScope.launch {
             val response =  ApiClient.getMealsResponse()
@@ -29,24 +27,16 @@ class HomeMealsViewModel (val context: Context)  : ViewModel() {
         }
     }
 
-
-
-    val db = LocalSourceImp(context)
-    fun getFavMeals(){
-
+    fun getFavMeals() {
         viewModelScope.launch {
-
-            _listOfFavMeals.value= db.getFavMeals()
+            _listOfFavMeals.value = repository.getFavMeals()
         }
-
     }
 
     fun insertMeal (meal :MealX)
     {
-
         viewModelScope.launch {
-
-            db.insertFavMeal(meal)
+            repository.insertFavMeal(meal)
         }
     }
 

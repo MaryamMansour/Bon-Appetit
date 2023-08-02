@@ -1,25 +1,31 @@
-package com.example.recipe_app
+package com.example.recipe_app.view.home
 
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.recipe_app.model.MealX
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.recipe_app.model.MealX
+import com.example.recipe_app.R
+import com.example.recipe_app.local.LocalSourceImp
+import com.example.recipe_app.repository.RepositoryImpl
+import com.example.recipe_app.viewModels.HomeMealsViewModel
+import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
 
 
-class FavouriteFragment : Fragment(), OnClickListener {
-
+class HomeFragment : Fragment(), OnClickListener {
 
     lateinit var HomeViewModel: HomeMealsViewModel
-    lateinit var favRecyclerView: RecyclerView
 
+
+
+    lateinit var recyclerView: RecyclerView
+    lateinit var favouriteBox: CheckBox
 
 
     override fun onCreateView(
@@ -27,7 +33,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favourite, container, false)
+        return inflater.inflate(R.layout.fragment_home, container, false)
 
 
 
@@ -38,23 +44,25 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
 
 
+
+
+
+//        HomeViewModel = ViewModelProvider(this).get(HomeMealsViewModel::class.java)
         getViewModelReady()
+        HomeViewModel.getMeals()
 
-        var favRecyclerAdapter : mealAdapter
-
-        HomeViewModel.getFavMeals()
-
+        var recyclerAdapter : mealAdapter
 
 
-        HomeViewModel.listOfFavMeals.observe(this){ meals->
-            Log.d("meal", "HIIII")
-            print("HERE")
 
 
-            favRecyclerView = view.findViewById(R.id.FavRecyclerView)
-            favRecyclerAdapter = mealAdapter(meals,requireActivity(), this)
-            favRecyclerView.adapter = favRecyclerAdapter
-            favRecyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+        HomeViewModel.listOfMeals.observe(requireActivity()){ meals->
+
+
+            recyclerView = view.findViewById(R.id.HomeRecyclerView)
+            recyclerAdapter = mealAdapter(meals,requireActivity(), this)
+            recyclerView.adapter = recyclerAdapter
+            recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
 
 
@@ -77,7 +85,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
             if (isChecked)
             {
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
-//                HomeViewModel.insertMeal(meal)
+                HomeViewModel.insertMeal(meal)
             }
             else
             {
@@ -88,9 +96,10 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
     private fun getViewModelReady() {
         val mealsFactory = HomeMealsViewModelFactory(
-            requireActivity()
+            RepositoryImpl(LocalSourceImp(requireActivity()))
         )
         HomeViewModel= ViewModelProvider(this,mealsFactory).get(HomeMealsViewModel::class.java)
     }
+
 
 }

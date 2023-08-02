@@ -13,10 +13,15 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+<style name="EditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+<item name="boxStrokeColor">#03A9F4</item>
+<item name="hintTextColor">#03A9F4</item>
+</style>
 
     <style name="App_BarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="menuItemsText" parent="android:TextAppearance.Widget.PopupMenu.Small">
         <item name ="android:textColor" >@android:color/black</item>
 
     </style>
+
 </resources>

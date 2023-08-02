@@ -1,19 +1,18 @@
-package com.example.recipe_app
+package com.example.recipe_app.view.home
 
-import android.app.SearchManager
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.example.recipe_app.R
+import com.example.recipe_app.view.auth.MainActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 
 class HomeActivity : AppCompatActivity(){
     lateinit var navController: NavController
@@ -33,35 +32,30 @@ class HomeActivity : AppCompatActivity(){
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
 
-
-
-
-
-
-        bottomNavigationView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.homeItem -> {
-
-                    navController.navigate(R.id.homeFragment)
-
-                    true
-                }
-                R.id.searchItem -> {
-
-                    navController.navigate(R.id.searchFragment)
-
-                    true
-                }
-                R.id.favItem -> {
-
-                    navController.navigate(R.id.favouriteFragment)
-
-                    true
-                }
-            }
-            true
-        }
-
+//        bottomNavigationView.setOnItemSelectedListener {
+//            when (it.itemId) {
+//                R.id.homeItem -> {
+//
+//                    navController.navigate(R.id.homeFragment)
+//
+//                    true
+//                }
+//                R.id.searchItem -> {
+//
+//                    navController.navigate(R.id.searchFragment)
+//
+//                    true
+//                }
+//                R.id.favItem -> {
+//
+//                    navController.navigate(R.id.favouriteFragment)
+//
+//                    true
+//                }
+//            }
+//            true
+//        }
+        bottomNavigationView.setupWithNavController(navController)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.home_menu,menu)
@@ -70,7 +64,12 @@ class HomeActivity : AppCompatActivity(){
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.action_signout ->{
-                navController.navigate(R.id.signoutFragment)
+                var pref = getSharedPreferences("mypref", MODE_PRIVATE)
+                var editor = pref.edit()
+                editor.putBoolean("isloggedin", false)
+                editor.apply()
+                startActivity(Intent(this, MainActivity::class.java))
+
                 }
             R.id.action_about -> {
             navController.navigate(R.id.aboutFragment)
@@ -79,6 +78,13 @@ class HomeActivity : AppCompatActivity(){
 
         return super.onOptionsItemSelected(item)
     }
+
+
+
+
+
+
+
 
 
 
