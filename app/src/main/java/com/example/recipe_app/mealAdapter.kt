@@ -1,7 +1,6 @@
 package com.example.recipe_app
 
 import android.content.Context
-import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +41,7 @@ class mealAdapter(
 
         }
         holder.favItem.setOnClickListener{
-            OnClick.onFav(holder.favItem)
+            OnClick.onFav(holder.favItem, meal)
         }
     }
 

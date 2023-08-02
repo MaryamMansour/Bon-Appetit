@@ -51,7 +51,7 @@ class searchAdapter(var mealList: List<MealX>,
 
         }
         holder.favItem.setOnClickListener{
-            OnClick.onFav(holder.favItem)
+            OnClick.onFav(holder.favItem,meal)
         }
     }
 

@@ -8,7 +8,7 @@ interface MealDao {
     @Query("SELECT * FROM FavMeals")
     suspend fun getFavMeals():List<MealX>
     @Insert
-    suspend fun insertMeal(meal : MealX)
+    suspend fun insertFavMeal(meal : MealX)
     @Delete
-    suspend fun deleteMeal(meal: MealX)
+    suspend fun deleteFavMeal(meal: MealX)
 }

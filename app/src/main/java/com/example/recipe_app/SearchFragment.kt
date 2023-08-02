@@ -12,11 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipe_app.model.MealX
-import java.util.Locale
 
 
 class SearchFragment : Fragment() ,OnClickListener {
-    lateinit var viewModel: HomeMealsViewModel
+    lateinit var HomeViewModel: HomeMealsViewModel
     lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: searchAdapter
@@ -31,13 +30,14 @@ class SearchFragment : Fragment() ,OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(HomeMealsViewModel::class.java)
-        viewModel.getMeals()
+//        viewModel = ViewModelProvider(this).get(HomeMealsViewModel::class.java)
+        getViewModelReady()
+        HomeViewModel.getMeals()
 
         // var recyclerAdapter : mealAdapter
 
         searchView = view.findViewById(R.id.searchView)
-        viewModel.listOfMeals.observe(viewLifecycleOwner) { meals ->
+        HomeViewModel.listOfMeals.observe(viewLifecycleOwner) { meals ->
 
             recyclerView = view.findViewById(R.id.searchRecyclerView)
             recyclerAdapter = searchAdapter(meals, requireActivity(), this)
@@ -92,18 +92,28 @@ class SearchFragment : Fragment() ,OnClickListener {
         Toast.makeText(requireActivity(),"Meal Clicked", Toast.LENGTH_SHORT).show()
 
     }
-    override fun onFav(box: CheckBox) {
+
+
+    override fun onFav(box: CheckBox, meal: MealX) {
 
         box.setOnCheckedChangeListener { box , isChecked ->
             if (isChecked)
             {
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
+                HomeViewModel.insertMeal(meal)
             }
             else
             {
                 Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun getViewModelReady() {
+        val mealsFactory = HomeMealsViewModelFactory(
+            requireActivity()
+        )
+        HomeViewModel= ViewModelProvider(this,mealsFactory).get(HomeMealsViewModel::class.java)
     }
 
 }

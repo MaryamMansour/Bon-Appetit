@@ -10,14 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.delay
 
 
 class HomeFragment : Fragment(), OnClickListener {
 
-    lateinit var viewModel: HomeMealsViewModel
+    lateinit var HomeViewModel: HomeMealsViewModel
+
 
 
     lateinit var recyclerView: RecyclerView
@@ -44,15 +43,16 @@ class HomeFragment : Fragment(), OnClickListener {
 
 
 
-        viewModel = ViewModelProvider(this).get(HomeMealsViewModel::class.java)
-        viewModel.getMeals()
+//        HomeViewModel = ViewModelProvider(this).get(HomeMealsViewModel::class.java)
+        getViewModelReady()
+        HomeViewModel.getMeals()
 
         var recyclerAdapter : mealAdapter
 
 
 
 
-        viewModel.listOfMeals.observe(this){ meals->
+        HomeViewModel.listOfMeals.observe(this){ meals->
 
 
             recyclerView = view.findViewById(R.id.HomeRecyclerView)
@@ -75,12 +75,13 @@ class HomeFragment : Fragment(), OnClickListener {
 
     }
 
-    override fun onFav(box: CheckBox) {
+    override fun onFav(box: CheckBox, meal: MealX) {
 
         box.setOnCheckedChangeListener { box , isChecked ->
             if (isChecked)
             {
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
+                HomeViewModel.insertMeal(meal)
             }
             else
             {
@@ -89,5 +90,11 @@ class HomeFragment : Fragment(), OnClickListener {
         }
     }
 
+    private fun getViewModelReady() {
+        val mealsFactory = HomeMealsViewModelFactory(
+            requireActivity()
+        )
+        HomeViewModel= ViewModelProvider(this,mealsFactory).get(HomeMealsViewModel::class.java)
+    }
 
 }

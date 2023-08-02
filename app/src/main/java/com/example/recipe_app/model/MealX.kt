@@ -4,16 +4,16 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity
+@Entity(tableName = "FavMeals")
 data class MealX(
-    val dateModified: Any,
+//    val dateModified: Any,
     @PrimaryKey
     val idMeal: String,
     val strArea: String,
     val strCategory: String,
-    val strCreativeCommonsConfirmed: Any,
-    val strDrinkAlternate: Any,
-    val strImageSource: Any,
+//    val strCreativeCommonsConfirmed: Any,
+//    val strDrinkAlternate: Any,
+//    val strImageSource: Any,
     val strIngredient1: String,
     val strIngredient10: String,
     val strIngredient11: String,
@@ -58,6 +58,6 @@ data class MealX(
     val strMeasure8: String,
     val strMeasure9: String,
     val strSource: String,
-    val strTags: String,
+    val strTags: String?,
     val strYoutube: String
 )
