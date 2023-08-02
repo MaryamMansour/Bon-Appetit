@@ -61,7 +61,11 @@ class HomeFragment : Fragment(), OnClickListener {
 
 
             recyclerView = view.findViewById(R.id.HomeRecyclerView)
-            recyclerAdapter = mealAdapter(meals,requireActivity(), this)
+            recyclerAdapter = mealAdapter(meals, {
+                Toast.makeText(requireActivity(),"Meal Clicked ${it.strMeal}", Toast.LENGTH_SHORT).show()
+            }){checkBox, mealX ->
+                Toast.makeText(requireActivity(),"fav clicked ${checkBox.isChecked} ", Toast.LENGTH_SHORT).show()
+            }
             recyclerView.adapter = recyclerAdapter
             recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 

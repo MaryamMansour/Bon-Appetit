@@ -58,7 +58,11 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
 
             favRecyclerView = view.findViewById(R.id.FavRecyclerView)
-            favRecyclerAdapter = mealAdapter(meals,requireActivity(), this)
+            favRecyclerAdapter = mealAdapter(meals, {
+                Toast.makeText(requireActivity(),"Meal Clicked ${it.strMeal}", Toast.LENGTH_SHORT).show()
+            }){checkBox, mealX ->
+                Toast.makeText(requireActivity(),"fav clicked ${checkBox.isChecked} ", Toast.LENGTH_SHORT).show()
+            }
             favRecyclerView.adapter = favRecyclerAdapter
             favRecyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 

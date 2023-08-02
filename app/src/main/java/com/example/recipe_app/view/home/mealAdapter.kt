@@ -17,8 +17,8 @@ class mealAdapter(
 
 
     var mealList: List<MealX>,
-    var  context: Context,
-    var OnClick : OnClickListener
+     private var OnClick : (MealX) -> Unit,
+    private var onFav : (CheckBox, MealX) -> Unit
 
 
 ) : RecyclerView.Adapter<mealAdapter.Holder> (){
@@ -36,13 +36,13 @@ class mealAdapter(
         val meal = mealList[position]
         holder.textView.text=mealList[position].strMeal
 //        holder.descriptionView.text=mealList[position].strInstructions
-        Glide.with(context).load(mealList[position].strMealThumb).into(holder.imageView)
+        Glide.with(holder.itemView.context).load(mealList[position].strMealThumb).into(holder.imageView)
         holder.itemView.setOnClickListener {
-            OnClick.onClick(meal)
+            OnClick(meal)
 
         }
         holder.favItem.setOnClickListener{
-            OnClick.onFav(holder.favItem, meal)
+            onFav(holder.favItem, meal)
         }
     }
 
