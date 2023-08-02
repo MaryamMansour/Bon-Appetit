@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +30,7 @@ class mealAdapter(
         return Holder(row)
     }
 
+
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
         val meal = mealList[position]
@@ -38,6 +40,9 @@ class mealAdapter(
         holder.itemView.setOnClickListener {
             OnClick.onClick(meal)
 
+        }
+        holder.favItem.setOnClickListener{
+            OnClick.onFav(holder.favItem)
         }
     }
 
@@ -52,6 +57,7 @@ class mealAdapter(
         var textView = row.findViewById<TextView>(R.id.title_text_view)
         var descriptionView = row.findViewById<TextView>(R.id.description_text_view)
         var imageView = row.findViewById<ImageView>(R.id.image_view)
+        var favItem = row.findViewById<CheckBox>(R.id.favBox)
 
     }
 

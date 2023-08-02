@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
@@ -93,6 +94,18 @@ class SearchFragment : Fragment() ,OnClickListener {
         Toast.makeText(requireActivity(),"Meal Clicked", Toast.LENGTH_SHORT).show()
 
     }
+    override fun onFav(box: CheckBox) {
 
+        box.setOnCheckedChangeListener { box , isChecked ->
+            if (isChecked)
+            {
+                Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
+            }
+            else
+            {
+                Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
 }
