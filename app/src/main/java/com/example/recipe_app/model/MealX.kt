@@ -1,7 +1,13 @@
 package com.example.recipe_app.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+
+@Entity
 data class MealX(
     val dateModified: Any,
+    @PrimaryKey
     val idMeal: String,
     val strArea: String,
     val strCategory: String,
