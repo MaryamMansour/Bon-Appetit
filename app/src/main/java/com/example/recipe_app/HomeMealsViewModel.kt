@@ -1,6 +1,7 @@
 package com.example.recipe_app
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,9 @@ class HomeMealsViewModel (val context: Context)  : ViewModel() {
     private val _listOfMeals = MutableLiveData<List<MealX>>()
     val listOfMeals: LiveData<List<MealX>> = _listOfMeals
 
+    private val _listOfFavMeals = MutableLiveData<List<MealX>>()
+    val listOfFavMeals: LiveData<List<MealX>> = _listOfFavMeals
+
 
 
 
@@ -24,7 +28,7 @@ class HomeMealsViewModel (val context: Context)  : ViewModel() {
 
         }
     }
-    val _meals = MutableLiveData<List<MealX>>()
+
 
 
     val db = LocalSourceImp(context)
@@ -32,7 +36,7 @@ class HomeMealsViewModel (val context: Context)  : ViewModel() {
 
         viewModelScope.launch {
 
-            _meals.value= db.getFavMeals()
+            _listOfFavMeals.value= db.getFavMeals()
         }
 
     }
@@ -41,6 +45,7 @@ class HomeMealsViewModel (val context: Context)  : ViewModel() {
     {
 
         viewModelScope.launch {
+
             db.insertFavMeal(meal)
         }
     }

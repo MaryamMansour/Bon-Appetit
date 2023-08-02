@@ -65,7 +65,7 @@ class searchAdapter(var mealList: List<MealX>,
                 }else{
                     val resultList = ArrayList<MealX>()
                     for(row in mealListFull){
-                        if(row.strMeal.lowercase(Locale.getDefault()).contains(charSearch.lowercase(Locale.getDefault()))){
+                        if(row.strMeal?.lowercase(Locale.getDefault())?.contains(charSearch.lowercase(Locale.getDefault())) == true){
                             resultList.add(row)
                         }
                     }

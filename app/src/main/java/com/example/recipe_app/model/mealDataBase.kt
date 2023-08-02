@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 
-@Database(entities = [MealX::class], version=2)
+@Database(entities = [MealX::class], version=3)
 abstract class mealDataBase :RoomDatabase() {
 
 

@@ -7,7 +7,7 @@ import androidx.room.*
 interface MealDao {
     @Query("SELECT * FROM FavMeals")
     suspend fun getFavMeals():List<MealX>
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavMeal(meal : MealX)
     @Delete
     suspend fun deleteFavMeal(meal: MealX)
