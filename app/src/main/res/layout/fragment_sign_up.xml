@@ -37,7 +37,8 @@
             android:id="@+id/et_name_signup"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textColor="#0C0000" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -58,7 +59,8 @@
             android:id="@+id/et_email_signup"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textColor="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -79,7 +81,8 @@
             android:id="@+id/et_password_signup"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textColor="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -87,13 +90,13 @@
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginStart="26dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="26dp"
         android:backgroundTint="#03A9F4"
         android:text="Create New Account"
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_layout_password_signup" />

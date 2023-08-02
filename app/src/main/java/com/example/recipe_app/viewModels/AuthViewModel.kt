@@ -15,7 +15,7 @@ class AuthViewModel (val repository: Repository): ViewModel()    {
 
     fun getUserByEmail(email: String) {
         viewModelScope.launch(Dispatchers.IO) {
-        _user.value = repository.getPersonInfo(email)
+        _user.postValue( repository.getPersonInfo(email))
     }
          }
 

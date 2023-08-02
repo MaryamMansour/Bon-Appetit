@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="Theme.Recipe_app" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">#03A9F4</item>
+        <item name="colorPrimaryVariant">#03A9F4</item>
+        <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
@@ -13,6 +13,14 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="EditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">#03A9F4</item>
+        <item name="hintTextColor">#03A9F4</item>
+        <item name="android:textColorHint">#525B60</item>
+        <item name="android:textColorPrimary">@color/black</item>
+
+    </style>
+
     <style name="App_BarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
     <style name="menuItemsText" parent="android:TextAppearance.Widget.PopupMenu.Small">
         <item name ="android:textColor" >@android:color/black</item>

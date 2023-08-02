@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.recipe_app.PersonInfoDatabase
 import com.example.recipe_app.R
 import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.PersonInfo
@@ -67,47 +66,47 @@ class SignUpFragment : Fragment() {
             var e_email=when(email.isEmpty()){
                 true -> {
                     et_layout_email.error = "Email is required"
-                    true
+                    false
                 }
                 false -> {
                     et_layout_email.error = null
-                    false
+                    true
                 }
             }
             var e_pass=when(password.isEmpty()){
                 true -> {
                     et_layout_password.error = "password is required"
-                    true
+                    false
                 }
                 false -> {
                     et_layout_password.error = null
-                    false
+                    true
                 }
             }
             var e_name=when(name.isEmpty()){
                 true -> {
                     et_layout_name.error = "name is required"
-                    true
+                    false
                 }
                 false -> {
                     et_layout_name.error = null
-                    false
+                    true
                 }
             }
             var valid_email = when((email.contains("@") && email.contains(".")) ){
                 true -> {
                     et_layout_email.error = null
-                    false
+                    true
                 }
                 false -> {
-                    if(!e_email){
+                    if(e_email){
                         et_layout_email.error = "Email is not valid"
-                        true
+                        false
                     }
-                    false
+                    else{ true}
                 }
             }
-            if(!(e_email || e_pass || e_name||valid_email)){
+            if(e_email && e_pass && e_name && valid_email){
                 var user = PersonInfo(0, email, password)
                 user.name = name
                 lifecycleScope.launch(Dispatchers.IO) {

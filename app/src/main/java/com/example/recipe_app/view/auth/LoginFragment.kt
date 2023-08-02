@@ -11,7 +11,6 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.recipe_app.PersonInfoDatabase
 import com.example.recipe_app.R
 import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.PersonInfo
@@ -69,38 +68,41 @@ class LoginFragment : Fragment() {
             var e_email=when(email.isEmpty()){
                 true -> {
                     ettxtlayout_email.error = "Email is required"
-                    true
+                    false
                 }
                 false -> {
                     ettxtlayout_email.error = null
-                    false
+                    true
                 }
             }
             var e_pass=when(password.isEmpty()){
                 true -> {
                     ettxtlayout_password.error = "password is required"
-                    true
+                    false
                 }
                 false -> {
                     ettxtlayout_password.error = null
-                    false
+                    true
                 }
             }
             var valid_email = when((email.contains("@") && email.contains(".")) ){
                 true -> {
                     ettxtlayout_email.error = null
-                    false
+                    true
                 }
                 false -> {
-                    if(!e_email){
+                    if(e_email){
                         ettxtlayout_email.error = "Email is not valid"
+                        false
+                    }
+                    else{
                         true
                     }
-                    false
                 }
             }
-            if(!(e_email || e_pass || valid_email)){
+            if(e_email && e_pass && valid_email){
                 var currentuser= PersonInfo(0, email, password)
+                viewModel.getUserByEmail(email)
                 viewModel.user.observe(viewLifecycleOwner){result->
                     if(result!=null){
                         if(result?.password.equals(currentuser.password)){
