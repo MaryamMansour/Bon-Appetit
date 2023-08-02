@@ -5,5 +5,5 @@ import com.example.recipe_app.model.MealX
 
 interface OnClickListener {
     fun onClick(model: MealX)
-    fun onFav(box: CheckBox, meal: MealX)
+    fun onFav(isChecked: Boolean, meal: MealX)
 }

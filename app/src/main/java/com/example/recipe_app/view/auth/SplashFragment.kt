@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.recipe_app.R
 import kotlinx.coroutines.Dispatchers
@@ -36,9 +37,11 @@ class SplashFragment : Fragment() {
 
             }
             else{
-                    findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
+                    findNavController().navigate(R.id.loginFragment)
             }
         }
+        view.findNavController().popBackStack()
+
 
     }
 }

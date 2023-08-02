@@ -21,59 +21,30 @@ import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
 
 
 class FavouriteFragment : Fragment(), OnClickListener {
-
-
     lateinit var HomeViewModel: HomeMealsViewModel
     lateinit var favRecyclerView: RecyclerView
-
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favourite, container, false)
-
-
-
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = "Favourites"
-
-
         getViewModelReady()
-
         var favRecyclerAdapter : mealAdapter
-
         HomeViewModel.getFavMeals()
 
-
-
         HomeViewModel.listOfFavMeals.observe(viewLifecycleOwner){ meals->
-            Log.d("meal", "HIIII")
-            print("HERE")
-
 
             favRecyclerView = view.findViewById(R.id.FavRecyclerView)
-            favRecyclerAdapter = mealAdapter(meals, {
-                Toast.makeText(requireActivity(),"Meal Clicked ${it.strMeal}", Toast.LENGTH_SHORT).show()
-            }){checkBox, mealX ->
-                Toast.makeText(requireActivity(),"fav clicked ${checkBox.isChecked} ", Toast.LENGTH_SHORT).show()
-            }
+            favRecyclerAdapter = mealAdapter(meals,this)
             favRecyclerView.adapter = favRecyclerAdapter
             favRecyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
-
-
         }
-
-
-
-
-
     }
 
     override fun onClick(model: MealX) {
@@ -81,19 +52,20 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
     }
 
-    override fun onFav(box: CheckBox, meal: MealX) {
 
-        box.setOnCheckedChangeListener { box , isChecked ->
+
+    override fun onFav(isChecked: Boolean, meal: MealX) {
+
             if (isChecked)
             {
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
-//                HomeViewModel.insertMeal(meal)
             }
             else
             {
                 Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
+                HomeViewModel.deleteFavMeal(meal)
             }
-        }
+
     }
 
     private fun getViewModelReady() {

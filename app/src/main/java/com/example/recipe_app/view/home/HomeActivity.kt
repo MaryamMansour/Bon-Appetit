@@ -34,29 +34,7 @@ class HomeActivity : AppCompatActivity(){
         setSupportActionBar(toolbar)
 
 
-//        bottomNavigationView.setOnItemSelectedListener {
-//            when (it.itemId) {
-//                R.id.homeItem -> {
-//
-//                    navController.navigate(R.id.homeFragment)
-//
-//                    true
-//                }
-//                R.id.searchItem -> {
-//
-//                    navController.navigate(R.id.searchFragment)
-//
-//                    true
-//                }
-//                R.id.favItem -> {
-//
-//                    navController.navigate(R.id.favouriteFragment)
-//
-//                    true
-//                }
-//            }
-//            true
-//        }
+
         bottomNavigationView.setupWithNavController(navController)
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

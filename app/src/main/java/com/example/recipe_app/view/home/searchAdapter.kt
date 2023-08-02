@@ -18,13 +18,9 @@ class searchAdapter(var mealList: List<MealX>,
                     var  context: Context,
                     var OnClick : OnClickListener
 
-
-
 ) : RecyclerView.Adapter<mealAdapter.Holder> () , Filterable {
     val mealListFull = ArrayList<MealX>(mealList)
     class Holder(val row: View) : RecyclerView.ViewHolder(row){
-
-
         var textView = row.findViewById<TextView>(R.id.title_text_view)
         var descriptionView = row.findViewById<TextView>(R.id.description_text_view)
         var imageView = row.findViewById<ImageView>(R.id.image_view)
@@ -49,13 +45,11 @@ class searchAdapter(var mealList: List<MealX>,
         Glide.with(context).load(mealList[position].strMealThumb).into(holder.imageView)
         holder.itemView.setOnClickListener {
             OnClick.onClick(meal)
-
         }
-        holder.favItem.setOnClickListener{
-            OnClick.onFav(holder.favItem,meal)
+        holder.favItem.setOnCheckedChangeListener { _, isChecked ->
+            OnClick.onFav(isChecked, meal)
         }
     }
-
 
     override fun getFilter(): Filter {
         return object : Filter(){
@@ -76,7 +70,6 @@ class searchAdapter(var mealList: List<MealX>,
                 filterResults.values = mealList
                 return filterResults
             }
-
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
                 mealList = results?.values as ArrayList<MealX>
                 notifyDataSetChanged()
@@ -86,10 +79,7 @@ class searchAdapter(var mealList: List<MealX>,
         }
 
     }
-    fun setFilteredList(mealList: List<MealX>){
-        this.mealList = mealList
-        notifyDataSetChanged()
-    }
+
 
 }
 

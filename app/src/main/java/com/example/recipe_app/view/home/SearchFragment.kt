@@ -70,30 +70,6 @@ class SearchFragment : Fragment() , OnClickListener {
 
     }
 
-//            private fun filterList(query: String?) {
-//
-//                if (query != null) {
-//                    val filteredList : MutableList<MealX> = ArrayList()
-//                    for (i in mList) {
-//                        if (i.strMeal.lowercase(Locale.ROOT).contains(query)) {
-//                            filteredList.add(i)
-//                        }
-//                    }
-//
-//                    if (filteredList.isEmpty()) {
-//                        Toast.makeText(requireActivity(), "No Data found", Toast.LENGTH_SHORT)
-//                            .show()
-//                        recyclerAdapter.setFilteredList(filteredList)
-//                    } else {
-//                        recyclerAdapter.setFilteredList(filteredList)
-//                    }
-//                }
-//            }
-
-
-
-
-
 
     override fun onClick(model: MealX) {
         Toast.makeText(requireActivity(),"Meal Clicked", Toast.LENGTH_SHORT).show()
@@ -101,9 +77,8 @@ class SearchFragment : Fragment() , OnClickListener {
     }
 
 
-    override fun onFav(box: CheckBox, meal: MealX) {
+    override fun onFav(isChecked: Boolean, meal: MealX) {
 
-        box.setOnCheckedChangeListener { box , isChecked ->
             if (isChecked)
             {
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
@@ -112,8 +87,9 @@ class SearchFragment : Fragment() , OnClickListener {
             else
             {
                 Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
+                HomeViewModel.deleteFavMeal(meal)
             }
-        }
+
     }
 
     private fun getViewModelReady() {

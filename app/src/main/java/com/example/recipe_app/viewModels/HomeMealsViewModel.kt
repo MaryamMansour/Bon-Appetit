@@ -38,6 +38,12 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
             repository.insertFavMeal(meal)
         }
     }
+    fun deleteFavMeal(meal: MealX)
+    {
+        viewModelScope.launch {
+            repository.deleteFavMeal(meal)
+        }
+    }
 
 
 

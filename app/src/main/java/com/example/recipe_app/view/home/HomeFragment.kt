@@ -59,11 +59,7 @@ class HomeFragment : Fragment(), OnClickListener {
         HomeViewModel.listOfMeals.observe(viewLifecycleOwner){ meals->
 
             recyclerView = view.findViewById(R.id.HomeRecyclerView)
-            recyclerAdapter = mealAdapter(meals, {
-                Toast.makeText(requireActivity(),"Meal Clicked ${it.strMeal}", Toast.LENGTH_SHORT).show()
-            }){checkBox, mealX ->
-                Toast.makeText(requireActivity(),"fav clicked ${checkBox.isChecked} ", Toast.LENGTH_SHORT).show()
-            }
+            recyclerAdapter = mealAdapter(meals,this)
             recyclerView.adapter = recyclerAdapter
             recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
@@ -82,9 +78,8 @@ class HomeFragment : Fragment(), OnClickListener {
 
     }
 
-    override fun onFav(box: CheckBox, meal: MealX) {
+    override fun onFav(isChecked: Boolean, meal: MealX) {
 
-        box.setOnCheckedChangeListener { box , isChecked ->
             if (isChecked)
             {
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
@@ -93,8 +88,9 @@ class HomeFragment : Fragment(), OnClickListener {
             else
             {
                 Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
+                HomeViewModel.deleteFavMeal(meal)
             }
-        }
+
     }
 
     private fun getViewModelReady() {

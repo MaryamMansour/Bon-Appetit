@@ -13,6 +13,4 @@ object RetrofitHelper {
         .baseUrl("https://www.themealdb.com/api/json/v1/1/")
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
-
-
 }

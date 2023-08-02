@@ -13,7 +13,6 @@ import com.example.recipe_app.viewModels.HomeMealsViewModel
 class detailsFragment : Fragment() {
     lateinit var viewModel: HomeMealsViewModel
     lateinit var recyclerView: RecyclerView
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -21,6 +20,4 @@ class detailsFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_details, container, false)
     }
-
-
 }

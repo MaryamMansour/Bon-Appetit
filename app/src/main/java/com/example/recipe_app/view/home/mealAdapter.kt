@@ -17,8 +17,8 @@ class mealAdapter(
 
 
     var mealList: List<MealX>,
-     private var OnClick : (MealX) -> Unit,
-    private var onFav : (CheckBox, MealX) -> Unit
+    var OnClick : OnClickListener
+
 
 
 ) : RecyclerView.Adapter<mealAdapter.Holder> (){
@@ -38,13 +38,14 @@ class mealAdapter(
 //        holder.descriptionView.text=mealList[position].strInstructions
         Glide.with(holder.itemView.context).load(mealList[position].strMealThumb).into(holder.imageView)
         holder.itemView.setOnClickListener {
-            OnClick(meal)
+            OnClick.onClick(meal)
 
         }
-        holder.favItem.setOnClickListener{
-            onFav(holder.favItem, meal)
+        holder.favItem.setOnCheckedChangeListener { _, isChecked ->
+            OnClick.onFav(isChecked, meal)
         }
-    }
+
+        }
 
     override fun getItemCount(): Int {
         return mealList.size
