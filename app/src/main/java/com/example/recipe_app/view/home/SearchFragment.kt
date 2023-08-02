@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipe_app.R
 import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
+import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.HomeMealsViewModel
 import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
@@ -116,8 +117,9 @@ class SearchFragment : Fragment() , OnClickListener {
 
     private fun getViewModelReady() {
         val mealsFactory = HomeMealsViewModelFactory(
-            RepositoryImpl(LocalSourceImp(requireActivity()))
+            RepositoryImpl(LocalSourceImp(requireActivity()),ApiClient)
         )
+
         HomeViewModel= ViewModelProvider(this,mealsFactory).get(HomeMealsViewModel::class.java)
     }
 

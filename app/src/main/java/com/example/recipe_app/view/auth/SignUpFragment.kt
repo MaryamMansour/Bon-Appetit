@@ -15,6 +15,7 @@ import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.PersonInfo
 import com.example.recipe_app.local.dao.PersonInfoDao
 import com.example.recipe_app.local.db.MealDataBase
+import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.AuthViewModel
 import com.example.recipe_app.viewModels.AuthViewModelFactory
@@ -54,7 +55,9 @@ class SignUpFragment : Fragment() {
         et_layout_email = view.findViewById(R.id.et_layot_email_signup)
         et_layout_name = view.findViewById(R.id.et_layout_name_signup)
         et_layout_password = view.findViewById(R.id.et_layout_password_signup)
-        authViewModelFactory= AuthViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity())))
+        authViewModelFactory= AuthViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()),
+            ApiClient
+        ))
         viewModel= ViewModelProvider(this,authViewModelFactory).get(AuthViewModel::class.java)
 
 

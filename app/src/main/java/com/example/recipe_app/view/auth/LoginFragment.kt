@@ -16,6 +16,7 @@ import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.PersonInfo
 import com.example.recipe_app.local.dao.PersonInfoDao
 import com.example.recipe_app.local.db.MealDataBase
+import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.Repository
 import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.AuthViewModel
@@ -49,7 +50,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        authViewModelFactory= AuthViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity())))
+        authViewModelFactory= AuthViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()),ApiClient))
         viewModel= ViewModelProvider(this,authViewModelFactory).get(AuthViewModel::class.java)
 
         et_email_login = view.findViewById(R.id.editText_email)

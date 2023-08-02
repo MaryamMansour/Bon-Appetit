@@ -1,10 +1,13 @@
 package com.example.recipe_app.repository
 
+import com.example.recipe_app.model.Meal
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.model.PersonInfo
 
 interface Repository {
 
+
+    suspend fun getMealsResponse(): Meal
     suspend fun getFavMeals():List<MealX>
     suspend fun insertFavMeal(meal : MealX)
     suspend fun deleteFavMeal(meal: MealX)

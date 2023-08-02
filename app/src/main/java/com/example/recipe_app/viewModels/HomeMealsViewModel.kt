@@ -18,10 +18,9 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
 
     private val _listOfFavMeals = MutableLiveData<List<MealX>>()
     val listOfFavMeals: LiveData<List<MealX>> = _listOfFavMeals
-    //TODO: get meals from api via repository
     fun getMeals(){
         viewModelScope.launch {
-            val response =  ApiClient.getMealsResponse()
+            val response =  repository.getMealsResponse()
             _listOfMeals.value = response.meals
 
         }
