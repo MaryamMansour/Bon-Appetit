@@ -10,7 +10,11 @@
         android:name="com.example.recipe_app.view.auth.SplashFragment"
         android:label="fragment_splash"
 
-        tools:layout="@layout/fragment_splash" />
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.example.recipe_app.view.auth.SignUpFragment"

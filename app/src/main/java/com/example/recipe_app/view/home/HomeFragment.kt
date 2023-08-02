@@ -42,8 +42,7 @@ class HomeFragment : Fragment(), OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
+        activity?.title = "Home"
 
 
 
@@ -57,8 +56,7 @@ class HomeFragment : Fragment(), OnClickListener {
 
 
 
-        HomeViewModel.listOfMeals.observe(requireActivity()){ meals->
-
+        HomeViewModel.listOfMeals.observe(viewLifecycleOwner){ meals->
 
             recyclerView = view.findViewById(R.id.HomeRecyclerView)
             recyclerAdapter = mealAdapter(meals, {

@@ -9,31 +9,24 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.recipe_app.R
 import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.PersonInfo
-import com.example.recipe_app.local.dao.PersonInfoDao
-import com.example.recipe_app.local.db.MealDataBase
 import com.example.recipe_app.network.ApiClient
-import com.example.recipe_app.repository.Repository
 import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.AuthViewModel
 import com.example.recipe_app.viewModels.AuthViewModelFactory
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class LoginFragment : Fragment() {
 
     lateinit var btntosignup: TextView
-    lateinit var et_email_login: TextInputEditText
-    lateinit var et_password_login: TextInputEditText
-    lateinit var ettxtlayout_email:TextInputLayout
-    lateinit var ettxtlayout_password:TextInputLayout
+    lateinit var etEmailLogin: TextInputEditText
+    lateinit var etPasswordLogin: TextInputEditText
+    lateinit var etTxtLayoutEmail:TextInputLayout
+    lateinit var etTxtLayoutPassword:TextInputLayout
     lateinit var btnlogin: Button
     lateinit var viewModel: AuthViewModel
     lateinit var authViewModelFactory: AuthViewModelFactory
@@ -53,47 +46,47 @@ class LoginFragment : Fragment() {
         authViewModelFactory= AuthViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()),ApiClient))
         viewModel= ViewModelProvider(this,authViewModelFactory).get(AuthViewModel::class.java)
 
-        et_email_login = view.findViewById(R.id.editText_email)
-        et_password_login = view.findViewById(R.id.et_password)
+        etEmailLogin = view.findViewById(R.id.editText_email)
+        etPasswordLogin = view.findViewById(R.id.et_password)
         btnlogin = view.findViewById(R.id.btn_create_account)
-        ettxtlayout_email = view.findViewById(R.id.editTextLayout_email)
-        ettxtlayout_password = view.findViewById(R.id.et_layout_password)
+        etTxtLayoutEmail = view.findViewById(R.id.editTextLayout_email)
+        etTxtLayoutPassword = view.findViewById(R.id.et_layout_password)
 
 
 
         btnlogin.setOnClickListener {
 
-            var email = et_email_login.text.toString()
-            var password = et_password_login.text.toString()
+            var email = etEmailLogin.text.toString()
+            var password = etPasswordLogin.text.toString()
 
             var e_email=when(email.isEmpty()){
                 true -> {
-                    ettxtlayout_email.error = "Email is required"
+                    etTxtLayoutEmail.error = "Email is required"
                     false
                 }
                 false -> {
-                    ettxtlayout_email.error = null
+                    etTxtLayoutEmail.error = null
                     true
                 }
             }
             var e_pass=when(password.isEmpty()){
                 true -> {
-                    ettxtlayout_password.error = "password is required"
+                    etTxtLayoutPassword.error = "password is required"
                     false
                 }
                 false -> {
-                    ettxtlayout_password.error = null
+                    etTxtLayoutPassword.error = null
                     true
                 }
             }
             var valid_email = when((email.contains("@") && email.contains(".")) ){
                 true -> {
-                    ettxtlayout_email.error = null
+                    etTxtLayoutEmail.error = null
                     true
                 }
                 false -> {
                     if(e_email){
-                        ettxtlayout_email.error = "Email is not valid"
+                        etTxtLayoutEmail.error = "Email is not valid"
                         false
                     }
                     else{
@@ -136,6 +129,7 @@ class LoginFragment : Fragment() {
             findNavController().navigate(action)
         }
     }
+
 
 }
 

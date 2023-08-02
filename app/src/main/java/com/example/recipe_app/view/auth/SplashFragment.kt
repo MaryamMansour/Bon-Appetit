@@ -28,19 +28,15 @@ class SplashFragment : Fragment() {
         //if user is logged in then navigate to home activity else navigate to login fragment
         var pref=requireActivity().getSharedPreferences("mypref",0)
         var isloggedin=pref.getBoolean("isloggedin",false)
-        lifecycleScope.launch {
+        lifecycleScope.launch (Dispatchers.Main){
             delay(3000)
             if(isloggedin){
-                withContext(Dispatchers.Main){
                     findNavController().navigate(R.id.homeActivity)
                     activity?.finish()
-                }
+
             }
             else{
-                withContext(Dispatchers.Main){
-                    findNavController().navigate(R.id.loginFragment)
-
-                }
+                    findNavController().navigate(SplashFragmentDirections.actionSplashFragmentToLoginFragment())
             }
         }
 

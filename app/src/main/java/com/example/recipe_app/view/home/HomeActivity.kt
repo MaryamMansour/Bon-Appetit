@@ -9,6 +9,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.recipe_app.R
 import com.example.recipe_app.view.auth.MainActivity
@@ -23,14 +26,13 @@ class HomeActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        supportActionBar?.title = "Home"
-
         bottomNavigationView= findViewById(R.id.bottomNavigationView)
 
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
 
 //        bottomNavigationView.setOnItemSelectedListener {
 //            when (it.itemId) {

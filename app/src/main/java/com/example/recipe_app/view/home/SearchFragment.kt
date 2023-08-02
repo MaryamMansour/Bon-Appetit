@@ -35,6 +35,7 @@ class SearchFragment : Fragment() , OnClickListener {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+       activity?.title = "Search"
 
 //        viewModel = ViewModelProvider(this).get(HomeMealsViewModel::class.java)
         getViewModelReady()

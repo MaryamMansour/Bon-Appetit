@@ -30,7 +30,6 @@ abstract class MealDataBase : RoomDatabase() {
                     .fallbackToDestructiveMigration()
                     .build()
                     .also { INSTANCE = it }
-
             }
         }
     }

@@ -41,7 +41,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        activity?.title = "Favourites"
 
 
         getViewModelReady()
@@ -52,7 +52,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
 
 
-        HomeViewModel.listOfFavMeals.observe(requireActivity()){ meals->
+        HomeViewModel.listOfFavMeals.observe(viewLifecycleOwner){ meals->
             Log.d("meal", "HIIII")
             print("HERE")
 
