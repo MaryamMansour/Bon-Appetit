@@ -1,4 +1,4 @@
-package com.example.recipe_app
+package com.example.recipe_app.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,10 +11,11 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.recipe_app.*
 import com.example.recipe_app.model.MealX
 
 
-class SearchFragment : Fragment() ,OnClickListener {
+class SearchFragment : Fragment() , OnClickListener {
     lateinit var HomeViewModel: HomeMealsViewModel
     lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
@@ -105,6 +106,7 @@ class SearchFragment : Fragment() ,OnClickListener {
             else
             {
                 Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
+                HomeViewModel.deleteMeal(meal)
             }
         }
     }

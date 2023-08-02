@@ -50,6 +50,15 @@ class HomeMealsViewModel (val context: Context)  : ViewModel() {
         }
     }
 
+    fun deleteMeal (meal :MealX)
+    {
+
+        viewModelScope.launch {
+
+            db.deleteFavMeal(meal)
+        }
+    }
+
 
 
 }

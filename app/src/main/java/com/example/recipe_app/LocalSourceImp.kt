@@ -19,5 +19,8 @@ class LocalSourceImp(val context: Context) {
     suspend fun insertFavMeal(mealX: MealX){
         dao.insertFavMeal(mealX)
     }
+    suspend fun deleteFavMeal(mealX: MealX){
+        dao.deleteFavMeal(mealX)
+    }
 
 }
