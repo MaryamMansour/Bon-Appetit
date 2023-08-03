@@ -28,6 +28,10 @@
 
     </style>
 
+    <style name="checkButtonTheme1" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="buttonTint">#ff4444</item>
+    </style>
+
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
@@ -54,6 +58,8 @@
         <item name="colorOutline">@color/md_theme_light_outline</item>
         <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
+
+
         <!--        <item name="colorCustomColor1">#4540f0</item>-->
         <!--        <item name="colorOnCustomColor1">#ffffff</item>-->
         <!--        <item name="colorCustomColor1Container">#e2dfff</item>-->

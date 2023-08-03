@@ -20,6 +20,9 @@
         <item name="android:textColorPrimary">@color/black</item>
 
     </style>
+    <style name="checkButtonTheme1" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="buttonTint">#ff4444</item>
+    </style>
 
     <style name="App_BarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
     <style name="menuItemsText" parent="android:TextAppearance.Widget.PopupMenu.Small">
