@@ -24,8 +24,8 @@
         android:id="@+id/textView_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:text="Login"
+        android:layout_marginStart="21dp"
+        android:text="Log in"
         android:textColor="#000000"
         android:textSize="34sp"
         android:textStyle="bold"
@@ -38,10 +38,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:hint="Email"
-        android:padding="10dp"
+        android:padding="5dp"
         app:boxBackgroundMode="outline"
         app:endIconDrawable="@drawable/baseline_email_30"
         app:endIconMode="custom"
@@ -59,29 +59,29 @@
             android:textColor="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/et_layout_password"
-            style="@style/EditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:hint="Password"
-            android:padding="10dp"
-            app:helperText="* required"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextLayout_email"
-            app:passwordToggleEnabled="true">
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/et_layout_password"
+        style="@style/EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Password"
+        android:padding="5dp"
+        app:helperText="* required"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextLayout_email"
+        app:passwordToggleEnabled="true">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_password"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="text|textPassword"
-                android:textColor="#000000" />
-        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="text|textPassword"
+            android:textColor="#000000" />
+    </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/textView_createAccount"
@@ -106,23 +106,23 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/textView_createAccount"
             app:layout_constraintStart_toEndOf="@+id/textView_createAccount" />
 
-        <Button
-            android:id="@+id/btn_create_account"
-            android:layout_width="0dp"
-            android:layout_height="55dp"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="26dp"
-            android:background="@drawable/custom_button_rectangle"
-            android:backgroundTint="?attr/colorPrimaryVariant"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"
-            android:text="Login"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_createAccount" />
+    <Button
+        android:id="@+id/btn_create_account"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="21dp"
+        android:background="@drawable/custom_button_rectangle"
+        android:backgroundTint="?attr/colorPrimaryVariant"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="Login"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_createAccount" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
