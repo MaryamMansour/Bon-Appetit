@@ -24,7 +24,7 @@ import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
 class FavouriteFragment : Fragment(), OnClickListener {
     lateinit var HomeViewModel: HomeMealsViewModel
     lateinit var favRecyclerView: RecyclerView
-    lateinit var favRecyclerAdapter : mealAdapter
+    lateinit var favRecyclerAdapter : favMealAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,7 +42,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
         HomeViewModel.listOfFavMeals.observe(viewLifecycleOwner){ meals->
 
             favRecyclerView = view.findViewById(R.id.FavRecyclerView)
-            favRecyclerAdapter = mealAdapter(meals,this)
+            favRecyclerAdapter = favMealAdapter(meals,this)
 
             val slideGesture = object : SlideGesture(requireContext()){
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
