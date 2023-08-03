@@ -19,6 +19,14 @@
         <item name ="android:textColor" >@android:color/black</item>
 
     </style>
+    <style name="EditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+<!--        <item name="boxStrokeColor">?attr/colorPrimaryVariant</item>-->
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="hintTextColor">?attr/colorPrimaryVariant</item>
+        <item name="android:textColorHint">#525B60</item>
+        <item name="android:textColorPrimary">@color/black</item>
+
+    </style>
 
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/md_theme_light_primary</item>
