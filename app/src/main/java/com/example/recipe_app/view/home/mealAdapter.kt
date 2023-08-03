@@ -22,6 +22,8 @@ class mealAdapter(
 
 
 ) : RecyclerView.Adapter<mealAdapter.Holder> (){
+    var mealListM = mealList.toMutableList()
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -29,14 +31,20 @@ class mealAdapter(
             LayoutInflater.from(parent.context).inflate(R.layout.simple_row, parent, false )
         return Holder(row)
     }
+    fun deleteItem(i: Int){
+        mealListM.removeAt(i)
+        notifyDataSetChanged()
+
+    }
 
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
-        val meal = mealList[position]
-        holder.textView.text=mealList[position].strMeal
+
+        val meal = mealListM[position]
+        holder.textView.text=mealListM[position].strMeal
 //        holder.descriptionView.text=mealList[position].strInstructions
-        Glide.with(holder.itemView.context).load(mealList[position].strMealThumb).into(holder.imageView)
+        Glide.with(holder.itemView.context).load(mealListM[position].strMealThumb).into(holder.imageView)
         holder.itemView.setOnClickListener {
             OnClick.onClick(meal)
 
@@ -48,7 +56,7 @@ class mealAdapter(
         }
 
     override fun getItemCount(): Int {
-        return mealList.size
+        return mealListM.size
     }
 
 

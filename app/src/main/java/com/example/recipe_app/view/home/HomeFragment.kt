@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipe_app.R
 import com.example.recipe_app.local.LocalSourceImp
@@ -56,10 +57,13 @@ class HomeFragment : Fragment(), OnClickListener {
 
 
 
+
         HomeViewModel.listOfMeals.observe(viewLifecycleOwner){ meals->
 
             recyclerView = view.findViewById(R.id.HomeRecyclerView)
             recyclerAdapter = mealAdapter(meals,this)
+
+
             recyclerView.adapter = recyclerAdapter
             recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 

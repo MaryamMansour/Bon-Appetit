@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipe_app.R
@@ -41,6 +42,22 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
             favRecyclerView = view.findViewById(R.id.FavRecyclerView)
             favRecyclerAdapter = mealAdapter(meals,this)
+            val slideGesture = object : SlideGesture(requireActivity()){
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    when(direction)
+                    {
+                        ItemTouchHelper.LEFT -> {
+                            favRecyclerAdapter.deleteItem(viewHolder.adapterPosition)
+//                            HomeViewModel.deleteFavMeal(meals[viewHolder.adapterPosition])
+
+                        }
+
+                    }
+                }
+
+            }
+            val touchHelper= ItemTouchHelper(slideGesture)
+            touchHelper.attachToRecyclerView(favRecyclerView)
             favRecyclerView.adapter = favRecyclerAdapter
             favRecyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
