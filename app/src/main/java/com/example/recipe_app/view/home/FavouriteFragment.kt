@@ -1,5 +1,7 @@
 package com.example.recipe_app.view.home
 
+import android.app.AlertDialog
+//import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -25,6 +27,8 @@ class FavouriteFragment : Fragment(), OnClickListener {
     lateinit var HomeViewModel: HomeMealsViewModel
     lateinit var favRecyclerView: RecyclerView
     lateinit var favRecyclerAdapter : favMealAdapter
+    private lateinit var builder: AlertDialog.Builder
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,9 +54,23 @@ class FavouriteFragment : Fragment(), OnClickListener {
                     {
                         ItemTouchHelper.LEFT -> {
 
-                            HomeViewModel.deleteFavMeal(favRecyclerAdapter.mealListM[viewHolder.adapterPosition].idMeal)
-                            favRecyclerAdapter.deleteItem(viewHolder.adapterPosition)
 
+
+                            val builder = AlertDialog.Builder(context)
+                            builder.setMessage("Do you want to delete the item ?")
+                                .setCancelable(true)
+                                .setPositiveButton("Yes"){dialog , it ->{
+                                    HomeViewModel.deleteFavMeal(favRecyclerAdapter.mealListM[viewHolder.adapterPosition].idMeal)
+                                    favRecyclerAdapter.deleteItem(viewHolder.adapterPosition)
+
+                                }
+
+                                }
+                                .setNegativeButton("No"){dialog , it ->
+                                    dialog.cancel()
+                                }
+                            val dialog = builder.create()
+                            dialog.show()
                         }
 
                     }
@@ -99,5 +117,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
         HomeViewModel= ViewModelProvider(this,mealsFactory).get(HomeMealsViewModel::class.java)
     }
+
+
 
 }
