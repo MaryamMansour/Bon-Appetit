@@ -22,7 +22,7 @@ class LocalSourceImp(val context: Context) : LocalDataSource{
 
     override suspend fun insertFavMeal(meal: MealX) = mealsDao.insertFavMeal(meal)
 
-    override suspend fun deleteFavMeal(meal: MealX) = mealsDao.deleteFavMeal(meal)
+    override suspend fun deleteFavMeal(id: String) = mealsDao.deleteFavMeal(id)
 
     override suspend fun getAllPersonInfo(): List<PersonInfo> = userDao.getAllPersonInfo()
 

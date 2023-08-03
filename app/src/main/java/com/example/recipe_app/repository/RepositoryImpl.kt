@@ -16,7 +16,7 @@ class RepositoryImpl(
 
     override suspend fun insertFavMeal(meal: MealX) = localDataSource.insertFavMeal(meal)
 
-    override suspend fun deleteFavMeal(meal: MealX) = localDataSource.deleteFavMeal(meal)
+    override suspend fun deleteFavMeal(id: String) = localDataSource.deleteFavMeal(id)
 
     override suspend fun getAllPersonInfo(): List<PersonInfo> = localDataSource.getAllPersonInfo()
 

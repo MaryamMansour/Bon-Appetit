@@ -10,6 +10,6 @@ interface MealDao {
     suspend fun getFavMeals():List<MealX>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavMeal(meal : MealX)
-    @Delete
-    suspend fun deleteFavMeal(meal: MealX)
+    @Query("DELETE FROM FavMeals WHERE idMeal = :id")
+    suspend fun deleteFavMeal(id : String)
 }

@@ -38,10 +38,10 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
             repository.insertFavMeal(meal)
         }
     }
-    fun deleteFavMeal(meal: MealX)
+    fun deleteFavMeal(id : String)
     {
         viewModelScope.launch {
-            repository.deleteFavMeal(meal)
+            repository.deleteFavMeal(id)
         }
     }
 

@@ -9,7 +9,7 @@ import com.example.recipe_app.local.dao.PersonInfoDao
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.model.PersonInfo
 
-@Database(entities = [MealX::class, PersonInfo::class], version=4)
+@Database(entities = [MealX::class, PersonInfo::class], version=5)
 abstract class MealDataBase : RoomDatabase() {
 
 

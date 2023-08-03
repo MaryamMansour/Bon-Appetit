@@ -10,7 +10,7 @@ interface Repository {
     suspend fun getMealsResponse(): Meal
     suspend fun getFavMeals():List<MealX>
     suspend fun insertFavMeal(meal : MealX)
-    suspend fun deleteFavMeal(meal: MealX)
+    suspend fun deleteFavMeal(id: String)
 
     suspend fun getAllPersonInfo(): List<PersonInfo>
 

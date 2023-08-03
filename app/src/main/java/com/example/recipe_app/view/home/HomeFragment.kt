@@ -92,7 +92,7 @@ class HomeFragment : Fragment(), OnClickListener {
             else
             {
                 Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
-                HomeViewModel.deleteFavMeal(meal)
+//                HomeViewModel.deleteFavMeal(meal)
             }
 
     }

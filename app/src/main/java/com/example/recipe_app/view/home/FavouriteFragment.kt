@@ -24,6 +24,7 @@ import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
 class FavouriteFragment : Fragment(), OnClickListener {
     lateinit var HomeViewModel: HomeMealsViewModel
     lateinit var favRecyclerView: RecyclerView
+    lateinit var favRecyclerAdapter : mealAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,20 +36,22 @@ class FavouriteFragment : Fragment(), OnClickListener {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = "Favourites"
         getViewModelReady()
-        var favRecyclerAdapter : mealAdapter
+
         HomeViewModel.getFavMeals()
 
         HomeViewModel.listOfFavMeals.observe(viewLifecycleOwner){ meals->
 
             favRecyclerView = view.findViewById(R.id.FavRecyclerView)
             favRecyclerAdapter = mealAdapter(meals,this)
-            val slideGesture = object : SlideGesture(requireActivity()){
+
+            val slideGesture = object : SlideGesture(requireContext()){
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     when(direction)
                     {
                         ItemTouchHelper.LEFT -> {
+
+                            HomeViewModel.deleteFavMeal(favRecyclerAdapter.mealListM[viewHolder.adapterPosition].idMeal)
                             favRecyclerAdapter.deleteItem(viewHolder.adapterPosition)
-//                            HomeViewModel.deleteFavMeal(meals[viewHolder.adapterPosition])
 
                         }
 
@@ -58,11 +61,15 @@ class FavouriteFragment : Fragment(), OnClickListener {
             }
             val touchHelper= ItemTouchHelper(slideGesture)
             touchHelper.attachToRecyclerView(favRecyclerView)
+
             favRecyclerView.adapter = favRecyclerAdapter
-            favRecyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+            favRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
         }
+
+
     }
+
 
     override fun onClick(model: MealX) {
         Toast.makeText(requireActivity(),"Meal Clicked", Toast.LENGTH_SHORT).show()
@@ -80,7 +87,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
             else
             {
                 Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
-                HomeViewModel.deleteFavMeal(meal)
+                HomeViewModel.deleteFavMeal(meal.idMeal)
             }
 
     }
