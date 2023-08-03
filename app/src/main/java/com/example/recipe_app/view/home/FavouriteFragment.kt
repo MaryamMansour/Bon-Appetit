@@ -59,15 +59,16 @@ class FavouriteFragment : Fragment(), OnClickListener {
                             val builder = AlertDialog.Builder(context)
                             builder.setMessage("Do you want to delete the item ?")
                                 .setCancelable(true)
-                                .setPositiveButton("Yes"){dialog , it ->{
+                                .setPositiveButton("Yes"){dialog , it ->
                                     HomeViewModel.deleteFavMeal(favRecyclerAdapter.mealListM[viewHolder.adapterPosition].idMeal)
                                     favRecyclerAdapter.deleteItem(viewHolder.adapterPosition)
 
-                                }
 
                                 }
+
                                 .setNegativeButton("No"){dialog , it ->
                                     dialog.cancel()
+                                    favRecyclerAdapter.notifyItemChanged(viewHolder.adapterPosition)
                                 }
                             val dialog = builder.create()
                             dialog.show()
