@@ -40,7 +40,7 @@ class SplashFragment : Fragment() {
                     findNavController().navigate(R.id.loginFragment)
             }
         }
-        view.findNavController().popBackStack()
+        findNavController().popBackStack()
 
 
     }
