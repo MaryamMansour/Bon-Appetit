@@ -26,6 +26,7 @@ import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.HomeMealsViewModel
 import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
+import com.facebook.shimmer.ShimmerFrameLayout
 
 
 class HomeFragment : Fragment(), OnClickListener {
@@ -42,6 +43,7 @@ class HomeFragment : Fragment(), OnClickListener {
     lateinit var areaRandom :TextView
     lateinit var constrainRandom :ConstraintLayout
     lateinit var imgRandom :ImageView
+    lateinit var shimmerFrameLayout: ShimmerFrameLayout
 
 
     override fun onCreateView(
@@ -63,6 +65,7 @@ class HomeFragment : Fragment(), OnClickListener {
         areaRandom = view.findViewById(R.id.area_random)
         constrainRandom = view.findViewById(R.id.constrain_random)
         imgRandom = view.findViewById(R.id.img_random)
+        shimmerFrameLayout = view.findViewById(R.id.shimmer_layout)
 
         navHostFragment =requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
@@ -95,6 +98,10 @@ class HomeFragment : Fragment(), OnClickListener {
                 Glide.with(this)
                     .load(randomMeal.strMealThumb)
                     .into(imgRandom)
+                shimmerFrameLayout.stopShimmer()
+                shimmerFrameLayout.visibility = View.GONE
+                constrainRandom.visibility = View.VISIBLE
+                recyclerView.visibility = View.VISIBLE
                 constrainRandom.setOnClickListener {
                     Toast.makeText(requireActivity()," Random Meal Clicked", Toast.LENGTH_SHORT).show()
                 }

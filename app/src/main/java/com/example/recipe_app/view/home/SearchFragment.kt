@@ -23,6 +23,7 @@ import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.DetailsViewModel
 import com.example.recipe_app.viewModels.HomeMealsViewModel
 import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
+import com.facebook.shimmer.ShimmerFrameLayout
 
 
 class SearchFragment : Fragment() , OnClickListener {
@@ -33,6 +34,7 @@ class SearchFragment : Fragment() , OnClickListener {
     lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: searchAdapter
+    lateinit var shimmer: ShimmerFrameLayout
     private var mList = ArrayList<MealX>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,13 +54,17 @@ class SearchFragment : Fragment() , OnClickListener {
         // var recyclerAdapter : mealAdapter
 
         searchView = view.findViewById(R.id.searchView)
+        shimmer = view.findViewById(R.id.shimmerFrameLayout_search)
+
         HomeViewModel.listOfMeals.observe(viewLifecycleOwner) { meals ->
 
             recyclerView = view.findViewById(R.id.searchRecyclerView)
             recyclerAdapter = searchAdapter(meals, requireActivity(), this)
             recyclerView.adapter = recyclerAdapter
-            recyclerView.layoutManager =
-                LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+            recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+            shimmer.stopShimmer()
+            shimmer.visibility = View.GONE
+            recyclerView.visibility = View.VISIBLE
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
