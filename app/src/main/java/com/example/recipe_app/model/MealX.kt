@@ -1,11 +1,13 @@
 package com.example.recipe_app.model
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 
 @Entity(tableName = "FavMeals")
-data class MealX(
+data class MealX  (
 //    val dateModified: Any,
     @PrimaryKey
     val idMeal: String,

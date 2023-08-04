@@ -28,11 +28,8 @@
 
     </style>
 
-<!--    <style name="checkButtonTheme1" parent="android:Widget.CompoundButton.CheckBox">-->
-<!--&lt;!&ndash;        <item name ="android:background">@drawable/selector_favlist_item</item>&ndash;&gt;-->
-<!--        <item name ="android:buttonTint">@color/md_theme_dark_errorContainer</item>-->
-<!--    </style>-->
-
+    <style name="checkButtonTheme1" >
+    </style>
 
 
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
@@ -62,6 +59,8 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
+        <item name="checkboxStyle">@style/checkButtonTheme1</item>
+        <item name="android:checkboxStyle">@style/checkButtonTheme1</item>
     </style>
 
 </resources>

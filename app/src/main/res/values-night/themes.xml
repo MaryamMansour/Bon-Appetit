@@ -20,8 +20,7 @@
         <item name="android:textColorPrimary">@color/black</item>
 
     </style>
-    <style name="checkButtonTheme1" parent="Widget.AppCompat.CompoundButton.CheckBox">
-        <item name="buttonTint">#ff4444</item>
+    <style name="checkButtonTheme1" >
     </style>
 
     <style name="App_BarOverlay" parent="ThemeOverlay.AppCompat.DayNight.ActionBar" />
@@ -91,6 +90,8 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
+<!--        <item name="checkboxStyle">@style/checkButtonTheme1</item>-->
+
     </style>
 
 </resources>

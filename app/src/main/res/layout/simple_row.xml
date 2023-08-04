@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@android:style/Widget.Material.Light.CompoundButton.CheckBox"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="8dp"
@@ -53,7 +52,13 @@
             android:layout_marginTop="55dp"
             android:layout_marginEnd="30dp"
             android:button="@drawable/selector_favlist_item"
-            android:checked="false" />
+
+            android:checked="false"
+            android:clickable="true"
+            android:duplicateParentState="false"
+            android:textOff=""
+            android:textOn=""
+            app:useMaterialThemeColors="false" />
 
     </RelativeLayout>
 
