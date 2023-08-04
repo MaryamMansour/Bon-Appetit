@@ -10,7 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +27,8 @@ import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
 
 
 class FavouriteFragment : Fragment(), OnClickListener {
+    lateinit var navController: NavController
+    lateinit var navHostFragment : NavHostFragment
     lateinit var HomeViewModel: HomeMealsViewModel
     lateinit var favRecyclerView: RecyclerView
     lateinit var favRecyclerAdapter : favMealAdapter
@@ -85,15 +90,20 @@ class FavouriteFragment : Fragment(), OnClickListener {
             favRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
         }
-
+        navHostFragment = activity?.supportFragmentManager?.findFragmentById(R.id.nav_host) as NavHostFragment
+        navController = navHostFragment.navController
 
     }
 
 
     override fun onClick(model: MealX) {
-        Toast.makeText(requireActivity(),"Meal Clicked", Toast.LENGTH_SHORT).show()
-
+       // Toast.makeText(requireActivity(),"Meal Clicked", Toast.LENGTH_SHORT).show()
+        navController.navigate(R.id.detailsFragment, bundleOf(
+            HomeFragment.ARGS to model.strMeal , HomeFragment.ARGS2 to model.strInstructions,
+            HomeFragment.ARGS3 to model.strMealThumb)
+        )
     }
+
 
 
 

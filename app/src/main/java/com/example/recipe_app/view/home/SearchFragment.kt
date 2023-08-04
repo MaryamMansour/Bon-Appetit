@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -89,7 +90,10 @@ class SearchFragment : Fragment() , OnClickListener {
 
     override fun onClick(model: MealX) {
         //Toast.makeText(requireActivity(), "Meal Clicked", Toast.LENGTH_SHORT).show()
-        navController.navigate(R.id.detailsFragment)
+        navController.navigate(R.id.detailsFragment, bundleOf(
+            HomeFragment.ARGS to model.strMeal , HomeFragment.ARGS2 to model.strInstructions,
+            HomeFragment.ARGS3 to model.strMealThumb)
+        )
     }
 
 

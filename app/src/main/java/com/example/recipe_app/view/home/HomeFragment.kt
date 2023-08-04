@@ -103,7 +103,10 @@ class HomeFragment : Fragment(), OnClickListener {
                 constrainRandom.visibility = View.VISIBLE
                 recyclerView.visibility = View.VISIBLE
                 constrainRandom.setOnClickListener {
-                    Toast.makeText(requireActivity()," Random Meal Clicked", Toast.LENGTH_SHORT).show()
+                   // Toast.makeText(requireActivity()," Random Meal Clicked", Toast.LENGTH_SHORT).show()
+                    navController.navigate(R.id.detailsFragment, bundleOf(ARGS to randomMeal.strMeal
+                        ,ARGS2 to randomMeal.strInstructions,
+                        ARGS3 to randomMeal.strMealThumb))
                 }
             }
 
@@ -121,6 +124,7 @@ class HomeFragment : Fragment(), OnClickListener {
        // Toast.makeText(requireActivity(),"Meal Clicked", Toast.LENGTH_SHORT).show()
       navController.navigate(R.id.detailsFragment, bundleOf(ARGS to model.strMeal ,ARGS2 to model.strInstructions,
           ARGS3 to model.strMealThumb))
+
     }
     companion object{
         var ARGS = HomeFragment::class.java.simpleName + "Details"
