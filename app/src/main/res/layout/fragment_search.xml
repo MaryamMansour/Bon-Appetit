@@ -30,9 +30,37 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerFrameLayout_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/shimmer_simple_row" />
+
+            <include layout="@layout/shimmer_simple_row" />
+
+            <include layout="@layout/shimmer_simple_row" />
+
+            <include layout="@layout/shimmer_simple_row" />
+
+            <include layout="@layout/shimmer_simple_row" />
+
+        </LinearLayout>
+
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/searchRecyclerView"
             android:layout_width="0dp"
+            android:visibility="gone"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
