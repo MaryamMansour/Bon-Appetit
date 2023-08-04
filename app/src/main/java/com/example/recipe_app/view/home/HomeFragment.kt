@@ -1,5 +1,6 @@
 package com.example.recipe_app.view.home
 
+import android.app.Activity
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,9 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -28,7 +32,8 @@ class HomeFragment : Fragment(), OnClickListener {
 
     lateinit var HomeViewModel: HomeMealsViewModel
 
-
+    lateinit var navController: NavController
+    lateinit var navHostFragment : NavHostFragment
 
     lateinit var recyclerView: RecyclerView
     lateinit var favouriteBox: CheckBox
@@ -59,7 +64,8 @@ class HomeFragment : Fragment(), OnClickListener {
         constrainRandom = view.findViewById(R.id.constrain_random)
         imgRandom = view.findViewById(R.id.img_random)
 
-
+        navHostFragment =requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
+        navController = navHostFragment.navController
 
 
 //        HomeViewModel = ViewModelProvider(this).get(HomeMealsViewModel::class.java)
@@ -105,8 +111,14 @@ class HomeFragment : Fragment(), OnClickListener {
     }
 
     override fun onClick(model: MealX) {
-        Toast.makeText(requireActivity(),"Meal Clicked", Toast.LENGTH_SHORT).show()
-
+       // Toast.makeText(requireActivity(),"Meal Clicked", Toast.LENGTH_SHORT).show()
+      navController.navigate(R.id.detailsFragment, bundleOf(ARGS to model.strMeal ,ARGS2 to model.strInstructions,
+          ARGS3 to model.strMealThumb))
+    }
+    companion object{
+        var ARGS = HomeFragment::class.java.simpleName + "Details"
+        var ARGS2 = HomeFragment::class.java.simpleName + "Details2"
+        var ARGS3 = HomeFragment::class.java.simpleName + "Details3"
     }
 
     override fun onFav(isChecked: Boolean, meal: MealX) {

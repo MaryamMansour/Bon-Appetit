@@ -1,5 +1,6 @@
 package com.example.recipe_app.view.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,9 @@ import android.widget.CheckBox
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipe_app.R
@@ -16,11 +20,15 @@ import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.RepositoryImpl
+import com.example.recipe_app.viewModels.DetailsViewModel
 import com.example.recipe_app.viewModels.HomeMealsViewModel
 import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
 
 
 class SearchFragment : Fragment() , OnClickListener {
+    lateinit var navController: NavController
+    lateinit var navHostFragment : NavHostFragment
+    lateinit var detailsViewModel: DetailsViewModel
     lateinit var HomeViewModel: HomeMealsViewModel
     lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
@@ -67,13 +75,15 @@ class SearchFragment : Fragment() , OnClickListener {
 
         })
     }
+        navHostFragment = activity?.supportFragmentManager?.findFragmentById(R.id.nav_host) as NavHostFragment
+        navController = navHostFragment.navController
 
     }
 
 
     override fun onClick(model: MealX) {
-        Toast.makeText(requireActivity(),"Meal Clicked", Toast.LENGTH_SHORT).show()
-
+        //Toast.makeText(requireActivity(), "Meal Clicked", Toast.LENGTH_SHORT).show()
+        navController.navigate(R.id.detailsFragment)
     }
 
 

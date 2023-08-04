@@ -34,5 +34,7 @@
         android:id="@+id/detailsFragment"
         android:name="com.example.recipe_app.view.home.detailsFragment"
         android:label="fragment_details"
-        tools:layout="@layout/fragment_details" />
+        tools:layout="@layout/fragment_details" >
+
+    </fragment>
 </navigation>
