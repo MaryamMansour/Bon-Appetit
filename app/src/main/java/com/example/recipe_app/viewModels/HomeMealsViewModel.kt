@@ -16,13 +16,29 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
     private val _listOfMeals = MutableLiveData<List<MealX>>()
     val listOfMeals: LiveData<List<MealX>> = _listOfMeals
 
+
     private val _listOfFavMeals = MutableLiveData<List<MealX>>()
     val listOfFavMeals: LiveData<List<MealX>> = _listOfFavMeals
+
+
+    private val _randomMeal = MutableLiveData<MealX>()
+    val randomMeal: LiveData<MealX> = _randomMeal
+
+    fun getRandomMeal(){
+        if(randomMeal.value == null){
+        viewModelScope.launch {
+            val response =  repository.getRandomMeal()
+            _randomMeal.value = response.meals[0]
+        }
+    }}
+
+    val alphabets = ('a'..'z').map { it.toString() }.shuffled().get(0)
+
+
     fun getMeals(){
         viewModelScope.launch {
-            val response =  repository.getMealsResponse()
+            val response = repository.getMealsResponse(alphabets)
             _listOfMeals.value = response.meals
-
         }
     }
 

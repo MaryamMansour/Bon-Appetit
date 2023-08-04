@@ -7,4 +7,7 @@ import retrofit2.http.Query
 interface ApiInterface {
     @GET("search.php")
     suspend fun getMeals(@Query("s") search : String ):Meal
+
+    @GET("random.php")
+    suspend fun getRandomMeal(): Meal
 }

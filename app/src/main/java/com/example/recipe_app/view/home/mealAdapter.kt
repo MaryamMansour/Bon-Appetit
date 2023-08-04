@@ -1,6 +1,7 @@
 package com.example.recipe_app.view.home
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,7 +50,9 @@ class mealAdapter(
             OnClick.onClick(meal)
 
         }
-        holder.favItem.setOnCheckedChangeListener { _, isChecked ->
+        holder.favItem.setOnCheckedChangeListener {_, isChecked ->
+
+
             OnClick.onFav(isChecked, meal)
         }
 

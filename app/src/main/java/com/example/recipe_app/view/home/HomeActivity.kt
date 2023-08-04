@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -14,7 +15,12 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.recipe_app.R
+import com.example.recipe_app.local.LocalSourceImp
+import com.example.recipe_app.network.ApiClient
+import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.view.auth.MainActivity
+import com.example.recipe_app.viewModels.HomeMealsViewModel
+import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity : AppCompatActivity(){
@@ -22,9 +28,16 @@ class HomeActivity : AppCompatActivity(){
     lateinit var navHostFragment : NavHostFragment
     lateinit var  bottomNavigationView : BottomNavigationView
     lateinit var toolbar: Toolbar
+    lateinit var HomeViewModel: HomeMealsViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        val mealsFactory = HomeMealsViewModelFactory(
+            RepositoryImpl(LocalSourceImp(this), ApiClient)
+        )
+
+        HomeViewModel= ViewModelProvider(this,mealsFactory).get(HomeMealsViewModel::class.java)
 
         bottomNavigationView= findViewById(R.id.bottomNavigationView)
 

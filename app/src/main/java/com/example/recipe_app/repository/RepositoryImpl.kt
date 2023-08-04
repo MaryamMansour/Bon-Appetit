@@ -10,9 +10,10 @@ class RepositoryImpl(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource
 )  : Repository {
-    override suspend fun getMealsResponse(): Meal = remoteDataSource.getMealsResponse()
+    override suspend fun getMealsResponse(char:String): Meal = remoteDataSource.getMealsResponse(char)
 
     override suspend fun getFavMeals(): List<MealX> = localDataSource.getFavMeals()
+    override suspend fun getRandomMeal(): Meal = remoteDataSource.getRandomMeal()
 
     override suspend fun insertFavMeal(meal: MealX) = localDataSource.insertFavMeal(meal)
 

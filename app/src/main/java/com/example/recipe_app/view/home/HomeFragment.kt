@@ -10,8 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.recipe_app.R
 import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.network.ApiClient
@@ -28,6 +32,11 @@ class HomeFragment : Fragment(), OnClickListener {
 
     lateinit var recyclerView: RecyclerView
     lateinit var favouriteBox: CheckBox
+    lateinit var nameRandom :TextView
+    lateinit var catRandom :TextView
+    lateinit var areaRandom :TextView
+    lateinit var constrainRandom :ConstraintLayout
+    lateinit var imgRandom :ImageView
 
 
     override fun onCreateView(
@@ -44,6 +53,11 @@ class HomeFragment : Fragment(), OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = "Home"
+        nameRandom = view.findViewById(R.id.name_random)
+        catRandom = view.findViewById(R.id.cat_random)
+        areaRandom = view.findViewById(R.id.area_random)
+        constrainRandom = view.findViewById(R.id.constrain_random)
+        imgRandom = view.findViewById(R.id.img_random)
 
 
 
@@ -51,6 +65,7 @@ class HomeFragment : Fragment(), OnClickListener {
 //        HomeViewModel = ViewModelProvider(this).get(HomeMealsViewModel::class.java)
         getViewModelReady()
         HomeViewModel.getMeals()
+        HomeViewModel.getRandomMeal()
 
         var recyclerAdapter : mealAdapter
 
@@ -66,6 +81,18 @@ class HomeFragment : Fragment(), OnClickListener {
 
             recyclerView.adapter = recyclerAdapter
             recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+
+            HomeViewModel.randomMeal.observe(viewLifecycleOwner){ randomMeal->
+                nameRandom.text = randomMeal.strArea
+                catRandom.text = randomMeal.strCategory
+                areaRandom.text = randomMeal.strArea
+                Glide.with(this)
+                    .load(randomMeal.strMealThumb)
+                    .into(imgRandom)
+                constrainRandom.setOnClickListener {
+                    Toast.makeText(requireActivity()," Random Meal Clicked", Toast.LENGTH_SHORT).show()
+                }
+            }
 
 
 
@@ -92,6 +119,7 @@ class HomeFragment : Fragment(), OnClickListener {
             else
             {
                 Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
+
 //                HomeViewModel.deleteFavMeal(meal)
             }
 
@@ -102,7 +130,7 @@ class HomeFragment : Fragment(), OnClickListener {
             RepositoryImpl(LocalSourceImp(requireActivity()), ApiClient)
         )
 
-        HomeViewModel= ViewModelProvider(this,mealsFactory).get(HomeMealsViewModel::class.java)
+        HomeViewModel= ViewModelProvider(requireActivity(),mealsFactory).get(HomeMealsViewModel::class.java)
     }
 
 

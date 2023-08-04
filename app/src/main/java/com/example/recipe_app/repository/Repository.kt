@@ -7,8 +7,9 @@ import com.example.recipe_app.model.PersonInfo
 interface Repository {
 
 
-    suspend fun getMealsResponse(): Meal
+    suspend fun getMealsResponse(char:String): Meal
     suspend fun getFavMeals():List<MealX>
+    suspend fun getRandomMeal(): Meal
     suspend fun insertFavMeal(meal : MealX)
     suspend fun deleteFavMeal(id: String)
 

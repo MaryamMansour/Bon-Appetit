@@ -97,7 +97,7 @@ class SearchFragment : Fragment() , OnClickListener {
             RepositoryImpl(LocalSourceImp(requireActivity()),ApiClient)
         )
 
-        HomeViewModel= ViewModelProvider(this,mealsFactory).get(HomeMealsViewModel::class.java)
+        HomeViewModel= ViewModelProvider(requireActivity(),mealsFactory).get(HomeMealsViewModel::class.java)
     }
 
 }
