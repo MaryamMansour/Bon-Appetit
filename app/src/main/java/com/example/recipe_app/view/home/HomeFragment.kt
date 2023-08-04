@@ -59,7 +59,7 @@ class HomeFragment : Fragment(), OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.title = "Home"
+//        activity?.title = "Home"
         nameRandom = view.findViewById(R.id.name_random)
         catRandom = view.findViewById(R.id.cat_random)
         areaRandom = view.findViewById(R.id.area_random)
@@ -131,9 +131,7 @@ class HomeFragment : Fragment(), OnClickListener {
         var ARGS2 = HomeFragment::class.java.simpleName + "Details2"
         var ARGS3 = HomeFragment::class.java.simpleName + "Details3"
     }
-
     override fun onFav(isChecked: Boolean, meal: MealX) {
-
             if (isChecked)
             {
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()

@@ -2,6 +2,7 @@ package com.example.recipe_app.view.home
 
 import android.content.ClipData
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +30,6 @@ import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
 class detailsFragment : Fragment() {
 
     lateinit var detailsViewModel: DetailsViewModel
-
     lateinit var mealImage : ImageView
     lateinit var mealName : TextView
     lateinit var mealDescription :TextView
@@ -39,7 +39,6 @@ class detailsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_details, container, false)
     }
 
@@ -52,7 +51,6 @@ class detailsFragment : Fragment() {
 
         getViewModelReady()
        detailsViewModel.getDetails()
-
         detailsViewModel.detailsMeal?.observe(viewLifecycleOwner){
             displayinfo(it)
         }

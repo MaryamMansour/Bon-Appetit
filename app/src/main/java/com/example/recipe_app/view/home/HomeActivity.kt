@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -12,6 +13,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.recipe_app.R
@@ -37,16 +39,36 @@ class HomeActivity : AppCompatActivity(){
             RepositoryImpl(LocalSourceImp(this), ApiClient)
         )
 
+
         HomeViewModel= ViewModelProvider(this,mealsFactory).get(HomeMealsViewModel::class.java)
 
         bottomNavigationView= findViewById(R.id.bottomNavigationView)
 
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
         toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+//        setSupportActionBar(toolbar)
+//        setupActionBarWithNavController(navController,appBarConfiguration)
+        toolbar.setupWithNavController(navController,appBarConfiguration)
+        toolbar.inflateMenu(R.menu.home_menu)
+        toolbar.setOnMenuItemClickListener {
+            if (it.getItemId() == R.id.action_signout) {
+                var pref = getSharedPreferences("mypref", MODE_PRIVATE)
+                var editor = pref.edit()
+                editor.putBoolean("isloggedin", false)
+                editor.apply()
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+                true
+            } else if (it.getItemId() == R.id.action_about) {
+                navController.navigate(R.id.aboutFragment)
+                true
+            } else {
+                 false
 
-
+            }
+        }
 
         bottomNavigationView.setupWithNavController(navController)
     }
@@ -54,23 +76,27 @@ class HomeActivity : AppCompatActivity(){
         menuInflater.inflate(R.menu.home_menu,menu)
         return super.onCreateOptionsMenu(menu)
     }
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.action_signout ->{
-                var pref = getSharedPreferences("mypref", MODE_PRIVATE)
-                var editor = pref.edit()
-                editor.putBoolean("isloggedin", false)
-                editor.apply()
-                startActivity(Intent(this, MainActivity::class.java))
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        when(item.itemId){
+//            R.id.action_signout ->{
+//                var pref = getSharedPreferences("mypref", MODE_PRIVATE)
+//                var editor = pref.edit()
+//                editor.putBoolean("isloggedin", false)
+//                editor.apply()
+//                startActivity(Intent(this, MainActivity::class.java))
+//                finish()
+//
+//                }
+//            R.id.action_about -> {
+//            navController.navigate(R.id.aboutFragment)
+//            }
+//        }
+//
+//        return  super.onOptionsItemSelected(item)
+//    }
 
-                }
-            R.id.action_about -> {
-            navController.navigate(R.id.aboutFragment)
-            }
-        }
 
-        return super.onOptionsItemSelected(item)
-    }
+
 
 
 
