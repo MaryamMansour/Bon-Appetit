@@ -19,11 +19,12 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
+        android:layout_marginTop="16dp"
         android:text="Sign up"
         android:textColor="#000000"
         android:textSize="34sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -38,7 +39,6 @@
         android:layout_marginEnd="16dp"
         android:hint="Name"
         android:padding="5dp"
-        app:helperText="* required"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
@@ -63,7 +63,6 @@
         android:padding="5dp"
         app:endIconDrawable="@drawable/baseline_email_30"
         app:endIconMode="custom"
-        app:helperText="* required"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_layout_name_signup">
@@ -87,7 +86,6 @@
 
         android:hint="Password"
         android:padding="5dp"
-        app:helperText="* required"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_layot_email_signup"

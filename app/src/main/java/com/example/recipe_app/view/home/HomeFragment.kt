@@ -59,7 +59,6 @@ class HomeFragment : Fragment(), OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        activity?.title = "Home"
         nameRandom = view.findViewById(R.id.name_random)
         catRandom = view.findViewById(R.id.cat_random)
         areaRandom = view.findViewById(R.id.area_random)
@@ -71,7 +70,6 @@ class HomeFragment : Fragment(), OnClickListener {
         navController = navHostFragment.navController
 
 
-//        HomeViewModel = ViewModelProvider(this).get(HomeMealsViewModel::class.java)
         getViewModelReady()
         HomeViewModel.getMeals()
         HomeViewModel.getRandomMeal()
@@ -121,7 +119,6 @@ class HomeFragment : Fragment(), OnClickListener {
     }
 
     override fun onClick(model: MealX) {
-       // Toast.makeText(requireActivity(),"Meal Clicked", Toast.LENGTH_SHORT).show()
       navController.navigate(R.id.detailsFragment, bundleOf(ARGS to model.strMeal ,ARGS2 to model.strInstructions,
           ARGS3 to model.strMealThumb))
 
@@ -141,7 +138,6 @@ class HomeFragment : Fragment(), OnClickListener {
             {
                 Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
 
-//                HomeViewModel.deleteFavMeal(meal)
             }
 
     }

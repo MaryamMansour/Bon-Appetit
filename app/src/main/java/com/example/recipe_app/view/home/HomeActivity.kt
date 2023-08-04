@@ -76,24 +76,7 @@ class HomeActivity : AppCompatActivity(){
         menuInflater.inflate(R.menu.home_menu,menu)
         return super.onCreateOptionsMenu(menu)
     }
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when(item.itemId){
-//            R.id.action_signout ->{
-//                var pref = getSharedPreferences("mypref", MODE_PRIVATE)
-//                var editor = pref.edit()
-//                editor.putBoolean("isloggedin", false)
-//                editor.apply()
-//                startActivity(Intent(this, MainActivity::class.java))
-//                finish()
-//
-//                }
-//            R.id.action_about -> {
-//            navController.navigate(R.id.aboutFragment)
-//            }
-//        }
-//
-//        return  super.onOptionsItemSelected(item)
-//    }
+
 
 
 
