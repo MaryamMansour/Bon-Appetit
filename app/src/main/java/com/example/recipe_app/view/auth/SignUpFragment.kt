@@ -143,9 +143,18 @@ class SignUpFragment : Fragment() {
     }
 
     fun isValidmail(email: String): Boolean {
-        val pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\$")
-        val matcher = pattern.matcher(email)
-        return matcher.matches()
+        val emailPattern = Regex("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\$")
+        return when{
+            !et_email.text.toString().trim().matches(emailPattern)->{
+                et_layout_email.error="Email is not valid"
+                false
+
+            }
+            else ->{
+                et_layout_email.error = null
+                true
+            }
+        }
     }
 
     fun isValidPassword(password: String): String? {
