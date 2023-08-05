@@ -18,7 +18,7 @@
             android:layout_height="30dp"
 
             android:layout_marginEnd="16dp"
-            app:cardBackgroundColor="#ECEBEB"
+            app:cardBackgroundColor="@color/md_theme_light_background"
             app:cardCornerRadius="100dp"
             app:cardElevation="7dp"
             app:layout_constraintBottom_toBottomOf="@+id/txt_country_v2"
@@ -30,6 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:elevation="2dp"
 
                 android:layout_margin="3dp"
                 android:button="@drawable/selector_favlist_item"
