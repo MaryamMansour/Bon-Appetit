@@ -44,18 +44,16 @@ class FavouriteFragment : Fragment(), OnClickListener {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        favRecyclerView = view.findViewById(R.id.FavRecyclerView)
+
         getViewModelReady()
-        val sharedPref = activity?.getSharedPreferences(("mypref"), Context.MODE_PRIVATE)
-        var currentMail :String? = sharedPref?.getString("CurrentUserMail","0")
+        var pref=requireActivity().getSharedPreferences("mypref",0)
 
-        if (currentMail != null) {
-            HomeViewModel.getFavMeals(currentMail)
-        }
+        var userid=pref.getString("CurrentUserMail","0")
 
-        HomeViewModel.listOfFavMeals.observe(viewLifecycleOwner){ meals->
+            HomeViewModel.getAllFavMeals(userid!!)
 
-            favRecyclerView = view.findViewById(R.id.FavRecyclerView)
-            favRecyclerAdapter = favMealAdapter(meals,this)
+
 
             val slideGesture = object : SlideGesture(requireContext()){
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -69,7 +67,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
                             builder.setMessage("Do you want to delete the item ?")
                                 .setCancelable(true)
                                 .setPositiveButton("Yes"){dialog , it ->
-                                    HomeViewModel.deleteFavMeal(favRecyclerAdapter.mealListM[viewHolder.adapterPosition].idMeal)
+                                    HomeViewModel.deleteFavMeal(userid!!,favRecyclerAdapter.mealListM[viewHolder.adapterPosition].idMeal)
                                     favRecyclerAdapter.deleteItem(viewHolder.adapterPosition)
 
 
@@ -90,10 +88,15 @@ class FavouriteFragment : Fragment(), OnClickListener {
             val touchHelper= ItemTouchHelper(slideGesture)
             touchHelper.attachToRecyclerView(favRecyclerView)
 
-            favRecyclerView.adapter = favRecyclerAdapter
-            favRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
-        }
+            favRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            HomeViewModel.listOfMealsItems.observe(viewLifecycleOwner) {
+                favRecyclerAdapter = favMealAdapter(it, this)
+                favRecyclerView.adapter = favRecyclerAdapter
+                favRecyclerAdapter.notifyDataSetChanged()
+            }
+
+
         navHostFragment = activity?.supportFragmentManager?.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
 
@@ -112,16 +115,16 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
 
     override fun onFav(isChecked: Boolean, meal: MealX) {
-
-            if (isChecked)
-            {
-                Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
-            }
-            else
-            {
-                Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
-                HomeViewModel.deleteFavMeal(meal.idMeal)
-            }
+//
+//            if (isChecked)
+//            {
+//                Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
+//            }
+//            else
+//            {
+//                Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
+//                HomeViewModel.deleteFavMeal(meal.idMeal)
+//            }
 
     }
 
@@ -130,7 +133,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
             RepositoryImpl(LocalSourceImp(requireActivity()), ApiClient)
         )
 
-        HomeViewModel= ViewModelProvider(this,mealsFactory).get(HomeMealsViewModel::class.java)
+        HomeViewModel= ViewModelProvider(requireActivity(),mealsFactory).get(HomeMealsViewModel::class.java)
     }
 
 

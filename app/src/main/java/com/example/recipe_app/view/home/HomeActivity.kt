@@ -39,7 +39,6 @@ class HomeActivity : AppCompatActivity(){
             RepositoryImpl(LocalSourceImp(this), ApiClient)
         )
 
-
         HomeViewModel = ViewModelProvider(this, mealsFactory).get(HomeMealsViewModel::class.java)
 
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
@@ -77,7 +76,12 @@ class HomeActivity : AppCompatActivity(){
             when (destination.id) {
                 R.id.detailsFragment -> {
                     bottomNavigationView.visibility = BottomNavigationView.GONE
-                    toolbar.visibility = Toolbar.GONE
+                }
+                R.id.aboutFragment -> {
+                    bottomNavigationView.visibility = BottomNavigationView.GONE
+                }
+                else -> {
+                    bottomNavigationView.visibility = BottomNavigationView.VISIBLE
                 }
 
             }

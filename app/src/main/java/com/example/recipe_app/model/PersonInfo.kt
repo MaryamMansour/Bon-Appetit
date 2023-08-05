@@ -10,7 +10,6 @@ data class PersonInfo (
     var id :Int,
     val email :String,
     val password :String,
-
         ){
     var name :String ="default"
 

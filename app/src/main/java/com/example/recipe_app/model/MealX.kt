@@ -1,7 +1,6 @@
 package com.example.recipe_app.model
 
 import android.os.Parcelable
-import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -64,6 +63,6 @@ data class MealX  (
     val strSource: String?,
     val strTags: String?,
     val strYoutube: String?,
-    var userId: MutableList<String?>?= mutableListOf<String?>(),
-    var fav: Boolean?
+//    var userId: MutableList<String>?,
+    var fav: Boolean
 )

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recipe_app.model.MealX
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipe_app.R
 import com.example.recipe_app.local.LocalSourceImp
+import com.example.recipe_app.model.UserFavourite
 import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.HomeMealsViewModel
@@ -52,9 +54,6 @@ class HomeFragment : Fragment(), OnClickListener {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false)
-
-
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,20 +70,28 @@ class HomeFragment : Fragment(), OnClickListener {
 
 
         getViewModelReady()
+        var pref=requireActivity().getSharedPreferences("mypref",0)
+        var userid=pref.getString("CurrentUserMail","0")
         HomeViewModel.getMeals()
+        HomeViewModel.getFavMeals(userid!!)
         HomeViewModel.getRandomMeal()
 
 
-
-
-
-
-
         HomeViewModel.listOfMeals.observe(viewLifecycleOwner){ meals->
-
+            var listofMeals= meals
+            listofMeals.forEach {
+                HomeViewModel.listOfFavMeals.observe(viewLifecycleOwner){ favMeals->
+                    favMeals.forEach { favMeal->
+                        if (it.idMeal == favMeal.mealId)
+                        {
+                            it.fav = true
+                        }
+                    }
+                }
+            }
             recyclerView = view.findViewById(R.id.HomeRecyclerView)
             recyclerAdapter = home_adapter(this).apply {
-                setDataToAdapter(meals)
+                setDataToAdapter(listofMeals)
             }
 
 
@@ -111,20 +118,13 @@ class HomeFragment : Fragment(), OnClickListener {
                 }
             }
 
-
-
         }
-
-
-
-
 
     }
 
     override fun onClick(model: MealX) {
       navController.navigate(R.id.detailsFragment, bundleOf(ARGS to model.strMeal ,ARGS2 to model.strInstructions,
           ARGS3 to model.strMealThumb))
-
     }
     companion object{
         var ARGS = HomeFragment::class.java.simpleName + "Details"
@@ -132,15 +132,26 @@ class HomeFragment : Fragment(), OnClickListener {
         var ARGS3 = HomeFragment::class.java.simpleName + "Details3"
     }
     override fun onFav(isChecked: Boolean, meal: MealX) {
+        var pref=requireActivity().getSharedPreferences("mypref",0)
+        var userid=pref.getString("CurrentUserMail","0")
+        Log.d("zarea in onfav home",userid!!)
             if (isChecked)
             {
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
-//                meal.userId.add()
-                HomeViewModel.insertMeal(meal)
+
+                HomeViewModel.inserFavtMeal(UserFavourite(userid!!,meal.idMeal))
+                HomeViewModel.insertFavMealItem(meal)
+                Log.d("zarea in checked_true home",meal.idMeal+" "+userid)
+                HomeViewModel.getMeals()
+                HomeViewModel.getFavMeals(userid!!)
             }
             else
             {
                 Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
+                HomeViewModel.deleteFavMeal(userid!!,meal.idMeal)
+                Log.d("zarea in checked_false home",meal.idMeal+" "+userid)
+                HomeViewModel.getMeals()
+                HomeViewModel.getFavMeals(userid!!)
 
             }
 
