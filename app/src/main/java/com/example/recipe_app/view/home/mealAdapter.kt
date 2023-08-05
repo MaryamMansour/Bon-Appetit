@@ -49,7 +49,6 @@ class mealAdapter(
 
         }
         holder.favItem.setOnCheckedChangeListener {_, isChecked ->
-
             OnClick.onFav(isChecked, meal)
         }
 

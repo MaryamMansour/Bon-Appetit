@@ -83,7 +83,7 @@ class HomeFragment : Fragment(), OnClickListener {
         HomeViewModel.listOfMeals.observe(viewLifecycleOwner){ meals->
 
             recyclerView = view.findViewById(R.id.HomeRecyclerView)
-            recyclerAdapter = home_adapter().apply {
+            recyclerAdapter = home_adapter(this).apply {
                 setDataToAdapter(meals)
             }
 
