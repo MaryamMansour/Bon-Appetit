@@ -9,13 +9,11 @@ import com.example.recipe_app.model.PersonInfo
 import com.google.gson.Gson
 
 import com.google.gson.reflect.TypeToken
-
-
-
+import java.lang.reflect.Type
 
 
 @TypeConverters(Converters::class)
-@Database(entities = [MealX::class, PersonInfo::class], version=11)
+@Database(entities = [MealX::class, PersonInfo::class], version=19)
 abstract class MealDataBase : RoomDatabase() {
 
 
@@ -52,17 +50,42 @@ abstract class MealDataBase : RoomDatabase() {
 //    }
 //}
 
-class Converters{
-@TypeConverter
-fun fromString(value: String?): MutableList<String>? {
-    val listType = object :
-        TypeToken<ArrayList<String?>?>() {}.type
-    return Gson().fromJson(value, listType)
-}
+//class Converters{
+//@TypeConverter
+//fun fromString(value: String?): ArrayList<String?>? {
+//    val listType = object :
+//        TypeToken<ArrayList<String?>?>() {}.type
+//    return Gson().fromJson(value, listType)
+//}
+//
+//@TypeConverter
+//fun fromList(list: ArrayList<String?>?): String? {
+//    val gson = Gson()
+//    return gson.toJson(list)
+//}
 
-@TypeConverter
-fun fromList(list: MutableList<String?>?): String? {
-    val gson = Gson()
-    return gson.toJson(list)
-}
+
+
+//    @TypeConverter
+//    fun fromStringList(value: String?): ArrayList<String>? {
+//        return value?.split(",")?.to()
+//    }
+//
+//    @TypeConverter
+//    fun toString(list: ArrayList<String>?): String? {
+//        return list?.joinToString(",")
+//    }
+//}
+object Converters {
+    @TypeConverter
+    fun fromString(value: String?): MutableList<String?>? {
+        val listType: Type = object : TypeToken<MutableList<String?>?>() {}.type
+        return Gson().fromJson(value, listType)
+    }
+
+    @TypeConverter
+    fun fromArrayList(list: MutableList<String?>?): String {
+        val gson = Gson()
+        return gson.toJson(list)
+    }
 }

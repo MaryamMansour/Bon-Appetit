@@ -105,7 +105,6 @@ class SearchFragment : Fragment() , OnClickListener {
 
             if (isChecked)
             {
-//
                 val sharedPref = activity?.getSharedPreferences(("mypref"), Context.MODE_PRIVATE)
 
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
@@ -114,10 +113,11 @@ class SearchFragment : Fragment() , OnClickListener {
 
                 if (currentMail != null) {
 
-                    Log.d("MAIL", "$currentMail")
-                    Log.d("Size", "${meal.userId?.size}")
+
                     meal.fav=true
-                    meal.userId?.add(currentMail)
+//                    meal.userId?.add(currentMail)
+//                    HomeViewModel.update(currentMail,meal)
+                    ExternalUpdate(currentMail,meal)
 
                 }
 
@@ -138,6 +138,10 @@ class SearchFragment : Fragment() , OnClickListener {
         )
 
         HomeViewModel= ViewModelProvider(requireActivity(),mealsFactory).get(HomeMealsViewModel::class.java)
+    }
+    private fun ExternalUpdate(id :String, meal: MealX)
+    {
+        HomeViewModel.update(id,meal)
     }
 
 }

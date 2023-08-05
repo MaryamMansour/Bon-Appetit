@@ -1,6 +1,7 @@
 package com.example.recipe_app.viewModels
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,9 +10,13 @@ import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.Repository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
+    private val viewModelScope2 = CoroutineScope(Dispatchers.Main)
 
     private val _listOfMeals = MutableLiveData<List<MealX>>()
     val listOfMeals: LiveData<List<MealX>> = _listOfMeals
@@ -58,6 +63,20 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
     {
         viewModelScope.launch {
             repository.deleteFavMeal(id)
+        }
+    }
+    fun update(id: String?,meal: MealX)
+    {
+        viewModelScope2.launch {
+            withContext(Dispatchers.IO) {
+
+                meal.userId?.add(id)
+                repository.updateEntity(meal)
+                Log.d("MAIL", "$id")
+                Log.d("Size", "${meal.userId?.size}")
+
+            }
+
         }
     }
 
