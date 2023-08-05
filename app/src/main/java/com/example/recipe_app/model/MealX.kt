@@ -1,6 +1,7 @@
 package com.example.recipe_app.model
 
 import android.os.Parcelable
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable
@@ -61,5 +62,7 @@ data class MealX  (
     val strMeasure9: String?,
     val strSource: String?,
     val strTags: String?,
-    val strYoutube: String?
+    val strYoutube: String?,
+    var userId: MutableList<String>?,
+    var fav: Boolean?
 )

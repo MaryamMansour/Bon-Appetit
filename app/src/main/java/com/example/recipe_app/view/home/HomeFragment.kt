@@ -135,6 +135,7 @@ class HomeFragment : Fragment(), OnClickListener {
             if (isChecked)
             {
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
+//                meal.userId.add()
                 HomeViewModel.insertMeal(meal)
             }
             else

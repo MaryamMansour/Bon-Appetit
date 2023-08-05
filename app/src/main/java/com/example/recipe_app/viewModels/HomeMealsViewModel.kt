@@ -42,9 +42,9 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
         }
     }
 
-    fun getFavMeals() {
+    fun getFavMeals(userId :String) {
         viewModelScope.launch {
-            _listOfFavMeals.value = repository.getFavMeals()
+            _listOfFavMeals.value = repository.getFavMeals(userId)
         }
     }
 

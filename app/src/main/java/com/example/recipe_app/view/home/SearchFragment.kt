@@ -1,7 +1,10 @@
 package com.example.recipe_app.view.home
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -96,12 +99,30 @@ class SearchFragment : Fragment() , OnClickListener {
     }
 
 
+
+
     override fun onFav(isChecked: Boolean, meal: MealX) {
 
             if (isChecked)
             {
+//
+                val sharedPref = activity?.getSharedPreferences(("mypref"), Context.MODE_PRIVATE)
+
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
+                var currentMail :String? = sharedPref?.getString("CurrentUserMail","0")
+                Log.d("MAIL", "$currentMail")
+
+                if (currentMail != null) {
+
+                    Log.d("MAIL", "$currentMail")
+                    Log.d("Size", "${meal.userId?.size}")
+                    meal.fav=true
+                    meal.userId?.add(currentMail)
+
+                }
+
                 HomeViewModel.insertMeal(meal)
+
             }
             else
             {
@@ -120,3 +141,7 @@ class SearchFragment : Fragment() , OnClickListener {
     }
 
 }
+
+
+
+

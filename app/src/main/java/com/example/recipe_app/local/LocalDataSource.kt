@@ -10,7 +10,7 @@ import com.example.recipe_app.model.PersonInfo
 
 interface LocalDataSource {
 
-    suspend fun getFavMeals():List<MealX>
+    suspend fun getFavMeals(userId : String):List<MealX>
     suspend fun insertFavMeal(meal : MealX)
     suspend fun deleteFavMeal(id: String)
 

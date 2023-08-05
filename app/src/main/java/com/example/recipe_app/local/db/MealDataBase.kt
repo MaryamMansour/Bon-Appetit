@@ -1,15 +1,21 @@
 package com.example.recipe_app.local.db
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import com.example.recipe_app.local.dao.MealDao
 import com.example.recipe_app.local.dao.PersonInfoDao
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.model.PersonInfo
+import com.google.gson.Gson
 
-@Database(entities = [MealX::class, PersonInfo::class], version=5)
+import com.google.gson.reflect.TypeToken
+
+
+
+
+
+@TypeConverters(Converters::class)
+@Database(entities = [MealX::class, PersonInfo::class], version=11)
 abstract class MealDataBase : RoomDatabase() {
 
 
@@ -33,4 +39,30 @@ abstract class MealDataBase : RoomDatabase() {
             }
         }
     }
+}
+//class Converters {
+//    @TypeConverter
+//    fun fromStringList(value: String?): MutableList<String>? {
+//        return value?.split(",")?.toMutableList()
+//    }
+//
+//    @TypeConverter
+//    fun toString(list: MutableList<String>?): String? {
+//        return list?.joinToString(",")
+//    }
+//}
+
+class Converters{
+@TypeConverter
+fun fromString(value: String?): MutableList<String>? {
+    val listType = object :
+        TypeToken<ArrayList<String?>?>() {}.type
+    return Gson().fromJson(value, listType)
+}
+
+@TypeConverter
+fun fromList(list: MutableList<String?>?): String? {
+    val gson = Gson()
+    return gson.toJson(list)
+}
 }

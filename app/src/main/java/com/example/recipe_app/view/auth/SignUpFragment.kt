@@ -127,6 +127,7 @@ class SignUpFragment : Fragment() {
                         var pref = requireActivity().getSharedPreferences("mypref", 0)
                         var editor = pref.edit()
                         editor.putBoolean("isloggedin", true)
+                        editor.putString("CurrentUserMail","$email")
                         editor.apply()
                         activity?.finish()
 

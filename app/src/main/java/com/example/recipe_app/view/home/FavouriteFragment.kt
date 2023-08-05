@@ -1,6 +1,7 @@
 package com.example.recipe_app.view.home
 
 import android.app.AlertDialog
+import android.content.Context
 //import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
@@ -44,8 +45,12 @@ class FavouriteFragment : Fragment(), OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getViewModelReady()
+        val sharedPref = activity?.getSharedPreferences(("mypref"), Context.MODE_PRIVATE)
+        var currentMail :String? = sharedPref?.getString("CurrentUserMail","0")
 
-        HomeViewModel.getFavMeals()
+        if (currentMail != null) {
+            HomeViewModel.getFavMeals(currentMail)
+        }
 
         HomeViewModel.listOfFavMeals.observe(viewLifecycleOwner){ meals->
 

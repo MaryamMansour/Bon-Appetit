@@ -8,7 +8,7 @@ interface Repository {
 
 
     suspend fun getMealsResponse(char:String): Meal
-    suspend fun getFavMeals():List<MealX>
+    suspend fun getFavMeals(userId : String):List<MealX>
     suspend fun getRandomMeal(): Meal
     suspend fun insertFavMeal(meal : MealX)
     suspend fun deleteFavMeal(id: String)

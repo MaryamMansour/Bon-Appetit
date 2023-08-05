@@ -18,7 +18,7 @@ class LocalSourceImp(val context: Context) : LocalDataSource{
         userDao = DataBase.personinfodao()
     }
 
-    override suspend fun getFavMeals(): List<MealX> = mealsDao.getFavMeals()
+    override suspend fun getFavMeals(userId : String): List<MealX> = mealsDao.getFavMeals(userId)
 
     override suspend fun insertFavMeal(meal: MealX) = mealsDao.insertFavMeal(meal)
 
