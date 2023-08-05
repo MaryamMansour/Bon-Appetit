@@ -44,7 +44,7 @@
             android:textSize="14sp" />
 
         <CheckBox
-            android:id="@+id/favBox"
+            android:id="@+id/fav_box_v2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

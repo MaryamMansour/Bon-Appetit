@@ -1,7 +1,5 @@
 package com.example.recipe_app.view.home
 
-import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -68,7 +66,7 @@ class mealAdapter(
         var textView = row.findViewById<TextView>(R.id.title_text_view)
         var descriptionView = row.findViewById<TextView>(R.id.description_text_view)
         var imageView = row.findViewById<ImageView>(R.id.image_view)
-        var favItem = row.findViewById<CheckBox>(R.id.favBox)
+        var favItem = row.findViewById<CheckBox>(R.id.fav_box_v2)
 
     }
 

@@ -1,6 +1,5 @@
 package com.example.recipe_app.view.home
 
-import android.app.Activity
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,7 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipe_app.R
@@ -44,6 +43,7 @@ class HomeFragment : Fragment(), OnClickListener {
     lateinit var constrainRandom :ConstraintLayout
     lateinit var imgRandom :ImageView
     lateinit var shimmerFrameLayout: ShimmerFrameLayout
+    lateinit var recyclerAdapter: home_adapter
 
 
     override fun onCreateView(
@@ -74,7 +74,7 @@ class HomeFragment : Fragment(), OnClickListener {
         HomeViewModel.getMeals()
         HomeViewModel.getRandomMeal()
 
-        var recyclerAdapter : mealAdapter
+
 
 
 
@@ -83,11 +83,14 @@ class HomeFragment : Fragment(), OnClickListener {
         HomeViewModel.listOfMeals.observe(viewLifecycleOwner){ meals->
 
             recyclerView = view.findViewById(R.id.HomeRecyclerView)
-            recyclerAdapter = mealAdapter(meals,this)
+            recyclerAdapter = home_adapter().apply {
+                setDataToAdapter(meals)
+            }
 
 
             recyclerView.adapter = recyclerAdapter
-            recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+            recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2,GridLayoutManager.HORIZONTAL, false)
+//            recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
 
             HomeViewModel.randomMeal.observe(viewLifecycleOwner){ randomMeal->
                 nameRandom.text = randomMeal.strArea
