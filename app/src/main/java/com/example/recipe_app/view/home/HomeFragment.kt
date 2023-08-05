@@ -89,12 +89,12 @@ class HomeFragment : Fragment(), OnClickListener {
 
 
             recyclerView.adapter = recyclerAdapter
-//            recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2,GridLayoutManager.HORIZONTAL, false)
-            recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
+            recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2,GridLayoutManager.HORIZONTAL, false)
+//            recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
 
             HomeViewModel.randomMeal.observe(viewLifecycleOwner){ randomMeal->
                 nameRandom.text = randomMeal.strMeal
-                catRandom.text = randomMeal.strCategory
+                catRandom.text = randomMeal.strCategory .plus(" |")
                 areaRandom.text = randomMeal.strArea
                 Glide.with(this)
                     .load(randomMeal.strMealThumb)

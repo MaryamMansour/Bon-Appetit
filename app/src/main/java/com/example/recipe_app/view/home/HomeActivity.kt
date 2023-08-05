@@ -40,9 +40,9 @@ class HomeActivity : AppCompatActivity(){
         )
 
 
-        HomeViewModel= ViewModelProvider(this,mealsFactory).get(HomeMealsViewModel::class.java)
+        HomeViewModel = ViewModelProvider(this, mealsFactory).get(HomeMealsViewModel::class.java)
 
-        bottomNavigationView= findViewById(R.id.bottomNavigationView)
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)
 
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
@@ -50,7 +50,7 @@ class HomeActivity : AppCompatActivity(){
         toolbar = findViewById(R.id.toolbar)
 //        setSupportActionBar(toolbar)
 //        setupActionBarWithNavController(navController,appBarConfiguration)
-        toolbar.setupWithNavController(navController,appBarConfiguration)
+        toolbar.setupWithNavController(navController, appBarConfiguration)
         toolbar.inflateMenu(R.menu.home_menu)
         toolbar.setOnMenuItemClickListener {
             if (it.getItemId() == R.id.action_signout) {
@@ -65,29 +65,27 @@ class HomeActivity : AppCompatActivity(){
                 navController.navigate(R.id.aboutFragment)
                 true
             } else {
-                 false
+                false
 
             }
         }
 
         bottomNavigationView.setupWithNavController(navController)
+
+
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            when (destination.id) {
+                R.id.detailsFragment -> {
+                    bottomNavigationView.visibility = BottomNavigationView.GONE
+                    toolbar.visibility = Toolbar.GONE
+                }
+
+            }
+        }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.home_menu,menu)
         return super.onCreateOptionsMenu(menu)
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
