@@ -24,8 +24,7 @@ class home_adapter(var OnClick : OnClickListener) : RecyclerView.Adapter<home_ad
         holder.title.text = list[position].strMeal
         holder.category.text = list[position].strCategory
         holder.country.text = list[position].strArea
-        //todo: add image
-//        holder.favButton.isChecked = list[position].isFav
+        holder.favButton.isChecked = list[position].fav
         Glide.with(holder.itemView.context).load(list[position].strMealThumb).into(holder.image)
         holder.itemView.setOnClickListener {
             OnClick.onClick(meal)

@@ -6,16 +6,13 @@ import com.example.recipe_app.local.dao.MealDao
 import com.example.recipe_app.local.dao.PersonInfoDao
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.model.PersonInfo
+import com.example.recipe_app.model.UserFavourite
 import com.google.gson.Gson
 
 import com.google.gson.reflect.TypeToken
 
-
-
-
-
-@TypeConverters(Converters::class)
-@Database(entities = [MealX::class, PersonInfo::class], version=11)
+//@TypeConverters(Converters::class)
+@Database(entities = [UserFavourite::class, PersonInfo::class,MealX::class], version=15)
 abstract class MealDataBase : RoomDatabase() {
 
 
@@ -52,17 +49,20 @@ abstract class MealDataBase : RoomDatabase() {
 //    }
 //}
 
-class Converters{
-@TypeConverter
-fun fromString(value: String?): MutableList<String>? {
-    val listType = object :
-        TypeToken<ArrayList<String?>?>() {}.type
-    return Gson().fromJson(value, listType)
-}
-
-@TypeConverter
-fun fromList(list: MutableList<String?>?): String? {
-    val gson = Gson()
-    return gson.toJson(list)
-}
-}
+//class Converters{
+//@TypeConverter
+//fun fromString(value: String?): MutableList<String>? {
+//
+//    return value?.split(",")?.toMutableList()
+////    val listType = object :
+////        TypeToken<ArrayList<String?>?>() {}.type
+////    return Gson().fromJson(value, listType)
+//}
+//
+//@TypeConverter
+//fun fromList(list: MutableList<String?>?): String? {
+//    return list?.joinToString(",")
+////    val gson = Gson()
+////    return gson.toJson(list)
+//}
+//}

@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.recipe_app.R
 import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
+import com.example.recipe_app.model.UserFavourite
 import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.DetailsViewModel
@@ -40,6 +41,8 @@ class SearchFragment : Fragment() , OnClickListener {
     lateinit var recyclerAdapter: searchAdapter
     lateinit var shimmer: ShimmerFrameLayout
     private var mList = ArrayList<MealX>()
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -52,7 +55,10 @@ class SearchFragment : Fragment() , OnClickListener {
 
 //        viewModel = ViewModelProvider(this).get(HomeMealsViewModel::class.java)
         getViewModelReady()
+        var pref=requireActivity().getSharedPreferences("mypref",0)
+        var userid=pref.getString("CurrentUserMail","0")
         HomeViewModel.getMeals()
+        HomeViewModel.getFavMeals(userid!!)
 
         // var recyclerAdapter : mealAdapter
 
@@ -60,9 +66,19 @@ class SearchFragment : Fragment() , OnClickListener {
         shimmer = view.findViewById(R.id.shimmerFrameLayout_search)
 
         HomeViewModel.listOfMeals.observe(viewLifecycleOwner) { meals ->
-
+            var listofMeals= meals
+            listofMeals.forEach {
+                HomeViewModel.listOfFavMeals.observe(viewLifecycleOwner){ favMeals->
+                    favMeals.forEach { favMeal->
+                        if (it.idMeal == favMeal.mealId)
+                        {
+                            it.fav = true
+                        }
+                    }
+                }
+            }
             recyclerView = view.findViewById(R.id.searchRecyclerView)
-            recyclerAdapter = searchAdapter(meals, requireActivity(), this)
+            recyclerAdapter = searchAdapter(listofMeals, requireActivity(), this)
             recyclerView.adapter = recyclerAdapter
             recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
             shimmer.stopShimmer()
@@ -102,32 +118,21 @@ class SearchFragment : Fragment() , OnClickListener {
 
 
     override fun onFav(isChecked: Boolean, meal: MealX) {
-
+        var pref=requireActivity().getSharedPreferences("mypref",0)
+        var userid=pref.getString("CurrentUserMail","0")
             if (isChecked)
             {
-//
-                val sharedPref = activity?.getSharedPreferences(("mypref"), Context.MODE_PRIVATE)
 
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
-                var currentMail :String? = sharedPref?.getString("CurrentUserMail","0")
-                Log.d("MAIL", "$currentMail")
-
-                if (currentMail != null) {
-
-                    Log.d("MAIL", "$currentMail")
-                    Log.d("Size", "${meal.userId?.size}")
-                    meal.fav=true
-                    meal.userId?.add(currentMail)
-
-                }
-
-                HomeViewModel.insertMeal(meal)
-
+                HomeViewModel.inserFavtMeal(UserFavourite(userid!!,meal.idMeal))
+                HomeViewModel.getMeals()
+                HomeViewModel.getFavMeals(userid!!)
             }
             else
             {
-                Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
-//                HomeViewModel.deleteFavMeal(meal)
+                HomeViewModel.deleteFavMeal(userid!!,meal.idMeal)
+                HomeViewModel.getMeals()
+                HomeViewModel.getFavMeals(userid!!)
             }
 
     }

@@ -63,6 +63,6 @@ data class MealX  (
     val strSource: String?,
     val strTags: String?,
     val strYoutube: String?,
-    var userId: MutableList<String>?,
-    var fav: Boolean?
+//    var userId: MutableList<String>?,
+    var fav: Boolean
 )
