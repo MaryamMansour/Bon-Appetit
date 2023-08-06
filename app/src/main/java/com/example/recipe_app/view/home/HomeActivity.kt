@@ -41,6 +41,11 @@ class HomeActivity : AppCompatActivity(){
 
         HomeViewModel = ViewModelProvider(this, mealsFactory).get(HomeMealsViewModel::class.java)
 
+        var pref=getSharedPreferences("mypref", MODE_PRIVATE)
+        var userId=pref.getString("CurrentUserMail","")
+        HomeViewModel.getMeals()
+        HomeViewModel.getRandomMeal()
+        HomeViewModel.getAllFavMeals(userId!!)
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
 
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment

@@ -54,9 +54,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
         var userid=pref.getString("CurrentUserMail","0")
 
-            HomeViewModel.getAllFavMeals(userid!!)
-
-
+        HomeViewModel.getFavMealsItem()
 
             val slideGesture = object : SlideGesture(requireContext()){
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -90,13 +88,13 @@ class FavouriteFragment : Fragment(), OnClickListener {
             }
             val touchHelper= ItemTouchHelper(slideGesture)
             touchHelper.attachToRecyclerView(favRecyclerView)
+            favRecyclerAdapter = favMealAdapter(listOf(), this)
+            favRecyclerView.adapter = favRecyclerAdapter
 
 
             favRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             HomeViewModel.listOfMealsItems.observe(viewLifecycleOwner) {
-                favRecyclerAdapter = favMealAdapter(it, this)
-                favRecyclerView.adapter = favRecyclerAdapter
-                favRecyclerAdapter.notifyDataSetChanged()
+                favRecyclerAdapter.setDataAdapter(it)
             }
 
 

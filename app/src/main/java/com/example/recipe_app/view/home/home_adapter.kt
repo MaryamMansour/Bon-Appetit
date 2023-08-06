@@ -20,6 +20,7 @@ class home_adapter(var OnClick : OnClickListener) : RecyclerView.Adapter<home_ad
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.favButton.setOnCheckedChangeListener(null)
         val meal = list[position]
         holder.title.text = list[position].strMeal
         holder.category.text = list[position].strCategory
@@ -29,6 +30,7 @@ class home_adapter(var OnClick : OnClickListener) : RecyclerView.Adapter<home_ad
         holder.itemView.setOnClickListener {
             OnClick.onClick(meal)
         }
+//        holder.favButton.setOnCheckedChangeListener(null)
         holder.favButton.setOnCheckedChangeListener {_, isChecked ->
             OnClick.onFav(isChecked, meal)
         }
@@ -44,6 +46,7 @@ class home_adapter(var OnClick : OnClickListener) : RecyclerView.Adapter<home_ad
         var category: TextView = itemView.findViewById(R.id.txt_meal_category_v2)
         var country: TextView = itemView.findViewById(R.id.txt_country_v2)
         var favButton :CheckBox = itemView.findViewById(R.id.fav_box_v2)
+
 
     }
     fun setDataToAdapter(newList: List<MealX>){

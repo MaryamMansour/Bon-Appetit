@@ -67,6 +67,10 @@ class favMealAdapter(
 
 
     }
+    fun setDataAdapter(mealList: List<MealX>){
+        this.mealListM = mealList.toMutableList()
+        notifyDataSetChanged()
+    }
 
 
 }

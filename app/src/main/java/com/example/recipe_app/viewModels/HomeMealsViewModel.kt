@@ -24,8 +24,8 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
     private val _listOfMealsItems = MutableLiveData<List<MealX>>()
     val listOfMealsItems: MutableLiveData<List<MealX>> = _listOfMealsItems
 
-
-
+    private val _listOfMealsSearch = MutableLiveData<List<MealX>>()
+    val listOfMealsSearch: MutableLiveData<List<MealX>> = _listOfMealsSearch
 
     private val _listOfFavMeals = MutableLiveData<List<UserFavourite>>()
     val listOfFavMeals: LiveData<List<UserFavourite>> = _listOfFavMeals
@@ -36,9 +36,9 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
 
     fun getRandomMeal(){
         if(randomMeal.value == null){
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val response =  repository.getRandomMeal()
-            _randomMeal.value = response.meals[0]
+            _randomMeal.postValue(response.meals[0])
         }
     }}
 
@@ -46,20 +46,19 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
 
 
     fun getMeals() {
-        viewModelScope.launch {
-            _listOfMeals.value = repository.getMealsResponse(alphabets).meals
+        viewModelScope.launch(Dispatchers.IO) {
+            _listOfMeals.postValue(repository.getMealsResponse(alphabets).meals)
         }
     }
         fun getFavMeals(userId: String) {
-            viewModelScope.launch {
-                _listOfFavMeals.value = repository.getFavMeals(userId)
-                Log.d("favMeals", _listOfFavMeals.value.toString())
+            viewModelScope.launch  (Dispatchers.IO){
+                _listOfFavMeals.postValue(repository.getFavMeals(userId))
             }
 
         }
 
         fun inserFavtMeal(meal: UserFavourite) {
-            viewModelScope.launch {
+            viewModelScope.launch (Dispatchers.IO){
                 repository.insertFavMeal(meal)
             }
         }
@@ -68,24 +67,48 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
             viewModelScope.launch {
                 repository.deleteFavMeal(id, mealId)
                 repository.deleteFavMealItem(mealId)
+
+                var x=_listOfMeals.value?.toMutableList()
+                x?.filter { it.idMeal == mealId }?.forEach { it.fav=false }
+                _listOfMeals.value = x!!
             }
         }
 
         fun getAllFavMeals(id: String) {
-            viewModelScope.launch {
-                _listOfFavMeals.value = repository.getFavMeals(id)
-
-                _listOfFavMeals.value?.forEach {
-                    val response = repository.lookupMealById(it.mealId).meals[0]
-                    repository.insertFavMealItem(response)
+            viewModelScope.launch(Dispatchers.IO) {
+                _listOfMealsItems.postValue(repository.getFavMealsItem())
+                withContext(Dispatchers.Main) {
+                    _listOfMealsItems.value?.forEach {
+                        listOfMeals.value?.forEach { meal ->
+                            meal.fav = meal.idMeal == it.idMeal
+                        }
+                    }
                 }
-                _listOfMealsItems.value = repository.getFavMealsItem()
             }
-        }
+            }
+
     fun insertFavMealItem(mealX: MealX) {
         viewModelScope.launch {
             repository.insertFavMealItem(mealX)
+
+            var x=_listOfMeals.value?.toMutableList()
+            mealX.fav=true
+            x?.add(mealX)
+            _listOfMeals.value = x!!
         }
 
 
-    }}
+    }
+    fun getFavMealsItem() {
+        viewModelScope.launch (Dispatchers.IO){
+            _listOfMealsItems.postValue(repository.getFavMealsItem())
+
+        }
+    }
+    fun getSearchedMeals(query: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _listOfMealsSearch.postValue(repository.getMealsResponse(query).meals?: listOf())
+        }
+    }
+}
+

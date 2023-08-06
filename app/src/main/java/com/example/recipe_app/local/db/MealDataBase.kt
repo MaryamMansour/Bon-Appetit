@@ -12,7 +12,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 //@TypeConverters(Converters::class)
-@Database(entities = [UserFavourite::class, PersonInfo::class,MealX::class], version=15)
+@Database(entities = [UserFavourite::class, PersonInfo::class,MealX::class], version=16)
 abstract class MealDataBase : RoomDatabase() {
 
 

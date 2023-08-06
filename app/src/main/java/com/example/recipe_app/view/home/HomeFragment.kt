@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipe_app.R
 import com.example.recipe_app.local.LocalSourceImp
+import com.example.recipe_app.model.UserFavourite
 import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.HomeMealsViewModel
@@ -69,27 +70,21 @@ class HomeFragment : Fragment(), OnClickListener {
         navHostFragment =requireActivity().supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
 
-
+        var pref=requireActivity().getSharedPreferences("mypref",0)
+        var userId=pref.getString("CurrentUserMail","")
         getViewModelReady()
-        HomeViewModel.getMeals()
-        HomeViewModel.getRandomMeal()
+        recyclerView = view.findViewById(R.id.HomeRecyclerView)
 
 
+        recyclerAdapter = home_adapter(this)
+        recyclerView.adapter = recyclerAdapter
+        recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2,GridLayoutManager.HORIZONTAL, false)
+
+        HomeViewModel.listOfMeals.observe(viewLifecycleOwner) { meals ->
+            recyclerAdapter.setDataToAdapter(meals)
+        }
 
 
-
-
-
-        HomeViewModel.listOfMeals.observe(viewLifecycleOwner){ meals->
-
-            recyclerView = view.findViewById(R.id.HomeRecyclerView)
-            recyclerAdapter = home_adapter(this).apply {
-                setDataToAdapter(meals)
-            }
-
-
-            recyclerView.adapter = recyclerAdapter
-            recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2,GridLayoutManager.HORIZONTAL, false)
 //            recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
 
             HomeViewModel.randomMeal.observe(viewLifecycleOwner){ randomMeal->
@@ -119,7 +114,7 @@ class HomeFragment : Fragment(), OnClickListener {
 
 
 
-    }
+
 
     override fun onClick(model: MealX) {
       navController.navigate(R.id.detailsFragment, bundleOf(ARGS to model.strMeal ,ARGS2 to model.strInstructions,
@@ -133,14 +128,18 @@ class HomeFragment : Fragment(), OnClickListener {
         var ARGS4 = HomeFragment::class.java.simpleName + "Details4"
     }
     override fun onFav(isChecked: Boolean, meal: MealX) {
+        var pref=requireActivity().getSharedPreferences("mypref",0)
+        var userId=pref.getString("CurrentUserMail","")
             if (isChecked)
             {
-                Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
-//                meal.userId.add()
+                HomeViewModel.inserFavtMeal(UserFavourite(userId!! ,meal.idMeal))
                 HomeViewModel.insertFavMealItem(meal)
+                Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
+
             }
             else
             {
+                HomeViewModel.deleteFavMeal(userId!!,meal.idMeal)
                 Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
 
             }
