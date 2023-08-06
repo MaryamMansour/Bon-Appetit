@@ -18,8 +18,8 @@ interface MealDao {
 
     @Query("SELECT * FROM favmeals")
     suspend fun getFavMealsItem():List<MealX>
-    //todo
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertFavMealItem(MealX: MealX)
     @Query("DELETE FROM favmeals WHERE idMeal = :mealId ")
     suspend fun deleteFavMealItem( mealId: String)

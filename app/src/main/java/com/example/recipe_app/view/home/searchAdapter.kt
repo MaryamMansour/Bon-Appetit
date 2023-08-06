@@ -46,16 +46,17 @@ class searchAdapter(var mealList: List<MealX>,
         holder.itemView.setOnClickListener {
             OnClick.onClick(meal)
         }
-        holder.favItem.setOnCheckedChangeListener { _, isChecked ->
+        holder.favItem.setOnCheckedChangeListener { view, isChecked ->
             OnClick.onFav(isChecked, meal)
         }
     }
-
-
     fun setDataAdapter(mealList: List<MealX>){
         this.mealList = mealList
         notifyDataSetChanged()
     }
+
+
+
 
 
 }

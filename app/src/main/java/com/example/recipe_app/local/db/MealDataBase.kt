@@ -10,8 +10,9 @@ import com.example.recipe_app.model.UserFavourite
 import com.google.gson.Gson
 
 import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 
-//@TypeConverters(Converters::class)
+@TypeConverters(Converters::class)
 @Database(entities = [UserFavourite::class, PersonInfo::class,MealX::class], version=16)
 abstract class MealDataBase : RoomDatabase() {
 
@@ -49,20 +50,13 @@ abstract class MealDataBase : RoomDatabase() {
 //    }
 //}
 
-//class Converters{
-//@TypeConverter
-//fun fromString(value: String?): MutableList<String>? {
-//
-//    return value?.split(",")?.toMutableList()
-////    val listType = object :
-////        TypeToken<ArrayList<String?>?>() {}.type
-////    return Gson().fromJson(value, listType)
-//}
-//
-//@TypeConverter
-//fun fromList(list: MutableList<String?>?): String? {
-//    return list?.joinToString(",")
-////    val gson = Gson()
-////    return gson.toJson(list)
-//}
-//}
+class Converters {
+    @TypeConverter
+    fun convertToAlertList(value: String): List<String>? {
+        val type: Type = object : TypeToken<List<String>>() {}.type
+        return Gson().fromJson(value, type)
+    }
+
+    @TypeConverter
+    fun convertAlertListToString(list: List<String>?): String = Gson().toJson(list)
+}

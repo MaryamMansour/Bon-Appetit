@@ -85,7 +85,7 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
                     }
                 }
             }
-            }
+        }
 
     fun insertFavMealItem(mealX: MealX) {
         viewModelScope.launch {
@@ -96,8 +96,6 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
             x?.add(mealX)
             _listOfMeals.value = x!!
         }
-
-
     }
     fun getFavMealsItem() {
         viewModelScope.launch (Dispatchers.IO){
@@ -108,7 +106,15 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
     fun getSearchedMeals(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _listOfMealsSearch.postValue(repository.getMealsResponse(query).meals?: listOf())
+            withContext(Dispatchers.Main) {
+                _listOfMealsSearch.value?.forEach {
+                    _listOfMeals.value?.forEach { meal ->
+                        it.fav =  meal.idMeal == it.idMeal
+                    }
+                }
+            }
         }
+
     }
 }
 
