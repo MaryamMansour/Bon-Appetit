@@ -123,7 +123,7 @@ class HomeFragment : Fragment(), OnClickListener {
 
     override fun onClick(model: MealX) {
       navController.navigate(R.id.detailsFragment, bundleOf(ARGS to model.strMeal ,ARGS2 to model.strInstructions,
-          ARGS3 to model.strMealThumb))
+          ARGS3 to model.strMealThumb , ARGS4 to model.strYoutube))
 
     }
     companion object{
@@ -137,7 +137,7 @@ class HomeFragment : Fragment(), OnClickListener {
             {
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
 //                meal.userId.add()
-                HomeViewModel.insertMeal(meal)
+                HomeViewModel.insertFavMealItem(meal)
             }
             else
             {
