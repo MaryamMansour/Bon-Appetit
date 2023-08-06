@@ -13,7 +13,7 @@ import com.example.recipe_app.model.MealX
 
 
 class home_adapter(var OnClick : OnClickListener) : RecyclerView.Adapter<home_adapter.MyViewHolder>() {
-    var listOfMeals = emptyList<MealX>()
+    var listOfMeals = mutableListOf<MealX>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.simple_row_v2, parent, false)
         return MyViewHolder(view)
@@ -36,7 +36,6 @@ class home_adapter(var OnClick : OnClickListener) : RecyclerView.Adapter<home_ad
         holder.favButton.setOnCheckedChangeListener {_, isChecked ->
             OnClick.onFav(isChecked, meal)
             listOfMeals[position].isFavourite = isChecked
-//            notifyDataSetChanged()
         }
     }
 
@@ -54,7 +53,9 @@ class home_adapter(var OnClick : OnClickListener) : RecyclerView.Adapter<home_ad
 
     }
     fun setDataToAdapter(newList: List<MealX>){
-        listOfMeals= newList
+        listOfMeals= newList.toMutableList()
         notifyDataSetChanged()
     }
+
+
 }

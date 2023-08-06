@@ -69,7 +69,8 @@ class FavouriteFragment : Fragment(), OnClickListener {
                             builder.setMessage("Do you want to delete the item ?")
                                 .setCancelable(true)
                                 .setPositiveButton("Yes"){dialog , it ->
-                                    //todo delete from database and refresh the recycler view
+                                    favRecyclerAdapter.deleteItem(viewHolder.adapterPosition)
+                                    favouriteViewModel.deleteFavMealById(,userid)
                                 }
 
                                 .setNegativeButton("No"){dialog , it ->
@@ -100,7 +101,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
     private fun getViewModelReady() {
         val favouriteViewModelFactory = FavouriteViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()), ApiClient))
-        favouriteViewModel= ViewModelProvider(requireActivity(),favouriteViewModelFactory).get(FavouriteViewModel::class.java)
+        favouriteViewModel= ViewModelProvider(this,favouriteViewModelFactory).get(FavouriteViewModel::class.java)
     }
 
 

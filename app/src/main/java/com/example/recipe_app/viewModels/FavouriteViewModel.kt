@@ -26,4 +26,13 @@ class FavouriteViewModel(val repository: Repository): ViewModel() {
             _favMeal.postValue(favMeals)
         }
     }
+
+    fun deleteFavMealById(mealId: String, userId: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteFavMealById(mealId, userId)
+//            repository.deleteFavMealById(mealId)
+//            getMealsWithFavourite(userId)
+
+        }
+    }
 }

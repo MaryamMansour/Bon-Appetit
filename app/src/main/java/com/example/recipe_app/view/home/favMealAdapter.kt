@@ -52,4 +52,10 @@ class favMealAdapter(
         notifyDataSetChanged()
     }
 
+    fun deleteItem(adapterPosition: Int) {
+        listOfMeals.drop(adapterPosition)
+        notifyItemRemoved(adapterPosition)
+    }
+
+
 }
