@@ -53,10 +53,10 @@ class FavouriteFragment : Fragment(), OnClickListener {
         favRecyclerView.adapter = favRecyclerAdapter
         favRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
-        favouriteViewModel.favMeal.observe(viewLifecycleOwner){
+        favouriteViewModel.favMeal.observe(viewLifecycleOwner) {
             favRecyclerAdapter.setDataAdapter(it)
-        }
 
+        }
             val slideGesture = object : SlideGesture(requireContext()){
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     when(direction)
@@ -69,8 +69,9 @@ class FavouriteFragment : Fragment(), OnClickListener {
                             builder.setMessage("Do you want to delete the item ?")
                                 .setCancelable(true)
                                 .setPositiveButton("Yes"){dialog , it ->
+                                    favouriteViewModel.deleteFavMealById(favRecyclerAdapter.listOfMeals[viewHolder.adapterPosition].idMeal,userid)
                                     favRecyclerAdapter.deleteItem(viewHolder.adapterPosition)
-                                    favouriteViewModel.deleteFavMealById(,userid)
+
                                 }
 
                                 .setNegativeButton("No"){dialog , it ->

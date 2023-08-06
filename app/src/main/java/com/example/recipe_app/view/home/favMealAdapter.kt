@@ -53,7 +53,7 @@ class favMealAdapter(
     }
 
     fun deleteItem(adapterPosition: Int) {
-        listOfMeals.drop(adapterPosition)
+        listOfMeals.(adapterPosition)
         notifyItemRemoved(adapterPosition)
     }
 

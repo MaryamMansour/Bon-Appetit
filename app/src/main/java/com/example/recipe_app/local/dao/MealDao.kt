@@ -7,7 +7,7 @@ import com.example.recipe_app.model.UserFavourite
 
 @Dao
 interface MealDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFavMealToUser(meal: MealX)
 
     @Query("SELECT * FROM meal WHERE idMeal IN (:mealId)")
