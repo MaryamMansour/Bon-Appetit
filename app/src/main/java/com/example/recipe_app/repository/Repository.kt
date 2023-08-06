@@ -10,14 +10,7 @@ interface Repository {
 
     suspend fun getMealsResponse(char:String): Meal
 
-    suspend fun updateEntity(meal: MealX)
     suspend fun getRandomMeal(): Meal
-
-    suspend fun getFavMeals(userId : String):List<UserFavourite>
-    suspend fun insertFavMeal(userFavourite: UserFavourite)
-    suspend fun deleteFavMeal(id : String, mealId: String)
-
-    suspend fun lookupMealById(mealId: String):Meal
 
 
     suspend fun getAllPersonInfo(): List<PersonInfo>
@@ -30,7 +23,5 @@ interface Repository {
 
     suspend fun getPersonInfo(email : String) : PersonInfo
 
-    suspend fun getFavMealsItem():List<MealX>
-    suspend fun insertFavMealItem(mealX: MealX)
-    suspend fun deleteFavMealItem( mealId: String)
+
 }

@@ -19,9 +19,7 @@ class LocalSourceImp(val context: Context) : LocalDataSource{
         userDao = DataBase.personinfodao()
     }
 
-    override suspend fun getFavMeals(userId : String):List<UserFavourite> = mealsDao.getFavMeals(userId)
-    override suspend fun insertFavMeal(userFavourite: UserFavourite) = mealsDao.insertFavMeal(userFavourite)
-    override suspend fun deleteFavMeal(id : String, mealId: String) = mealsDao.deleteFavMeal(id, mealId)
+
 
     override suspend fun getAllPersonInfo(): List<PersonInfo> = userDao.getAllPersonInfo()
 
@@ -32,11 +30,7 @@ class LocalSourceImp(val context: Context) : LocalDataSource{
     override suspend fun delete(personinfo: PersonInfo) = userDao.delete(personinfo)
 
     override suspend fun getPersonInfo(email: String): PersonInfo = userDao.getPersonInfo(email)
-    override suspend fun getFavMealsItem(): List<MealX> = mealsDao.getFavMealsItem()
 
-    override suspend fun insertFavMealItem(mealX: MealX) = mealsDao.insertFavMealItem(mealX)
-
-    override suspend fun deleteFavMealItem( mealId: String) = mealsDao.deleteFavMealItem( mealId)
 
 
 }

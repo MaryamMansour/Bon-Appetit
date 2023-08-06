@@ -11,19 +11,6 @@ import kotlinx.coroutines.launch
 
 class DetailsViewModel (private val repository: Repository)  : ViewModel() {
 
-//    var _detailsMeal : MutableLiveData<MealX>?=null
-//   // val detailsMeal: MutableLiveData<MealX>? = _detailsMeal
-//
-//
-//    fun getDetails(): MutableLiveData<MealX> {
-//        viewModelScope.launch {
-//            if (_detailsMeal == null)
-//                _detailsMeal = MutableLiveData()
-//            val response = repository.getMealsResponse().meals
-//            _detailsMeal!!.value = response
-//        }
-//        return _detailsMeal!!
-//    }
 
 
     private var _detailsMeal = MutableLiveData<List<MealX>>()
@@ -33,7 +20,7 @@ class DetailsViewModel (private val repository: Repository)  : ViewModel() {
         viewModelScope.launch {
 
             val response = repository.getMealsResponse("c").meals
-            _detailsMeal?.value = response
+            _detailsMeal.value = response
 
         }
     }

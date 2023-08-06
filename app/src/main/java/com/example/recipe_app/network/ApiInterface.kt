@@ -11,6 +11,5 @@ interface ApiInterface {
     @GET("random.php")
     suspend fun getRandomMeal(): Meal
 
-    @GET("lookup.php")
-    suspend fun lookupMealById(@Query("i") mealId: String):Meal
+
 }

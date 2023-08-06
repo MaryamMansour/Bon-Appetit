@@ -10,34 +10,35 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipe_app.R
 import com.example.recipe_app.model.MealX
+import com.example.recipe_app.model.UserFavourite
 
 
 class home_adapter(var OnClick : OnClickListener) : RecyclerView.Adapter<home_adapter.MyViewHolder>() {
-    var list = emptyList<MealX>()
+    var listOfMeals = emptyList<UserFavourite>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.simple_row_v2, parent, false)
         return MyViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.favButton.setOnCheckedChangeListener(null)
-        val meal = list[position]
-        holder.title.text = list[position].strMeal
-        holder.category.text = list[position].strCategory
-        holder.country.text = list[position].strArea
-        holder.favButton.isChecked = list[position].fav
-        Glide.with(holder.itemView.context).load(list[position].strMealThumb).into(holder.image)
+        val meal = listOfMeals[position]
+        holder.title.text = meal.strMeal
+        holder.category.text = meal.strCategory
+        holder.country.text = meal.strArea
+        holder.favButton.isChecked = meal.isFavourite
+        Glide.with(holder.itemView.context).load(meal.strMealThumb).into(holder.image)
+
         holder.itemView.setOnClickListener {
             OnClick.onClick(meal)
         }
-//        holder.favButton.setOnCheckedChangeListener(null)
+
         holder.favButton.setOnCheckedChangeListener {_, isChecked ->
             OnClick.onFav(isChecked, meal)
         }
     }
 
     override fun getItemCount(): Int {
-        return list.size
+        return listOfMeals.size
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -50,7 +51,6 @@ class home_adapter(var OnClick : OnClickListener) : RecyclerView.Adapter<home_ad
 
     }
     fun setDataToAdapter(newList: List<MealX>){
-        list = newList
-        notifyDataSetChanged()
+        // todo set the data to the adapter
     }
 }

@@ -12,11 +12,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
-@TypeConverters(Converters::class)
-@Database(entities = [UserFavourite::class, PersonInfo::class,MealX::class], version=16)
+
+@Database(entities = [UserFavourite::class, PersonInfo::class], version=17)
 abstract class MealDataBase : RoomDatabase() {
-
-
     abstract fun mealDao(): MealDao
     abstract fun personinfodao(): PersonInfoDao
 
@@ -37,26 +35,4 @@ abstract class MealDataBase : RoomDatabase() {
             }
         }
     }
-}
-//class Converters {
-//    @TypeConverter
-//    fun fromStringList(value: String?): MutableList<String>? {
-//        return value?.split(",")?.toMutableList()
-//    }
-//
-//    @TypeConverter
-//    fun toString(list: MutableList<String>?): String? {
-//        return list?.joinToString(",")
-//    }
-//}
-
-class Converters {
-    @TypeConverter
-    fun convertToAlertList(value: String): List<String>? {
-        val type: Type = object : TypeToken<List<String>>() {}.type
-        return Gson().fromJson(value, type)
-    }
-
-    @TypeConverter
-    fun convertAlertListToString(list: List<String>?): String = Gson().toJson(list)
 }

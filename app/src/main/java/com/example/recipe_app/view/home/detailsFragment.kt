@@ -18,10 +18,7 @@ import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.RepositoryImpl
-import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS
-import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS2
-import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS3
-import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS4
+
 import com.example.recipe_app.viewModels.DetailsViewModel
 import com.example.recipe_app.viewModels.DetailsViewModelFactory
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -91,10 +88,7 @@ lateinit var  youtubeVideo : YouTubePlayerView
     }
 
     private fun displayinfo(it: List<MealX>?) {
-        mealName.text =arguments?.getString(ARGS).toString()
-        mealDescription.text =arguments?.getString(ARGS2).toString()
-        Glide.with(this).load(arguments?.getString(ARGS3).toString()).into(mealImage)
-        videoId = arguments?.getString(ARGS4).toString()
+        //todo get argument and get meal from vm and bind it to view
 
     }
 
