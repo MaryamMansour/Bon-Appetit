@@ -107,7 +107,7 @@ class HomeFragment : Fragment(), OnClickListener {
                    // Toast.makeText(requireActivity()," Random Meal Clicked", Toast.LENGTH_SHORT).show()
                     navController.navigate(R.id.detailsFragment, bundleOf(ARGS to randomMeal.strMeal
                         ,ARGS2 to randomMeal.strInstructions,
-                        ARGS3 to randomMeal.strMealThumb))
+                        ARGS3 to randomMeal.strMealThumb , ARGS4 to randomMeal.strYoutube))
                 }
             }
 
@@ -130,6 +130,7 @@ class HomeFragment : Fragment(), OnClickListener {
         var ARGS = HomeFragment::class.java.simpleName + "Details"
         var ARGS2 = HomeFragment::class.java.simpleName + "Details2"
         var ARGS3 = HomeFragment::class.java.simpleName + "Details3"
+        var ARGS4 = HomeFragment::class.java.simpleName + "Details4"
     }
     override fun onFav(isChecked: Boolean, meal: MealX) {
             if (isChecked)
