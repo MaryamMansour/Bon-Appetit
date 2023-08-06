@@ -57,6 +57,9 @@ class SearchFragment : Fragment() , OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         getViewModelReady()
+        var pref=requireActivity().getSharedPreferences("mypref",0)
+        var userid=pref.getString("CurrentUserMail","0")
+        searchViewModel.getFavMealsByUserId(userid!!)
 
         searchView = view.findViewById(R.id.searchView)
         shimmer = view.findViewById(R.id.shimmerFrameLayout_search)
@@ -66,18 +69,39 @@ class SearchFragment : Fragment() , OnClickListener {
         recyclerView.adapter = recyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
-        //todo observe the data from the view model
+        searchViewModel.favMeal.observe(viewLifecycleOwner){favMeals->
+            searchViewModel.listOfMeals.observe(viewLifecycleOwner){meals->
+                var ApiMeal= meals
+                ApiMeal.forEach { meal ->
+                    favMeals.forEach { favMeal ->
+                        if (meal.idMeal == favMeal.idMeal) {
+                            meal.isFavourite = true
+                        }
+                    }
+                }
+                shimmer.stopShimmer()
+                shimmer.visibility = View.GONE
+                if (ApiMeal.isEmpty()){
+                    //todo replace the text view below with animation
+                    text_NO_MEALS.visibility = View.VISIBLE
+                }else{
+                    //todo replace the text view below with animation
+                    text_NO_MEALS.visibility = View.GONE
+                    recyclerView.visibility = View.VISIBLE
+                    recyclerAdapter.setDataAdapter(ApiMeal)
+
+                }
+            }
+        }
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                //todo call the view model function to get the data
-                //todo set the data to the adapter
+                searchViewModel.getMeals(query!!)
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                //todo call the view model function to get the data
-                //todo set the data to the adapter
+                searchViewModel.getMeals(newText!!)
                 return false
             }
 
@@ -94,15 +118,13 @@ class SearchFragment : Fragment() , OnClickListener {
         var userid=pref.getString("CurrentUserMail","0")
         if (isChecked)
         {
-            //todo call the view model function to add the meal to the favourites
+            searchViewModel.insertFavMealToUser(meal,userid!!)
             Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
-
         }
         else
         {
-            //todo call the view model function to remove the meal from the favourites
+            searchViewModel.deleteFavMealById(meal.idMeal,userid!!)
             Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
-
         }
 
     }

@@ -64,7 +64,8 @@ class HomeFragment : Fragment(), OnClickListener {
 
         getViewModelReady()
         HomeViewModel.getRandomMeal()
-        HomeViewModel.getMealsWithFavourite(userId!!)
+        HomeViewModel.getMeals()
+        HomeViewModel.getFavMealsByUserId(userId!!)
 
         recyclerView = view.findViewById(R.id.HomeRecyclerView)
         recyclerAdapter = home_adapter(this)
@@ -72,7 +73,17 @@ class HomeFragment : Fragment(), OnClickListener {
         recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2,GridLayoutManager.HORIZONTAL, false)
 
         HomeViewModel.listOfMeals.observe(viewLifecycleOwner) { meals ->
-            recyclerAdapter.setDataToAdapter(meals)
+            HomeViewModel.favMeal.observe(viewLifecycleOwner) { favMeals ->
+                var ApiMeal= meals
+                ApiMeal.forEach { meal ->
+                    favMeals.forEach { favMeal ->
+                        if (meal.idMeal == favMeal.idMeal) {
+                            meal.isFavourite = true
+                        }
+                    }
+                }
+                recyclerAdapter.setDataToAdapter(ApiMeal)
+            }
         }
 
             HomeViewModel.randomMeal.observe(viewLifecycleOwner) { randomMeal ->

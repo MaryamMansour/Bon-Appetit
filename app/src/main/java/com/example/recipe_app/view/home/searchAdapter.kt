@@ -34,6 +34,8 @@ class searchAdapter(var OnClick : OnClickListener
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
+        holder.itemView.setOnClickListener(null)
+        holder.favItem.setOnCheckedChangeListener(null)
         val meal = listOfMeals[position]
         holder.textView.text=meal.strMeal
         holder.favItem.isChecked = meal.isFavourite
@@ -47,7 +49,8 @@ class searchAdapter(var OnClick : OnClickListener
         }
     }
     fun setDataAdapter(mealList: List<MealX>){
-        //todo: set data to adapter
+        listOfMeals= mealList
+        notifyDataSetChanged()
     }
 
 

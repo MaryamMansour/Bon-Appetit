@@ -43,17 +43,7 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
         }
     }
 
-    fun getMealsWithFavourite(userId: String){
-        getMeals()
-        getFavMealsByUserId(userId)
-        _listOfMeals.value?.forEach {apiMeal->
-            _favMeal.value?.forEach {favMeal->
-                if(apiMeal.idMeal == favMeal.idMeal){
-                    apiMeal.isFavourite = true
-                }
-            }
-        }
-    }
+
 
     fun insertFavMealToUser(meal: MealX, userId: String){
         viewModelScope.launch(Dispatchers.IO) {

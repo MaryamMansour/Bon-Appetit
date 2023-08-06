@@ -35,7 +35,8 @@ class home_adapter(var OnClick : OnClickListener) : RecyclerView.Adapter<home_ad
 
         holder.favButton.setOnCheckedChangeListener {_, isChecked ->
             OnClick.onFav(isChecked, meal)
-            listOfMeals[position].isFavourite = isChecked
+//            meal.isFavourite = isChecked
+//            listOfMeals.set(position,meal)
         }
     }
 

@@ -16,7 +16,7 @@ class favMealAdapter(
     var OnClick : OnClickListener
     
 ) : RecyclerView.Adapter<favMealAdapter.Holder> (){
-    var listOfMeals = listOf<MealX>()
+    var listOfMeals = mutableListOf<MealX>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val  row= LayoutInflater.from(parent.context).inflate(R.layout.fav_row, parent, false )
@@ -48,12 +48,12 @@ class favMealAdapter(
 
     }
     fun setDataAdapter(mealList: List<MealX>){
-        listOfMeals = mealList
+        listOfMeals = mealList.toMutableList()
         notifyDataSetChanged()
     }
 
     fun deleteItem(adapterPosition: Int) {
-        listOfMeals.(adapterPosition)
+        listOfMeals.removeAt(adapterPosition)
         notifyItemRemoved(adapterPosition)
     }
 
