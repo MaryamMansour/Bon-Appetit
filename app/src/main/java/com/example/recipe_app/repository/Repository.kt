@@ -23,5 +23,19 @@ interface Repository {
 
     suspend fun getPersonInfo(email : String) : PersonInfo
 
+    ////////////////////// user favourite /////////////////////////
+    fun insertFavMealToUser(userFavourite: UserFavourite)
+
+    fun getFavMealsByUserId(userId: String): List<String>
+
+    fun deleteFavMealById(mealId: String, userId: String)
+
+    ////////////////////// meal /////////////////////////
+    fun insertFavMealToUser(meal: MealX)
+
+    fun getFavMealsByMealsId(mealId: List<String>): List<MealX>
+
+    fun deleteFavMealById(mealId: String)
+
 
 }

@@ -18,7 +18,7 @@ import java.util.Locale
 
 class searchAdapter(var OnClick : OnClickListener
 ) : RecyclerView.Adapter<searchAdapter.Holder> ()  {
-    var listOfMeals = listOf<UserFavourite>()
+    var listOfMeals = listOf<MealX>()
     class Holder(row: View) : RecyclerView.ViewHolder(row){
         var textView = row.findViewById<TextView>(R.id.title_text_view)
         var imageView = row.findViewById<ImageView>(R.id.image_view)

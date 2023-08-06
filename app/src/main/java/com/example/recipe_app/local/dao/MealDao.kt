@@ -8,5 +8,17 @@ import com.example.recipe_app.model.UserFavourite
 @Dao
 interface MealDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertFavMealToUser(meal: UserFavourite)
+    fun insertFavMealToUser(meal: MealX)
+
+    @Query("SELECT * FROM meal WHERE idMeal IN (:mealId)")
+    fun getFavMealsByMealsId(mealId: List<String>): List<MealX>
+
+    @Query("delete from meal where idMeal = :mealId")
+    fun deleteFavMealById(mealId: String)
+
+
+
+
+
+
 }

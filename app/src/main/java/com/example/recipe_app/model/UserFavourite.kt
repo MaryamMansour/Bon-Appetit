@@ -7,11 +7,4 @@ import androidx.room.PrimaryKey
  data class UserFavourite (
     val userId: String,
     val mealId: String,
-    val isFavourite: Boolean,
-    val strArea: String,
-    val strCategory: String,
-    val strMeal: String?,
-    val strMealThumb: String,
-    val strYoutube: String,
-    val strInstructions: String,
     )

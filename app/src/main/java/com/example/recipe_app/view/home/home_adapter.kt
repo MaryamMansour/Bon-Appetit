@@ -10,17 +10,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipe_app.R
 import com.example.recipe_app.model.MealX
-import com.example.recipe_app.model.UserFavourite
 
 
 class home_adapter(var OnClick : OnClickListener) : RecyclerView.Adapter<home_adapter.MyViewHolder>() {
-    var listOfMeals = emptyList<UserFavourite>()
+    var listOfMeals = emptyList<MealX>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.simple_row_v2, parent, false)
         return MyViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        holder.itemView.setOnClickListener(null)
+        holder.favButton.setOnCheckedChangeListener(null)
         val meal = listOfMeals[position]
         holder.title.text = meal.strMeal
         holder.category.text = meal.strCategory
@@ -34,6 +35,8 @@ class home_adapter(var OnClick : OnClickListener) : RecyclerView.Adapter<home_ad
 
         holder.favButton.setOnCheckedChangeListener {_, isChecked ->
             OnClick.onFav(isChecked, meal)
+            listOfMeals[position].isFavourite = isChecked
+//            notifyDataSetChanged()
         }
     }
 
@@ -51,6 +54,7 @@ class home_adapter(var OnClick : OnClickListener) : RecyclerView.Adapter<home_ad
 
     }
     fun setDataToAdapter(newList: List<MealX>){
-        // todo set the data to the adapter
+        listOfMeals= newList
+        notifyDataSetChanged()
     }
 }

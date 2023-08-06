@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.*
 import com.example.recipe_app.local.dao.MealDao
 import com.example.recipe_app.local.dao.PersonInfoDao
+import com.example.recipe_app.local.dao.UserFavouriteDao
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.model.PersonInfo
 import com.example.recipe_app.model.UserFavourite
@@ -13,10 +14,12 @@ import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
 
-@Database(entities = [UserFavourite::class, PersonInfo::class], version=17)
+@Database(entities = [UserFavourite::class, PersonInfo::class,MealX::class], version=18)
 abstract class MealDataBase : RoomDatabase() {
     abstract fun mealDao(): MealDao
     abstract fun personinfodao(): PersonInfoDao
+
+    abstract fun userFavouriteDao(): UserFavouriteDao
 
 
     companion object{

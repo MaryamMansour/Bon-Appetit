@@ -85,11 +85,11 @@ class SearchFragment : Fragment() , OnClickListener {
         //todo observe the data from the view model
     }
 
-    override fun onClick(model: UserFavourite) {
+    override fun onClick(model: MealX) {
         //todo navigate to the details fragment with the model id
     }
 
-    override fun onFav(isChecked: Boolean, meal: UserFavourite) {
+    override fun onFav(isChecked: Boolean, meal: MealX) {
         var pref=requireActivity().getSharedPreferences("mypref",0)
         var userid=pref.getString("CurrentUserMail","0")
         if (isChecked)

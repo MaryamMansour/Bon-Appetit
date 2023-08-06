@@ -16,7 +16,7 @@ class favMealAdapter(
     var OnClick : OnClickListener
     
 ) : RecyclerView.Adapter<favMealAdapter.Holder> (){
-    var listOfMeals = listOf<UserFavourite>()
+    var listOfMeals = listOf<MealX>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val  row= LayoutInflater.from(parent.context).inflate(R.layout.fav_row, parent, false )
@@ -47,8 +47,9 @@ class favMealAdapter(
         var imageView = row.findViewById<ImageView>(R.id.image_view_fav)
 
     }
-    fun setDataAdapter(mealList: List<UserFavourite>){
-        //todo: set data to adapter
+    fun setDataAdapter(mealList: List<MealX>){
+        listOfMeals = mealList
+        notifyDataSetChanged()
     }
 
 }

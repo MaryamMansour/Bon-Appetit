@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipe_app.R
 import com.example.recipe_app.local.LocalSourceImp
+import com.example.recipe_app.model.MealX
 import com.example.recipe_app.model.UserFavourite
 import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.RepositoryImpl
@@ -46,12 +47,15 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
         var pref=requireActivity().getSharedPreferences("mypref",0)
         var userid=pref.getString("CurrentUserMail","0")
+        favouriteViewModel.getFavMealsByUserId(userid!!)
 
         favRecyclerAdapter = favMealAdapter(this)
         favRecyclerView.adapter = favRecyclerAdapter
         favRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
-        //todo get the data from database and pass it to the adapter
+        favouriteViewModel.favMeal.observe(viewLifecycleOwner){
+            favRecyclerAdapter.setDataAdapter(it)
+        }
 
             val slideGesture = object : SlideGesture(requireContext()){
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
@@ -86,11 +90,11 @@ class FavouriteFragment : Fragment(), OnClickListener {
     }
 
 
-    override fun onClick(model: UserFavourite) {
+    override fun onClick(model: MealX) {
        //todo navigate and  pass id of meal to the details fragment
     }
 
-    override fun onFav(isChecked: Boolean, meal: UserFavourite) {
+    override fun onFav(isChecked: Boolean, meal: MealX) {
         //do nothing
     }
 

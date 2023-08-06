@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipe_app.R
 import com.example.recipe_app.local.LocalSourceImp
+import com.example.recipe_app.model.MealX
 import com.example.recipe_app.model.UserFavourite
 import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.RepositoryImpl
@@ -32,7 +33,6 @@ class HomeFragment : Fragment(), OnClickListener {
 
 
     lateinit var recyclerView: RecyclerView
-    lateinit var favouriteBox: CheckBox
     lateinit var nameRandom :TextView
     lateinit var catRandom :TextView
     lateinit var areaRandom :TextView
@@ -60,11 +60,11 @@ class HomeFragment : Fragment(), OnClickListener {
 
 
         var pref=requireActivity().getSharedPreferences("mypref",0)
-        var userId=pref.getString("CurrentUserMail","")
+        var userId = pref.getString("CurrentUserMail","")
 
         getViewModelReady()
         HomeViewModel.getRandomMeal()
-        HomeViewModel.getMeals()
+        HomeViewModel.getMealsWithFavourite(userId!!)
 
         recyclerView = view.findViewById(R.id.HomeRecyclerView)
         recyclerAdapter = home_adapter(this)
@@ -103,31 +103,29 @@ class HomeFragment : Fragment(), OnClickListener {
 
 
 
-    override fun onClick(model: UserFavourite) {
+    override fun onClick(model: MealX) {
       //todo navigate to details fragment with id of meal
     }
 
-    override fun onFav(isChecked: Boolean, meal: UserFavourite) {
+    override fun onFav(isChecked: Boolean, meal: MealX) {
         var pref = requireActivity().getSharedPreferences("mypref",0)
         var userId = pref.getString("CurrentUserMail","")
             if (isChecked)
             {
-                //todo add to favourites
+                HomeViewModel.insertFavMealToUser(meal,userId!!)
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
-
             }
             else
             {
-                //todo remove from favourites
+                HomeViewModel.deleteFavMealById(meal.idMeal,userId!!)
                 Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
-
             }
 
     }
 
     private fun getViewModelReady() {
         val mealsFactory = HomeMealsViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()), ApiClient))
-        HomeViewModel= ViewModelProvider(requireActivity(),mealsFactory).get(HomeMealsViewModel::class.java)
+        HomeViewModel= ViewModelProvider(this,mealsFactory).get(HomeMealsViewModel::class.java)
     }
 
 
