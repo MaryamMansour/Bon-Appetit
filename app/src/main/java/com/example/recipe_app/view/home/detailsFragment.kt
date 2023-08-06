@@ -1,17 +1,17 @@
 package com.example.recipe_app.view.home
 
-import android.content.ClipData
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
+import android.support.annotation.NonNull
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.RecyclerView
+import at.blogc.android.views.ExpandableTextView
 import com.bumptech.glide.Glide
 import com.example.recipe_app.R
 import com.example.recipe_app.local.LocalSourceImp
@@ -21,10 +21,12 @@ import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS
 import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS2
 import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS3
+import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS4
 import com.example.recipe_app.viewModels.DetailsViewModel
 import com.example.recipe_app.viewModels.DetailsViewModelFactory
-import com.example.recipe_app.viewModels.HomeMealsViewModel
-import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 
 class detailsFragment : Fragment() {
@@ -32,9 +34,15 @@ class detailsFragment : Fragment() {
     lateinit var detailsViewModel: DetailsViewModel
     lateinit var mealImage : ImageView
     lateinit var mealName : TextView
-    lateinit var mealDescription :TextView
+    lateinit var mealDescription :ExpandableTextView
     lateinit var id :String
-    
+    lateinit var textToggle :TextView
+//    lateinit var videoView :VideoView
+    var videoId : String = ""
+lateinit var  youtubeVideo : YouTubePlayerView
+
+    @SuppressLint("SetJavaScriptEnabled")
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,6 +57,32 @@ class detailsFragment : Fragment() {
         mealDescription =view.findViewById(R.id.textView3)
 
 
+       youtubeVideo =view.findViewById(R.id.youtube_player_view)
+        lifecycle.addObserver(youtubeVideo)
+        youtubeVideo.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(@NonNull youTubePlayer: YouTubePlayer) {
+
+
+                val result = videoId.substringAfter("v=")
+                youTubePlayer.loadVideo(result, 0f)
+            }
+        })
+
+
+
+        textToggle=view.findViewById(R.id.textView8)
+        mealDescription.setAnimationDuration(750L)
+        mealDescription.setInterpolator(OvershootInterpolator())
+        textToggle.setOnClickListener {
+            if(mealDescription.isExpanded){
+                mealDescription.collapse()
+                textToggle.setText(R.string.see_more)
+            } else{
+                mealDescription.expand()
+                textToggle.setText(R.string.see_less)
+            }
+        }
+
         getViewModelReady()
        detailsViewModel.getDetails()
         detailsViewModel.detailsMeal?.observe(viewLifecycleOwner){
@@ -60,6 +94,8 @@ class detailsFragment : Fragment() {
         mealName.text =arguments?.getString(ARGS).toString()
         mealDescription.text =arguments?.getString(ARGS2).toString()
         Glide.with(this).load(arguments?.getString(ARGS3).toString()).into(mealImage)
+        videoId = arguments?.getString(ARGS4).toString()
+
     }
 
     private fun getViewModelReady() {

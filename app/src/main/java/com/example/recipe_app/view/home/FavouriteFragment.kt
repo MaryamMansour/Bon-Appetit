@@ -23,6 +23,9 @@ import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.RepositoryImpl
+import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS
+import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS2
+import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS3
 import com.example.recipe_app.viewModels.HomeMealsViewModel
 import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
 
@@ -102,12 +105,9 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
     override fun onClick(model: MealX) {
        // Toast.makeText(requireActivity(),"Meal Clicked", Toast.LENGTH_SHORT).show()
-        navController.navigate(R.id.detailsFragment, bundleOf(
-            HomeFragment.ARGS to model.strMeal , HomeFragment.ARGS2 to model.strInstructions,
-            HomeFragment.ARGS3 to model.strMealThumb)
-        )
+        navController.navigate(R.id.detailsFragment, bundleOf(ARGS to model.strMeal ,ARGS2 to model.strInstructions,
+            ARGS3 to model.strMealThumb))
     }
-
 
 
 

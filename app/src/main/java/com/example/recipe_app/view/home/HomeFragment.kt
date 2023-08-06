@@ -122,14 +122,15 @@ class HomeFragment : Fragment(), OnClickListener {
     }
 
     override fun onClick(model: MealX) {
-      navController.navigate(R.id.detailsFragment, bundleOf(ARGS to model.strMeal ,ARGS2 to model.strInstructions,
-          ARGS3 to model.strMealThumb))
+      navController.navigate(R.id.detailsFragment, bundleOf((ARGS to model.strMeal) , ARGS2 to model.strInstructions ,
+          ARGS3 to model.strMealThumb , ARGS4 to model.strYoutube))
 
     }
     companion object{
         var ARGS = HomeFragment::class.java.simpleName + "Details"
         var ARGS2 = HomeFragment::class.java.simpleName + "Details2"
         var ARGS3 = HomeFragment::class.java.simpleName + "Details3"
+        var ARGS4 = HomeFragment::class.java.simpleName + "Details4"
     }
     override fun onFav(isChecked: Boolean, meal: MealX) {
             if (isChecked)

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.VideoView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipe_app.R
@@ -66,6 +67,7 @@ class mealAdapter(
         var descriptionView = row.findViewById<TextView>(R.id.description_text_view)
         var imageView = row.findViewById<ImageView>(R.id.image_view)
         var favItem = row.findViewById<CheckBox>(R.id.fav_box_v2)
+
 
     }
 

@@ -61,4 +61,9 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     implementation 'com.airbnb.android:lottie:6.1.0'
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.4'
+    // expandable textview
+    implementation 'at.blogc:expandabletextview:1.0.5'
+    //implementation files('libs/YouTubeAndroidPlayerApi.jar')
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0'
+
 }
