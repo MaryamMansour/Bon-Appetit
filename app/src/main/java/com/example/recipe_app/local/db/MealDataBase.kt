@@ -14,7 +14,7 @@ import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
 
-@Database(entities = [UserFavourite::class, PersonInfo::class,MealX::class], version=18)
+@Database(entities = [UserFavourite::class, PersonInfo::class,MealX::class], version=1)
 abstract class MealDataBase : RoomDatabase() {
     abstract fun mealDao(): MealDao
     abstract fun personinfodao(): PersonInfoDao

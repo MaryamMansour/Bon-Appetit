@@ -1,7 +1,6 @@
 package com.example.recipe_app.view.home
 
 import android.app.AlertDialog
-import android.content.Context
 //import androidx.appcompat.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,18 +10,17 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipe_app.R
 import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
-import com.example.recipe_app.model.UserFavourite
 import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.FavouriteViewModel
-import com.example.recipe_app.viewModels.FavouriteViewModelFactory
-
+import com.example.recipe_app.viewModels.ViewModelFactory
 
 
 class FavouriteFragment : Fragment(), OnClickListener {
@@ -93,7 +91,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
 
     override fun onClick(model: MealX) {
-       //todo navigate and  pass id of meal to the details fragment
+       findNavController().navigate(FavouriteFragmentDirections.actionFavouriteFragmentToDetailsFragment(model.idMeal))
     }
 
     override fun onFav(isChecked: Boolean, meal: MealX) {
@@ -101,7 +99,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
     }
 
     private fun getViewModelReady() {
-        val favouriteViewModelFactory = FavouriteViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()), ApiClient))
+        val favouriteViewModelFactory = ViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()), ApiClient))
         favouriteViewModel= ViewModelProvider(this,favouriteViewModelFactory).get(FavouriteViewModel::class.java)
     }
 

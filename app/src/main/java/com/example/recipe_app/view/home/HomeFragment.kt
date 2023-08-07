@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.fragment.findNavController
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,11 +19,10 @@ import com.bumptech.glide.Glide
 import com.example.recipe_app.R
 import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
-import com.example.recipe_app.model.UserFavourite
 import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.HomeMealsViewModel
-import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
+import com.example.recipe_app.viewModels.ViewModelFactory
 import com.facebook.shimmer.ShimmerFrameLayout
 
 
@@ -97,11 +96,12 @@ class HomeFragment : Fragment(), OnClickListener {
                 shimmerFrameLayout.visibility = View.GONE
                 constrainRandom.visibility = View.VISIBLE
                 recyclerView.visibility = View.VISIBLE
-            }
-            constrainRandom.setOnClickListener {
-                    //todo navigate to details fragment with id of random meal
-                }
 
+            constrainRandom.setOnClickListener {
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(randomMeal.idMeal))
+
+            }
+    }
 
 
 
@@ -115,7 +115,7 @@ class HomeFragment : Fragment(), OnClickListener {
 
 
     override fun onClick(model: MealX) {
-      //todo navigate to details fragment with id of meal
+      findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(model.idMeal))
     }
 
     override fun onFav(isChecked: Boolean, meal: MealX) {
@@ -135,7 +135,7 @@ class HomeFragment : Fragment(), OnClickListener {
     }
 
     private fun getViewModelReady() {
-        val mealsFactory = HomeMealsViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()), ApiClient))
+        val mealsFactory = ViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()), ApiClient))
         HomeViewModel= ViewModelProvider(this,mealsFactory).get(HomeMealsViewModel::class.java)
     }
 

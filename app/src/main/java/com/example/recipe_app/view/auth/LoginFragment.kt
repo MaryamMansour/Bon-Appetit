@@ -16,7 +16,7 @@ import com.example.recipe_app.model.PersonInfo
 import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.AuthViewModel
-import com.example.recipe_app.viewModels.AuthViewModelFactory
+import com.example.recipe_app.viewModels.ViewModelFactory
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -29,7 +29,7 @@ class LoginFragment : Fragment() {
     lateinit var etTxtLayoutPassword:TextInputLayout
     lateinit var btnlogin: Button
     lateinit var viewModel: AuthViewModel
-    lateinit var authViewModelFactory: AuthViewModelFactory
+    lateinit var authViewModelFactory: ViewModelFactory
 
 
 
@@ -43,7 +43,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        authViewModelFactory= AuthViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()),ApiClient))
+        authViewModelFactory= ViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()),ApiClient))
         viewModel= ViewModelProvider(this,authViewModelFactory).get(AuthViewModel::class.java)
 
         etEmailLogin = view.findViewById(R.id.editText_email)

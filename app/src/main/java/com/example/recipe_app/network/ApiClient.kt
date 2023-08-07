@@ -12,5 +12,9 @@ object  ApiClient : RemoteDataSource {
         return RetrofitHelper.retrofit.create(ApiInterface::class.java).getRandomMeal()
     }
 
+    override suspend fun lookupMealById(mealId: String): Meal {
+        return RetrofitHelper.retrofit.create(ApiInterface::class.java).lookupMealById(mealId)
+    }
+
 
 }

@@ -63,5 +63,6 @@
         <argument
             android:name="itemId"
             app:argType="string" />
+
     </fragment>
 </navigation>

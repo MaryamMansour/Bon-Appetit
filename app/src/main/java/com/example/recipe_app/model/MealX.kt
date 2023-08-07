@@ -8,7 +8,7 @@ import java.io.Serializable
 
 
 @Entity(tableName = "meal")
-data class MealX  (
+data class MealX   (
 //    val dateModified: Any,
     @PrimaryKey
     val idMeal: String,

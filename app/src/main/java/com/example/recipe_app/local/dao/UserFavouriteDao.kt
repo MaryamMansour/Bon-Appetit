@@ -10,11 +10,11 @@ import com.example.recipe_app.model.UserFavourite
 @Dao
 interface UserFavouriteDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertFavMealToUser(userFavourite: UserFavourite)
+   suspend fun insertFavMealToUser(userFavourite: UserFavourite)
 
     @Query("SELECT mealId FROM user_favourite WHERE userId = :userId")
-    fun getFavMealsByUserId(userId: String): List<String>
+  suspend  fun getFavMealsByUserId(userId: String): List<String>
 
     @Query("delete from user_favourite where mealId = :mealId and userId = :userId")
-    fun deleteFavMealById(mealId: String, userId: String)
+   suspend fun deleteFavMealById(mealId: String, userId: String)
 }

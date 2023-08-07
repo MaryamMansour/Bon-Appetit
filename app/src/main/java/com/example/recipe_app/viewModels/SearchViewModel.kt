@@ -20,6 +20,7 @@ class SearchViewModel(val repository: Repository) : ViewModel()  {
     val favMeal: LiveData<List<MealX>> = _favMeal
 
 
+
     fun getMeals(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _listOfMeals.postValue(repository.getMealsResponse(query).meals)
@@ -50,4 +51,5 @@ class SearchViewModel(val repository: Repository) : ViewModel()  {
 
         }
     }
+
 }

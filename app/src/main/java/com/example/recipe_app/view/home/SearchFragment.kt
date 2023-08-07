@@ -1,6 +1,5 @@
 package com.example.recipe_app.view.home
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -18,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipe_app.R
@@ -28,9 +28,8 @@ import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.DetailsViewModel
 import com.example.recipe_app.viewModels.HomeMealsViewModel
-import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
 import com.example.recipe_app.viewModels.SearchViewModel
-import com.example.recipe_app.viewModels.SearchViewModelFactory
+import com.example.recipe_app.viewModels.ViewModelFactory
 import com.facebook.shimmer.ShimmerFrameLayout
 
 
@@ -106,11 +105,10 @@ class SearchFragment : Fragment() , OnClickListener {
             }
 
         })
-        //todo observe the data from the view model
     }
 
     override fun onClick(model: MealX) {
-        //todo navigate to the details fragment with the model id
+        findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToDetailsFragment(model.idMeal))
     }
 
     override fun onFav(isChecked: Boolean, meal: MealX) {
@@ -130,7 +128,7 @@ class SearchFragment : Fragment() , OnClickListener {
     }
 
     private fun getViewModelReady() {
-        val searchFactory = SearchViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()),ApiClient))
+        val searchFactory = ViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()),ApiClient))
         searchViewModel= ViewModelProvider(requireActivity(),searchFactory).get(SearchViewModel::class.java)
     }
 

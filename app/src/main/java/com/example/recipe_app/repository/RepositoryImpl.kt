@@ -29,14 +29,16 @@ class RepositoryImpl(
     override suspend fun getPersonInfo(email: String): PersonInfo = localDataSource.getPersonInfo(email)
 
 
-    override fun insertFavMealToUser(userFavourite: UserFavourite) = localDataSource.insertFavMealToUser(userFavourite)
+    override suspend fun insertFavMealToUser(userFavourite: UserFavourite) = localDataSource.insertFavMealToUser(userFavourite)
 
-    override fun insertFavMealToUser(meal: MealX) = localDataSource.insertFavMealToUser(meal)
+    override suspend fun insertFavMealToUser(meal: MealX) = localDataSource.insertFavMealToUser(meal)
 
-    override fun getFavMealsByUserId(userId: String): List<String> = localDataSource.getFavMealsByUserId(userId)
-    override fun deleteFavMealById(mealId: String, userId: String) = localDataSource.deleteFavMealById(mealId, userId)
+    override suspend fun getFavMealsByUserId(userId: String): List<String> = localDataSource.getFavMealsByUserId(userId)
+    override suspend fun deleteFavMealById(mealId: String, userId: String) = localDataSource.deleteFavMealById(mealId, userId)
 
-    override fun deleteFavMealById(mealId: String) = localDataSource.deleteFavMealById(mealId)
-    override fun getFavMealsByMealsId(mealId: List<String>): List<MealX> = localDataSource.getFavMealsByMealsId(mealId)
+    override suspend fun deleteFavMealById(mealId: String) = localDataSource.deleteFavMealById(mealId)
+    override suspend fun lookupMealById(mealId: String): Meal = remoteDataSource.lookupMealById(mealId)
+
+    override suspend fun getFavMealsByMealsId(mealId: List<String>): List<MealX> = localDataSource.getFavMealsByMealsId(mealId)
 
 }
