@@ -1,5 +1,6 @@
 package com.example.recipe_app.view.home
 
+import android.app.AlertDialog
 import android.widget.Toast
 
 import android.os.Bundle
@@ -122,12 +123,26 @@ class HomeFragment : Fragment(), OnClickListener {
             if (isChecked)
             {
                 HomeViewModel.insertFavMealToUser(meal,userId!!)
+                recyclerAdapter.updateItem(isChecked,meal)
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
             }
             else
             {
-                HomeViewModel.deleteFavMealById(meal.idMeal,userId!!)
-                Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
+                val builder = AlertDialog.Builder(context)
+                builder.setMessage("Do you want to delete the item ?")
+                    .setCancelable(true)
+                    .setPositiveButton("Yes"){dialog , it ->
+                        recyclerAdapter.updateItem(false,meal)
+                        HomeViewModel.deleteFavMealById(meal.idMeal,userId!!)
+                        Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
+                    }
+                    .setNegativeButton("No"){dialog , it ->
+                        dialog.cancel()
+                        recyclerAdapter.updateItem(true,meal)
+                        recyclerAdapter.notifyDataSetChanged()
+                    }
+                val dialog = builder.create()
+                dialog.show()
             }
 
     }

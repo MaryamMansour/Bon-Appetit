@@ -1,5 +1,6 @@
 package com.example.recipe_app.view.home
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -30,7 +31,6 @@ class SearchFragment : Fragment() , OnClickListener {
     lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: searchAdapter
-    lateinit var shimmer: ShimmerFrameLayout
     lateinit var text_NO_MEALS: TextView
 
 
@@ -49,7 +49,6 @@ class SearchFragment : Fragment() , OnClickListener {
         searchViewModel.getFavMealsByUserId(userid!!)
 
         searchView = view.findViewById(R.id.searchView)
-        shimmer = view.findViewById(R.id.shimmerFrameLayout_search)
         recyclerView = view.findViewById(R.id.searchRecyclerView)
         text_NO_MEALS = view.findViewById(R.id.noMaTCHEsFoundTextView)
         recyclerAdapter = searchAdapter(this)
@@ -66,8 +65,7 @@ class SearchFragment : Fragment() , OnClickListener {
                         }
                     }
                 }
-                shimmer.stopShimmer()
-                shimmer.visibility = View.GONE
+
                 if (ApiMeal.isNullOrEmpty()){
                     //todo replace the text view below with animation
                     text_NO_MEALS.visibility = View.VISIBLE
@@ -105,12 +103,26 @@ class SearchFragment : Fragment() , OnClickListener {
         if (isChecked)
         {
             searchViewModel.insertFavMealToUser(meal,userid!!)
+            recyclerAdapter.updateItem(isChecked,meal)
             Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
         }
         else
         {
-            searchViewModel.deleteFavMealById(meal.idMeal,userid!!)
-            Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage("Do you want to delete the item ?")
+                .setCancelable(true)
+                .setPositiveButton("Yes"){dialog , it ->
+                    recyclerAdapter.updateItem(false,meal)
+                    searchViewModel.deleteFavMealById(meal.idMeal,userid!!)
+                    Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("No"){dialog , it ->
+                    dialog.cancel()
+                    recyclerAdapter.updateItem(true,meal)
+                    recyclerAdapter.notifyDataSetChanged()
+                }
+            val dialog = builder.create()
+            dialog.show()
         }
 
     }

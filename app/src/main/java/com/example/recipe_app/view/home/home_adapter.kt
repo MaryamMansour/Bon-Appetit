@@ -58,5 +58,17 @@ class home_adapter(var OnClick : OnClickListener) : RecyclerView.Adapter<home_ad
         notifyDataSetChanged()
     }
 
+    fun deleteItem(itemId: String) {
+        listOfMeals.removeIf { it.idMeal == itemId }
+        notifyDataSetChanged()
+    }
+
+    fun updateItem(state: Boolean, meal: MealX) {
+        listOfMeals.indexOf(meal).let {
+            listOfMeals[it].isFavourite = state
+            notifyItemChanged(it)
+        }
+    }
+
 
 }

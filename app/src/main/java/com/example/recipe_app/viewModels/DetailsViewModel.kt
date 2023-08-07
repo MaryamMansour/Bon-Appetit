@@ -18,7 +18,6 @@ class DetailsViewModel @Inject constructor (
 )  : ViewModel() {
 
 
-
     private val _singleMeal = MutableLiveData<MealX>()
     val singleMeal: LiveData<MealX> = _singleMeal
 

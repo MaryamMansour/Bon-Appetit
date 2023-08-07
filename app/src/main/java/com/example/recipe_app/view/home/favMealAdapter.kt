@@ -56,6 +56,12 @@ class favMealAdapter(
         listOfMeals.removeAt(adapterPosition)
         notifyItemRemoved(adapterPosition)
     }
+    fun updateItem(state: Boolean, meal: MealX) {
+        listOfMeals.indexOf(meal).let {
+            listOfMeals[it].isFavourite = state
+            notifyItemChanged(it)
+        }
+    }
 
 
 }
