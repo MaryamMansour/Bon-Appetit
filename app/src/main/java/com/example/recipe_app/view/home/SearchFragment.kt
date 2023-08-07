@@ -1,140 +1,171 @@
 package com.example.recipe_app.view.home
 
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
+import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.core.os.bundleOf
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.recipe_app.R
-import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
-import com.example.recipe_app.model.UserFavourite
-import com.example.recipe_app.network.ApiClient
-import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.DetailsViewModel
-import com.example.recipe_app.viewModels.HomeMealsViewModel
-import com.example.recipe_app.viewModels.HomeMealsViewModelFactory
+import com.example.recipe_app.viewModels.SearchViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SearchFragment : Fragment() , OnClickListener {
     lateinit var navController: NavController
     lateinit var navHostFragment : NavHostFragment
     lateinit var detailsViewModel: DetailsViewModel
-    lateinit var HomeViewModel: HomeMealsViewModel
+    val searchViewModel: SearchViewModel by viewModels()
     lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: searchAdapter
-    lateinit var shimmer: ShimmerFrameLayout
     lateinit var text_NO_MEALS: TextView
-    private var mList = ArrayList<MealX>()
+    lateinit var typeToSearchLayout:LinearLayout
+    lateinit var lootieNotFound :LottieAnimationView
+    lateinit var shimmerFrameLayout: ShimmerFrameLayout
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getViewModelReady()
+
+        var pref=requireActivity().getSharedPreferences("mypref",0)
+        var userid=pref.getString("CurrentUserMail","0")
+
         searchView = view.findViewById(R.id.searchView)
-        shimmer = view.findViewById(R.id.shimmerFrameLayout_search)
         recyclerView = view.findViewById(R.id.searchRecyclerView)
-        text_NO_MEALS = view.findViewById(R.id.noMaTCHEsFoundTextView)
-        recyclerAdapter = searchAdapter(listOf(), requireActivity(), this)
+        typeToSearchLayout = view.findViewById(R.id.lottie_type_to_search_layout)
+        lootieNotFound = view.findViewById(R.id.lottie_not_found)
+        shimmerFrameLayout = view.findViewById(R.id.shimmer_view_container_search)
+        recyclerAdapter = searchAdapter(this)
         recyclerView.adapter = recyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
-            shimmer.stopShimmer()
-            shimmer.visibility = View.GONE
-            recyclerView.visibility = View.VISIBLE
+            searchViewModel.listOfMeals.observe(viewLifecycleOwner){meals->
+                if(meals.isNullOrEmpty() && searchView.query.isNullOrEmpty()){
+                    recyclerView.visibility = View.GONE
+                    typeToSearchLayout.visibility = View.VISIBLE
+                    lootieNotFound.visibility = View.GONE
+                    shimmerFrameLayout.visibility = View.GONE
+                }
+                 else if (meals.isNullOrEmpty()){
+                    recyclerView.visibility = View.GONE
+                    typeToSearchLayout.visibility = View.GONE
+                    lootieNotFound.visibility = View.VISIBLE
+                    shimmerFrameLayout.visibility = View.GONE
+
+                }else{
+                    recyclerView.visibility = View.VISIBLE
+                    lootieNotFound.visibility = View.GONE
+                    typeToSearchLayout.visibility = View.GONE
+                    recyclerAdapter.setDataAdapter(meals)
+                    shimmerFrameLayout.visibility = View.GONE
+
+                }
+            }
+
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                HomeViewModel.getSearchedMeals(query!!)
-                recyclerAdapter.notifyDataSetChanged()
+                if(query.isNullOrEmpty()){
+                    typeToSearchLayout.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
+                    lootieNotFound.visibility = View.GONE
+
+                }
+                else{
+                    typeToSearchLayout.visibility = View.GONE
+                    recyclerView.visibility = View.GONE
+                    typeToSearchLayout.visibility = View.GONE
+                    searchViewModel.getMealsWithFavourite(userid!!,query!!)
+                    shimmerFrameLayout.visibility = View.VISIBLE
+                }
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                HomeViewModel.getSearchedMeals(newText!!)
-                recyclerAdapter.notifyDataSetChanged()
+                if(newText.isNullOrEmpty()){
+                    typeToSearchLayout.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
+                    lootieNotFound.visibility = View.GONE
+
+                }
+                else{
+                    typeToSearchLayout.visibility = View.GONE
+                    recyclerView.visibility = View.GONE
+                    searchViewModel.getMealsWithFavourite(userid!!,newText!!)
+                    shimmerFrameLayout.visibility = View.VISIBLE
+                }
                 return false
             }
 
         })
-        HomeViewModel.listOfMealsSearch.observe(viewLifecycleOwner) { meals ->
-            if (meals.isNotEmpty()) {
-                text_NO_MEALS.visibility = View.GONE
-                recyclerView.visibility = View.VISIBLE
-            } else if (searchView.query.isNotEmpty()) {
-                text_NO_MEALS.visibility = View.VISIBLE
-                recyclerView.visibility = View.GONE
-            }
-            recyclerAdapter.setDataAdapter(meals)
-        }
-
-        navHostFragment = activity?.supportFragmentManager?.findFragmentById(R.id.nav_host) as NavHostFragment
-        navController = navHostFragment.navController
-
     }
-
 
     override fun onClick(model: MealX) {
-        //Toast.makeText(requireActivity(), "Meal Clicked", Toast.LENGTH_SHORT).show()
-        navController.navigate(R.id.detailsFragment, bundleOf(
-            HomeFragment.ARGS to model.strMeal , HomeFragment.ARGS2 to model.strInstructions,
-            HomeFragment.ARGS3 to model.strMealThumb)
-        )
+        findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToDetailsFragment(model.idMeal))
     }
-
-
-
 
     override fun onFav(isChecked: Boolean, meal: MealX) {
         var pref=requireActivity().getSharedPreferences("mypref",0)
         var userid=pref.getString("CurrentUserMail","0")
         if (isChecked)
         {
-            HomeViewModel.inserFavtMeal(UserFavourite(userid!! ,meal.idMeal))
-            HomeViewModel.insertFavMealItem(meal)
+            searchViewModel.insertFavMealToUser(meal,userid!!)
+            recyclerAdapter.updateItem(isChecked,meal)
             Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
-
         }
         else
         {
-            HomeViewModel.deleteFavMeal(userid!!,meal.idMeal)
-            Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
-
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage("Do you want to delete the item ?")
+                .setCancelable(true)
+                .setPositiveButton("Yes"){dialog , it ->
+                    recyclerAdapter.updateItem(false,meal)
+                    searchViewModel.deleteFavMealById(meal.idMeal,userid!!)
+                    Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton("No"){dialog , it ->
+                    dialog.cancel()
+                    recyclerAdapter.updateItem(true,meal)
+                    recyclerAdapter.notifyDataSetChanged()
+                }
+            val dialog = builder.create()
+            dialog.show()
         }
 
     }
 
-    private fun getViewModelReady() {
-        val mealsFactory = HomeMealsViewModelFactory(
-            RepositoryImpl(LocalSourceImp(requireActivity()),ApiClient)
-        )
-
-        HomeViewModel= ViewModelProvider(requireActivity(),mealsFactory).get(HomeMealsViewModel::class.java)
+    override fun onDestroy() {
+        super.onDestroy()
+        searchViewModel.resetList()
     }
+
+
+
+
+
+
 
 }
 

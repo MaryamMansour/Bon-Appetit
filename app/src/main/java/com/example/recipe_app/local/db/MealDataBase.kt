@@ -4,20 +4,22 @@ import android.content.Context
 import androidx.room.*
 import com.example.recipe_app.local.dao.MealDao
 import com.example.recipe_app.local.dao.PersonInfoDao
+import com.example.recipe_app.local.dao.UserFavouriteDao
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.model.PersonInfo
 import com.example.recipe_app.model.UserFavourite
 import com.google.gson.Gson
 
 import com.google.gson.reflect.TypeToken
+import java.lang.reflect.Type
 
-//@TypeConverters(Converters::class)
-@Database(entities = [UserFavourite::class, PersonInfo::class,MealX::class], version=16)
+
+@Database(entities = [UserFavourite::class, PersonInfo::class,MealX::class], version=1 , exportSchema = false)
 abstract class MealDataBase : RoomDatabase() {
-
-
     abstract fun mealDao(): MealDao
     abstract fun personinfodao(): PersonInfoDao
+
+    abstract fun userFavouriteDao(): UserFavouriteDao
 
 
     companion object{
@@ -30,39 +32,9 @@ abstract class MealDataBase : RoomDatabase() {
                     MealDataBase::class.java ,
                     "FavMeals"
                 )
-                    .fallbackToDestructiveMigration()
                     .build()
                     .also { INSTANCE = it }
             }
         }
     }
 }
-//class Converters {
-//    @TypeConverter
-//    fun fromStringList(value: String?): MutableList<String>? {
-//        return value?.split(",")?.toMutableList()
-//    }
-//
-//    @TypeConverter
-//    fun toString(list: MutableList<String>?): String? {
-//        return list?.joinToString(",")
-//    }
-//}
-
-//class Converters{
-//@TypeConverter
-//fun fromString(value: String?): MutableList<String>? {
-//
-//    return value?.split(",")?.toMutableList()
-////    val listType = object :
-////        TypeToken<ArrayList<String?>?>() {}.type
-////    return Gson().fromJson(value, listType)
-//}
-//
-//@TypeConverter
-//fun fromList(list: MutableList<String?>?): String? {
-//    return list?.joinToString(",")
-////    val gson = Gson()
-////    return gson.toJson(list)
-//}
-//}

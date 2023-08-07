@@ -7,20 +7,19 @@ import com.example.recipe_app.model.UserFavourite
 
 @Dao
 interface MealDao {
-
-//    @Query("SELECT * FROM FavMeals")
-    @Query("SELECT * FROM user_favourite WHERE userID LIKE :userId ")
-    suspend fun getFavMeals(userId : String):List<UserFavourite>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFavMeal(userFavourite: UserFavourite)
-    @Query("DELETE FROM user_favourite WHERE userId = :id AND mealId = :mealId")
-    suspend fun deleteFavMeal(id : String, mealId: String)
+   suspend fun insertFavMealToUser(meal: MealX)
 
-    @Query("SELECT * FROM favmeals")
-    suspend fun getFavMealsItem():List<MealX>
-    //todo
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFavMealItem(MealX: MealX)
-    @Query("DELETE FROM favmeals WHERE idMeal = :mealId ")
-    suspend fun deleteFavMealItem( mealId: String)
+    @Query("SELECT * FROM meal WHERE idMeal IN (:mealId)")
+   suspend fun getFavMealsByMealsId(mealId: List<String>): List<MealX>
+
+    @Query("delete from meal where idMeal = :mealId")
+   suspend fun deleteFavMealById(mealId: String)
+
+
+
+
+
+
+
 }

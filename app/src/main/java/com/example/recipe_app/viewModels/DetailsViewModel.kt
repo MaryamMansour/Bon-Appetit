@@ -7,35 +7,26 @@ import androidx.lifecycle.viewModelScope
 import com.example.recipe_app.model.Meal
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailsViewModel (private val repository: Repository)  : ViewModel() {
-
-//    var _detailsMeal : MutableLiveData<MealX>?=null
-//   // val detailsMeal: MutableLiveData<MealX>? = _detailsMeal
-//
-//
-//    fun getDetails(): MutableLiveData<MealX> {
-//        viewModelScope.launch {
-//            if (_detailsMeal == null)
-//                _detailsMeal = MutableLiveData()
-//            val response = repository.getMealsResponse().meals
-//            _detailsMeal!!.value = response
-//        }
-//        return _detailsMeal!!
-//    }
+@HiltViewModel
+class DetailsViewModel @Inject constructor (
+    private val repository: Repository
+)  : ViewModel() {
 
 
-    private var _detailsMeal = MutableLiveData<List<MealX>>()
-    val detailsMeal: LiveData<List<MealX>> = _detailsMeal
+    private val _singleMeal = MutableLiveData<MealX>()
+    val singleMeal: LiveData<MealX> = _singleMeal
 
-    fun getDetails() {
-        viewModelScope.launch {
 
-            val response = repository.getMealsResponse("c").meals
-            _detailsMeal?.value = response
-
+    fun getMealById(mealId: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            _singleMeal.postValue( repository.lookupMealById(mealId).meals[0])
         }
     }
+
 
 }

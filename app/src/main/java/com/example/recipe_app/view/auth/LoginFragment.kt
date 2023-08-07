@@ -8,18 +8,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.recipe_app.R
-import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.PersonInfo
-import com.example.recipe_app.network.ApiClient
-import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.AuthViewModel
-import com.example.recipe_app.viewModels.AuthViewModelFactory
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     lateinit var btntosignup: TextView
@@ -28,8 +26,8 @@ class LoginFragment : Fragment() {
     lateinit var etTxtLayoutEmail:TextInputLayout
     lateinit var etTxtLayoutPassword:TextInputLayout
     lateinit var btnlogin: Button
-    lateinit var viewModel: AuthViewModel
-    lateinit var authViewModelFactory: AuthViewModelFactory
+
+    val viewModel: AuthViewModel by viewModels()
 
 
 
@@ -43,8 +41,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        authViewModelFactory= AuthViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()),ApiClient))
-        viewModel= ViewModelProvider(this,authViewModelFactory).get(AuthViewModel::class.java)
+//
 
         etEmailLogin = view.findViewById(R.id.editText_email)
         etPasswordLogin = view.findViewById(R.id.et_password)

@@ -2,17 +2,22 @@ package com.example.recipe_app.network
 
 import android.util.Log
 import com.example.recipe_app.model.Meal
+import retrofit2.Retrofit
+import javax.inject.Inject
 
-object  ApiClient : RemoteDataSource {
+class ApiClient @Inject constructor(
+      var apiInterface: ApiInterface
+): RemoteDataSource {
 
      override suspend fun getMealsResponse(char:String): Meal {
-        return RetrofitHelper.retrofit.create(ApiInterface::class.java).getMeals(char)
+        return apiInterface.getMeals(char)
     }
     override suspend fun getRandomMeal(): Meal {
-        return RetrofitHelper.retrofit.create(ApiInterface::class.java).getRandomMeal()
+        return apiInterface.getRandomMeal()
     }
     override suspend fun lookupMealById(mealId: String): Meal {
-        return RetrofitHelper.retrofit.create(ApiInterface::class.java).lookupMealById(mealId)
+        return apiInterface.lookupMealById(mealId)
     }
+
 
 }

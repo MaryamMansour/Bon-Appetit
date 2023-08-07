@@ -11,10 +11,8 @@ import com.example.recipe_app.model.UserFavourite
 
 interface LocalDataSource {
 
-    suspend fun getFavMeals(userId : String):List<UserFavourite>
-    suspend fun insertFavMeal(userFavourite: UserFavourite)
-    suspend fun deleteFavMeal(id : String, mealId: String)
 
+////////////////////  user  /////////////////////////
     suspend fun getAllPersonInfo(): List<PersonInfo>
 
     suspend fun insert(personinfo: PersonInfo)
@@ -25,8 +23,21 @@ interface LocalDataSource {
 
     suspend fun getPersonInfo(email : String) : PersonInfo
 
-    suspend fun getFavMealsItem():List<MealX>
-    suspend fun insertFavMealItem(mealX: MealX)
-    suspend fun deleteFavMealItem( mealId: String)
+////////////////////// user favourite /////////////////////////
+  suspend  fun insertFavMealToUser(userFavourite: UserFavourite)
+
+   suspend fun getFavMealsByUserId(userId: String): List<String>
+
+   suspend fun deleteFavMealById(mealId: String, userId: String)
+
+    ////////////////////// meal /////////////////////////
+   suspend fun insertFavMealToUser(meal: MealX)
+
+  suspend  fun getFavMealsByMealsId(mealId: List<String>): List<MealX>
+
+ suspend  fun deleteFavMealById(mealId: String)
+
+
+
 
 }

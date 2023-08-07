@@ -2,36 +2,32 @@ package com.example.recipe_app.view.home
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.annotation.NonNull
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import at.blogc.android.views.ExpandableTextView
 import com.bumptech.glide.Glide
 import com.example.recipe_app.R
-import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
-import com.example.recipe_app.network.ApiClient
-import com.example.recipe_app.repository.RepositoryImpl
-import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS
-import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS2
-import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS3
-import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS4
+
 import com.example.recipe_app.viewModels.DetailsViewModel
-import com.example.recipe_app.viewModels.DetailsViewModelFactory
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class detailsFragment : Fragment() {
+    val args : detailsFragmentArgs by navArgs()
 
-    lateinit var detailsViewModel: DetailsViewModel
+    val detailsViewModel: DetailsViewModel by viewModels()
     lateinit var mealImage : ImageView
     lateinit var mealName : TextView
     lateinit var mealDescription :ExpandableTextView
@@ -53,11 +49,11 @@ lateinit var  youtubeVideo : YouTubePlayerView
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mealImage = view.findViewById(R.id.imageView2)
-        mealName =view.findViewById(R.id.textView2)
-        mealDescription =view.findViewById(R.id.textView3)
+        mealName = view.findViewById(R.id.textView2)
+        mealDescription = view.findViewById<ExpandableTextView>(R.id.textView3)
 
 
-       youtubeVideo =view.findViewById(R.id.youtube_player_view)
+       youtubeVideo =view.findViewById<YouTubePlayerView>(R.id.youtube_player_view)
         lifecycle.addObserver(youtubeVideo)
         youtubeVideo.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(@NonNull youTubePlayer: YouTubePlayer) {
@@ -83,26 +79,20 @@ lateinit var  youtubeVideo : YouTubePlayerView
             }
         }
 
-        getViewModelReady()
-       detailsViewModel.getDetails()
-        detailsViewModel.detailsMeal?.observe(viewLifecycleOwner){
+       detailsViewModel.getMealById(args.id)
+        detailsViewModel.singleMeal.observe(viewLifecycleOwner){
             displayinfo(it)
         }
     }
 
-    private fun displayinfo(it: List<MealX>?) {
-        mealName.text =arguments?.getString(ARGS).toString()
-        mealDescription.text =arguments?.getString(ARGS2).toString()
-        Glide.with(this).load(arguments?.getString(ARGS3).toString()).into(mealImage)
-        videoId = arguments?.getString(ARGS4).toString()
+    private fun displayinfo(it: MealX) {
+        mealName.text=it.strMeal
+        mealDescription.text=it.strInstructions
+        Glide.with(requireActivity()).load(it.strMealThumb).into(mealImage)
+        videoId=it.strYoutube!!
+
 
     }
 
-    private fun getViewModelReady() {
-        val mealsFactory = DetailsViewModelFactory(
-            RepositoryImpl(LocalSourceImp(requireActivity()), ApiClient)
-        )
 
-        detailsViewModel= ViewModelProvider(this,mealsFactory).get(DetailsViewModel::class.java)
-    }
 }

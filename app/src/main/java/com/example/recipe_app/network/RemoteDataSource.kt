@@ -7,6 +7,9 @@ interface RemoteDataSource {
     suspend fun getMealsResponse(char:String): Meal
 
     suspend fun getRandomMeal(): Meal
+
     suspend fun lookupMealById(mealId: String):Meal
+
+
 
 }

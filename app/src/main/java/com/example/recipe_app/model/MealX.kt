@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 
-@Entity(tableName = "FavMeals")
-data class MealX  (
+@Entity(tableName = "meal")
+data class MealX   (
 //    val dateModified: Any,
     @PrimaryKey
     val idMeal: String,
@@ -63,6 +63,7 @@ data class MealX  (
     val strSource: String?,
     val strTags: String?,
     val strYoutube: String?,
-//    var userId: MutableList<String>?,
-    var fav: Boolean
+    var isFavourite: Boolean,
+
+
 )

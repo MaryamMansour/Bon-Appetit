@@ -13,4 +13,6 @@ interface ApiInterface {
 
     @GET("lookup.php")
     suspend fun lookupMealById(@Query("i") mealId: String):Meal
+
+
 }
