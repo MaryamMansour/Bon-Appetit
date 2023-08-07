@@ -46,7 +46,6 @@ class SearchFragment : Fragment() , OnClickListener {
 
         var pref=requireActivity().getSharedPreferences("mypref",0)
         var userid=pref.getString("CurrentUserMail","0")
-        searchViewModel.getFavMealsByUserId(userid!!)
 
         searchView = view.findViewById(R.id.searchView)
         recyclerView = view.findViewById(R.id.searchRecyclerView)
@@ -55,38 +54,27 @@ class SearchFragment : Fragment() , OnClickListener {
         recyclerView.adapter = recyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
-        searchViewModel.favMeal.observe(viewLifecycleOwner){favMeals->
             searchViewModel.listOfMeals.observe(viewLifecycleOwner){meals->
-                var ApiMeal = meals
-                ApiMeal.forEach { meal ->
-                    favMeals.forEach { favMeal ->
-                        if (meal.idMeal == favMeal.idMeal) {
-                            meal.isFavourite = true
-                        }
-                    }
-                }
-
-                if (ApiMeal.isNullOrEmpty()){
+                if (meals.isNullOrEmpty()){
                     //todo replace the text view below with animation
                     text_NO_MEALS.visibility = View.VISIBLE
                 }else{
                     //todo replace the text view below with animation
                     text_NO_MEALS.visibility = View.GONE
                     recyclerView.visibility = View.VISIBLE
-                    recyclerAdapter.setDataAdapter(ApiMeal)
-
+                    recyclerAdapter.setDataAdapter(meals)
                 }
             }
-        }
+
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                searchViewModel.getMeals(query!!)
+                searchViewModel.getMealsWithFavourite(userid!!,query!!)
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                searchViewModel.getMeals(newText!!)
+                searchViewModel.getMealsWithFavourite(userid!!,newText!!)
                 return false
             }
 
