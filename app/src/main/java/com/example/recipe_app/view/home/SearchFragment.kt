@@ -62,7 +62,13 @@ class SearchFragment : Fragment() , OnClickListener {
         recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
             searchViewModel.listOfMeals.observe(viewLifecycleOwner){meals->
-                if (meals.isNullOrEmpty()){
+                if(meals.isNullOrEmpty() && searchView.query.isNullOrEmpty()){
+                    recyclerView.visibility = View.GONE
+                    typeToSearchLayout.visibility = View.VISIBLE
+                    lootieNotFound.visibility = View.GONE
+                    shimmerFrameLayout.visibility = View.GONE
+                }
+                 else if (meals.isNullOrEmpty()){
                     recyclerView.visibility = View.GONE
                     typeToSearchLayout.visibility = View.GONE
                     lootieNotFound.visibility = View.VISIBLE
@@ -74,6 +80,7 @@ class SearchFragment : Fragment() , OnClickListener {
                     typeToSearchLayout.visibility = View.GONE
                     recyclerAdapter.setDataAdapter(meals)
                     shimmerFrameLayout.visibility = View.GONE
+
                 }
             }
 
@@ -148,6 +155,15 @@ class SearchFragment : Fragment() , OnClickListener {
         }
 
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        searchViewModel.resetList()
+    }
+
+
+
+
 
 
 

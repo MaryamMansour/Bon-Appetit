@@ -78,5 +78,8 @@ class SearchViewModel @Inject constructor(
 
         }
     }
+    fun resetList(){
+        _listOfMeals.value = emptyList()
+    }
 
 }
