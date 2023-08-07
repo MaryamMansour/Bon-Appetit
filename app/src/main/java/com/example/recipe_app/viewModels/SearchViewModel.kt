@@ -11,6 +11,7 @@ import com.example.recipe_app.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
@@ -52,6 +53,28 @@ class SearchViewModel @Inject constructor(
             repository.deleteFavMealById(mealId, userId)
 //            repository.deleteFavMealById(mealId)
 //            getMealsWithFavourite(userId)
+
+        }
+    }
+
+    fun getMealsWithFavourite(userId: String, query: String){
+        viewModelScope.launch {
+            val apiMeals = withContext(Dispatchers.IO){
+                repository.getMealsResponse(query).meals ?: emptyList()
+            }
+            val favMeals = withContext(Dispatchers.IO){
+                val favMealsId = repository.getFavMealsByUserId(userId)
+                repository.getFavMealsByMealsId(favMealsId) ?: emptyList()
+            }
+            val mealsWithFav = apiMeals.map { meal ->
+                favMeals.forEach { favMeal ->
+                    if (meal.idMeal == favMeal.idMeal) {
+                        meal.isFavourite = true
+                    }
+                }
+                meal
+            }
+            _listOfMeals.postValue(mealsWithFav)
 
         }
     }

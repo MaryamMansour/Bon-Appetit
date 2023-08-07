@@ -76,6 +76,30 @@ class HomeMealsViewModel @Inject constructor(
     }
 
 
+    ////////test////////
+    fun getMealsWithFavourite(userId: String){
+        viewModelScope.launch {
+            val apiMeals = withContext(Dispatchers.IO){
+                 repository.getMealsResponse(alphabets).meals
+            }
+            val favMeals = withContext(Dispatchers.IO){
+                val favMealsId = repository.getFavMealsByUserId(userId)
+                repository.getFavMealsByMealsId(favMealsId)
+            }
+            val mealsWithFav = apiMeals.map { meal ->
+                favMeals.forEach { favMeal ->
+                    if (meal.idMeal == favMeal.idMeal) {
+                        meal.isFavourite = true
+                    }
+                }
+                meal
+            }
+            _listOfMeals.postValue(mealsWithFav)
+
+        }
+    }
+
+
 
 
 
