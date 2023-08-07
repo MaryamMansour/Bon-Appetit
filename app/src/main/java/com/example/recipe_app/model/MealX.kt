@@ -63,14 +63,12 @@ data class MealX  (
     val strSource: String?,
     val strTags: String?,
     val strYoutube: String?,
-    var userId: MutableList<String?>?,
+    var userId: MutableList<String?>? = mutableListOf(),
     var fav: Boolean,
 
 
 
 )
 {
-    fun getuserIDs(): MutableList<String?>? {
-        return userId
-    }
+
 }

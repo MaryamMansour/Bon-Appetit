@@ -132,14 +132,14 @@ class HomeFragment : Fragment(), OnClickListener {
         var userId=pref.getString("CurrentUserMail","")
             if (isChecked)
             {
-                HomeViewModel.inserFavtMeal(UserFavourite(userId!! ,meal.idMeal))
-                HomeViewModel.insertFavMealItem(meal)
+//                HomeViewModel.inserFavtMeal(UserFavourite(userId!! ,meal.idMeal))
+                HomeViewModel.insertMeal(meal)
                 Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
 
             }
             else
             {
-                HomeViewModel.deleteFavMeal(userId!!,meal.idMeal)
+                HomeViewModel.deleteFavMeal(meal.idMeal)
                 Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
 
             }

@@ -11,11 +11,14 @@ interface Repository {
     suspend fun getMealsResponse(char:String): Meal
 
     suspend fun updateEntity(meal: MealX)
+    suspend fun  updateDataList(id: String, dataList: MutableList<String?>?)
+    suspend fun getuserIDs(mealId: String): MutableList<String?>?
     suspend fun getRandomMeal(): Meal
 
     suspend fun getFavMeals(userId : String):List<MealX>
-    suspend fun insertFavMeal(userFavourite: UserFavourite)
-    suspend fun deleteFavMeal(id : String, mealId: String)
+//    suspend fun insertFavMeal(userFavourite: UserFavourite)
+    suspend fun delete()
+//    suspend fun deleteFavMeal(id : String, mealId: String)
 
     suspend fun lookupMealById(mealId: String):Meal
 

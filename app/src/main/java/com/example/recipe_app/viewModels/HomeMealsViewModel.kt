@@ -36,13 +36,14 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
     private val _randomMeal = MutableLiveData<MealX>()
     val randomMeal: LiveData<MealX> = _randomMeal
 
-    fun getRandomMeal(){
-        if(randomMeal.value == null){
-        viewModelScope.launch(Dispatchers.IO) {
-            val response =  repository.getRandomMeal()
-            _randomMeal.postValue(response.meals[0])
+    fun getRandomMeal() {
+        if (randomMeal.value == null) {
+            viewModelScope.launch(Dispatchers.IO) {
+                val response = repository.getRandomMeal()
+                _randomMeal.postValue(response.meals[0])
+            }
         }
-    }}
+    }
 
     val alphabets = ('a'..'z').map { it.toString() }.shuffled().get(0)
 
@@ -59,59 +60,57 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
 //
 //        }
 
-        fun inserFavtMeal(meal: UserFavourite) {
-            viewModelScope.launch (Dispatchers.IO){
-                repository.insertFavMeal(meal)
-            }
+//        fun inserFavtMeal(meal: UserFavourite) {
+//            viewModelScope.launch (Dispatchers.IO){
+//                repository.insertFavMeal(meal)
+//            }
+//        }
+
+
+    fun deleteFavMeal(mealId: String) {
+        viewModelScope.launch {
+            repository.deleteFavMealItem(mealId)
         }
+    }
 
-        fun deleteFavMeal(id: String, mealId: String) {
-            viewModelScope.launch {
-                repository.deleteFavMeal(id, mealId)
-                repository.deleteFavMealItem(mealId)
 
-                var x=_listOfMeals.value?.toMutableList()
-                x?.filter { it.idMeal == mealId }?.forEach { it.fav=false }
-                _listOfMeals.value = x!!
-            }
-        }
-
-        fun getAllFavMeals(id: String) {
-            viewModelScope.launch(Dispatchers.IO) {
-                _listOfMealsItems.postValue(repository.getFavMealsItem())
-                withContext(Dispatchers.Main) {
-                    _listOfMealsItems.value?.forEach {
-                        listOfMeals.value?.forEach { meal ->
-                            meal.fav = meal.idMeal == it.idMeal
-                        }
+    fun getAllFavMeals(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _listOfMealsItems.postValue(repository.getFavMealsItem())
+            withContext(Dispatchers.Main) {
+                _listOfMealsItems.value?.forEach {
+                    listOfMeals.value?.forEach { meal ->
+                        meal.fav = meal.idMeal == it.idMeal
                     }
                 }
             }
         }
-
-    fun insertFavMealItem(mealX: MealX) {
-        viewModelScope.launch {
-            repository.insertFavMealItem(mealX)
-
-            var x=_listOfMeals.value?.toMutableList()
-            mealX.fav=true
-            x?.add(mealX)
-            _listOfMeals.value = x!!
-        }
     }
+
+    //    fun insertFavMealItem(mealX: MealX) {
+//        viewModelScope.launch {
+//            repository.insertFavMealItem(mealX)
+//
+//            var x=_listOfMeals.value?.toMutableList()
+//            mealX.fav=true
+//            x?.add(mealX)
+//            _listOfMeals.value = x!!
+//        }
+//    }
     fun getFavMealsItem() {
-        viewModelScope.launch (Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             _listOfMealsItems.postValue(repository.getFavMealsItem())
 
         }
     }
+
     fun getSearchedMeals(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _listOfMealsSearch.postValue(repository.getMealsResponse(query).meals?: listOf())
+            _listOfMealsSearch.postValue(repository.getMealsResponse(query).meals ?: listOf())
             withContext(Dispatchers.Main) {
                 _listOfMealsSearch.value?.forEach {
                     _listOfMeals.value?.forEach { meal ->
-                        it.fav =  meal.idMeal == it.idMeal
+                        it.fav = meal.idMeal == it.idMeal
                     }
                 }
             }
@@ -120,21 +119,57 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
     }
 
 
-    fun update(id: String?,meal: MealX)
-    {
+    fun update(id: String?, meal: MealX) {
         viewModelScope2.launch {
             withContext(Dispatchers.IO) {
 
 //                meal.userId?.add(id)
-                meal.getuserIDs()?.add(id)
-                repository.updateEntity(meal)
+                var currentDataList = repository.getuserIDs(meal.idMeal)
+
+
+                currentDataList?.add(id)
+
+
+                repository.updateDataList(meal.idMeal, currentDataList)
+//             currentDataList   meal.getuserIDs()?.add(id)
+
                 Log.d("MAIL", "$id")
-                Log.d("Size", "${meal.userId?.size}")
+                Log.d("Size Meal", "${repository.getuserIDs(meal.idMeal)?.size}")
+                Log.d("Size List ", "${currentDataList?.size}")
 
             }
 
         }
     }
 
-}
 
+    fun delete(meal: MealX, idToDelete: String) {
+        viewModelScope2.launch {
+            withContext(Dispatchers.IO){
+
+                var currentIds: MutableList<String?>? = repository.getuserIDs(meal.idMeal)
+                Log.d("delete Size List ", "${currentIds?.size}")
+
+                if (currentIds != null) {
+                    // Remove the ID to delete from the current list
+                    currentIds.remove(idToDelete)
+                    Log.d("delete Size List ", "${currentIds?.size}")
+                }
+
+//                repository.updateDataList(meal.idMeal, currentIds)
+//                    meal.userId=currentIds
+//                repository.updateEntity(meal)
+                meal.userId?.remove(idToDelete)
+            }
+
+        }
+    }
+
+    fun insertMeal(meal: MealX) {
+        viewModelScope.launch {
+            repository.insertFavMealItem(meal)
+        }
+    }
+
+
+}

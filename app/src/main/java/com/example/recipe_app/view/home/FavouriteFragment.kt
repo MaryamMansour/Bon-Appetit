@@ -68,7 +68,10 @@ class FavouriteFragment : Fragment(), OnClickListener {
                             builder.setMessage("Do you want to delete the item ?")
                                 .setCancelable(true)
                                 .setPositiveButton("Yes"){dialog , it ->
-                                    HomeViewModel.deleteFavMeal(userid!!,favRecyclerAdapter.mealListM[viewHolder.adapterPosition].idMeal)
+//                                    HomeViewModel.deleteFavMeal(favRecyclerAdapter.mealListM[viewHolder.adapterPosition].idMeal)
+                                    if (userid != null) {
+                                        HomeViewModel.delete(favRecyclerAdapter.mealListM[viewHolder.adapterPosition] , userid)
+                                    }
                                     favRecyclerAdapter.deleteItem(viewHolder.adapterPosition)
 
 

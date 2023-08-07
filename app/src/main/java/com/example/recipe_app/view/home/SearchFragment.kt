@@ -114,15 +114,17 @@ class SearchFragment : Fragment() , OnClickListener {
         var userid=pref.getString("CurrentUserMail","0")
         if (isChecked)
         {
-            HomeViewModel.inserFavtMeal(UserFavourite(userid!! ,meal.idMeal))
-            HomeViewModel.insertFavMealItem(meal)
+//            HomeViewModel.inserFavtMeal(UserFavourite(userid!! ,meal.idMeal))
+//            HomeViewModel.insertFavMealItem(meal)
             HomeViewModel.update(userid,meal)
+
             Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
+            HomeViewModel.insertMeal(meal)
 
         }
         else
         {
-            HomeViewModel.deleteFavMeal(userid!!,meal.idMeal)
+//            HomeViewModel.deleteFavMeal(meal.idMeal)
             Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
 
         }

@@ -12,8 +12,11 @@ import com.example.recipe_app.model.UserFavourite
 interface LocalDataSource {
 
     suspend fun getFavMeals(userId : String):List<MealX>
-    suspend fun insertFavMeal(userFavourite: UserFavourite)
-    suspend fun deleteFavMeal(id : String, mealId: String)
+    suspend fun updateDataList(id: String, dataList: MutableList<String?>?)
+    suspend fun  getuserIDs(mealId: String): MutableList<String?>?
+//    suspend fun insertFavMeal(userFavourite: UserFavourite)
+    suspend fun delete()
+//    suspend fun deleteFavMeal(id : String, mealId: String)
 
     suspend fun getAllPersonInfo(): List<PersonInfo>
 

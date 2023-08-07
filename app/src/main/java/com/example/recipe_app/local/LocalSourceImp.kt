@@ -20,8 +20,12 @@ class LocalSourceImp(val context: Context) : LocalDataSource{
     }
 
     override suspend fun getFavMeals(userId : String):List<MealX> = mealsDao.getFavMeals(userId)
-    override suspend fun insertFavMeal(userFavourite: UserFavourite) = mealsDao.insertFavMeal(userFavourite)
-    override suspend fun deleteFavMeal(id : String, mealId: String) = mealsDao.deleteFavMeal(id, mealId)
+    override suspend fun delete()= mealsDao.delete()
+    override suspend fun getuserIDs(mealId: String): MutableList<String?>? = mealsDao.getuserIDs(mealId)
+    override suspend fun updateDataList(id: String, dataList: MutableList<String?>?) = mealsDao.updateDataList(id, dataList)
+
+//    override suspend fun insertFavMeal(userFavourite: UserFavourite) = mealsDao.insertFavMeal(userFavourite)
+//    override suspend fun deleteFavMeal(id : String, mealId: String) = mealsDao.deleteFavMeal(id, mealId)
 
     override suspend fun getAllPersonInfo(): List<PersonInfo> = userDao.getAllPersonInfo()
 

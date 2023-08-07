@@ -11,10 +11,15 @@ interface MealDao {
 //    @Query("SELECT * FROM FavMeals")
     @Query("SELECT * FROM FavMeals WHERE userId LIKE '%' || :userId || '%'")
     suspend fun getFavMeals(userId : String):List<MealX>
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFavMeal(userFavourite: UserFavourite)
-    @Query("DELETE FROM user_favourite WHERE userId = :id AND mealId = :mealId")
-    suspend fun deleteFavMeal(id : String, mealId: String)
+    @Query("UPDATE FavMeals SET userId = :dataList WHERE idMeal = :id")
+    fun updateDataList(id: String, dataList: MutableList<String?>?)
+    @Query("SELECT userId FROM FavMeals WHERE idMeal = :mealId")
+    fun getuserIDs(mealId: String): MutableList<String?>?
+
+    @Query("DELETE FROM FavMeals")
+    fun delete()
+
+
 
     @Query("SELECT * FROM favmeals")
     suspend fun getFavMealsItem():List<MealX>

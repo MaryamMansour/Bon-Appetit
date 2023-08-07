@@ -16,12 +16,15 @@ class RepositoryImpl(
 
     }
 
+    override suspend fun getuserIDs(mealId: String): MutableList<String?>?= localDataSource.getuserIDs(mealId)
+    override suspend fun updateDataList(id: String, dataList: MutableList<String?>?) = localDataSource.updateDataList(id,dataList)
     override suspend fun getRandomMeal(): Meal = remoteDataSource.getRandomMeal()
+    override suspend fun delete() = localDataSource.delete()
     override suspend fun getFavMeals(userId: String): List<MealX> = localDataSource.getFavMeals(userId)
 
-    override suspend fun insertFavMeal(userFavourite: UserFavourite) = localDataSource.insertFavMeal(userFavourite)
-
-    override suspend fun deleteFavMeal(id: String, mealId: String) = localDataSource.deleteFavMeal(id, mealId)
+//    override suspend fun insertFavMeal(userFavourite: UserFavourite) = localDataSource.insertFavMeal(userFavourite)
+//
+//    override suspend fun deleteFavMeal(id: String, mealId: String) = localDataSource.deleteFavMeal(id, mealId)
     override suspend fun lookupMealById(mealId: String): Meal = remoteDataSource.lookupMealById(mealId)
 
 
