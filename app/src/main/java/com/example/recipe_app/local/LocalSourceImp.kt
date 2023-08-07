@@ -8,19 +8,16 @@ import com.example.recipe_app.local.db.MealDataBase
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.model.PersonInfo
 import com.example.recipe_app.model.UserFavourite
+import javax.inject.Inject
 
-class LocalSourceImp(val context: Context) : LocalDataSource{
-    private  var mealsDao: MealDao
-    private  var userDao :PersonInfoDao
-    private var userFavouriteDao: UserFavouriteDao
+class LocalSourceImp @Inject constructor(
+       var mealsDao: MealDao,
+      var userDao :PersonInfoDao,
+     var userFavouriteDao: UserFavouriteDao,
+) : LocalDataSource{
 
 
-    init {
-        val DataBase: MealDataBase = MealDataBase.getInstance(context)
-        mealsDao = DataBase.mealDao()
-        userDao = DataBase.personinfodao()
-        userFavouriteDao = DataBase.userFavouriteDao()
-    }
+
 
 
 

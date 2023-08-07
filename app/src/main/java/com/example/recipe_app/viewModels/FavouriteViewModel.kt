@@ -6,10 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.repository.Repository
+import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
-class FavouriteViewModel(val repository: Repository): ViewModel() {
+import javax.inject.Inject
+@HiltViewModel
+class FavouriteViewModel @Inject constructor(
+     val repository: Repository
+): ViewModel() {
 
 
     private val _favMeal = MutableLiveData<List<MealX>>()

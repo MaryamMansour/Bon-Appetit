@@ -7,16 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.recipe_app.R
-import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.PersonInfo
-import com.example.recipe_app.network.ApiClient
-import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.AuthViewModel
-import com.example.recipe_app.viewModels.ViewModelFactory
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.Dispatchers
@@ -31,8 +27,7 @@ class SignUpFragment : Fragment() {
     lateinit var et_layout_email: TextInputLayout
     lateinit var et_layout_name: TextInputLayout
     lateinit var et_layout_password: TextInputLayout
-    lateinit var viewModel: AuthViewModel
-    lateinit var authViewModelFactory: ViewModelFactory
+    val viewModel: AuthViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -55,14 +50,6 @@ class SignUpFragment : Fragment() {
         et_layout_email = view.findViewById(R.id.et_layot_email_signup)
         et_layout_name = view.findViewById(R.id.et_layout_name_signup)
         et_layout_password = view.findViewById(R.id.et_layout_password_signup)
-        authViewModelFactory = ViewModelFactory(
-            RepositoryImpl(
-                LocalSourceImp(requireActivity()),
-                ApiClient
-            )
-        )
-        viewModel = ViewModelProvider(this, authViewModelFactory).get(AuthViewModel::class.java)
-
 
         btn_signUp.setOnClickListener {
             var name = et_name.text.toString()

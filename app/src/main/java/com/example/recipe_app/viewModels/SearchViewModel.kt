@@ -8,10 +8,14 @@ import androidx.room.Query
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.model.UserFavourite
 import com.example.recipe_app.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
-class SearchViewModel(val repository: Repository) : ViewModel()  {
+import javax.inject.Inject
+@HiltViewModel
+class SearchViewModel @Inject constructor(
+     val repository: Repository
+) : ViewModel()  {
 
     private val _listOfMeals = MutableLiveData<List<MealX>>()
     val listOfMeals: LiveData<List<MealX>> = _listOfMeals

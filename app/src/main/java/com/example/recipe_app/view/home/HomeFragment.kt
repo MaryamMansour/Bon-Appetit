@@ -1,7 +1,6 @@
 package com.example.recipe_app.view.home
 
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,24 +10,23 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipe_app.R
-import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
-import com.example.recipe_app.network.ApiClient
-import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.HomeMealsViewModel
-import com.example.recipe_app.viewModels.ViewModelFactory
 import com.facebook.shimmer.ShimmerFrameLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 
 class HomeFragment : Fragment(), OnClickListener {
 
-    lateinit var HomeViewModel: HomeMealsViewModel
+    private val HomeViewModel: HomeMealsViewModel by viewModels()
 
 
     lateinit var recyclerView: RecyclerView
@@ -61,7 +59,6 @@ class HomeFragment : Fragment(), OnClickListener {
         var pref=requireActivity().getSharedPreferences("mypref",0)
         var userId = pref.getString("CurrentUserMail","")
 
-        getViewModelReady()
         HomeViewModel.getRandomMeal()
         HomeViewModel.getMeals()
         HomeViewModel.getFavMealsByUserId(userId!!)
@@ -135,10 +132,7 @@ class HomeFragment : Fragment(), OnClickListener {
 
     }
 
-    private fun getViewModelReady() {
-        val mealsFactory = ViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()), ApiClient))
-        HomeViewModel= ViewModelProvider(this,mealsFactory).get(HomeMealsViewModel::class.java)
-    }
+
 
 
 }

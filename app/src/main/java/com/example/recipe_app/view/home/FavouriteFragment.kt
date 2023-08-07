@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -15,18 +15,15 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipe_app.R
-import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
-import com.example.recipe_app.network.ApiClient
-import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.FavouriteViewModel
-import com.example.recipe_app.viewModels.ViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class FavouriteFragment : Fragment(), OnClickListener {
     lateinit var navController: NavController
     lateinit var navHostFragment : NavHostFragment
-    lateinit var favouriteViewModel: FavouriteViewModel
+    val favouriteViewModel: FavouriteViewModel by viewModels()
     lateinit var favRecyclerView: RecyclerView
     lateinit var favRecyclerAdapter : favMealAdapter
     private lateinit var builder: AlertDialog.Builder
@@ -41,7 +38,6 @@ class FavouriteFragment : Fragment(), OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         favRecyclerView = view.findViewById(R.id.FavRecyclerView)
-        getViewModelReady()
 
         var pref=requireActivity().getSharedPreferences("mypref",0)
         var userid=pref.getString("CurrentUserMail","0")
@@ -98,10 +94,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
         //do nothing
     }
 
-    private fun getViewModelReady() {
-        val favouriteViewModelFactory = ViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()), ApiClient))
-        favouriteViewModel= ViewModelProvider(this,favouriteViewModelFactory).get(FavouriteViewModel::class.java)
-    }
+
 
 
 
