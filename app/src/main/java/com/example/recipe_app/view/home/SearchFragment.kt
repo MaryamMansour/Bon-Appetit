@@ -62,11 +62,13 @@ class SearchFragment : Fragment() , OnClickListener {
             searchViewModel.listOfMeals.observe(viewLifecycleOwner){meals->
                 if (meals.isNullOrEmpty()){
                     recyclerView.visibility = View.GONE
+                    typeToSearchLayout.visibility = View.GONE
                     lootieNotFound.visibility = View.VISIBLE
 
                 }else{
                     recyclerView.visibility = View.VISIBLE
                     lootieNotFound.visibility = View.GONE
+                    typeToSearchLayout.visibility = View.GONE
                     recyclerAdapter.setDataAdapter(meals)
                 }
             }
@@ -77,9 +79,13 @@ class SearchFragment : Fragment() , OnClickListener {
                 if(query.isNullOrEmpty()){
                     typeToSearchLayout.visibility = View.VISIBLE
                     recyclerView.visibility = View.GONE
+                    lootieNotFound.visibility = View.GONE
+
                 }
                 else{
                     typeToSearchLayout.visibility = View.GONE
+                    recyclerView.visibility = View.GONE
+                    typeToSearchLayout.visibility = View.VISIBLE
                     searchViewModel.getMealsWithFavourite(userid!!,query!!)
                 }
                 return false
@@ -89,9 +95,13 @@ class SearchFragment : Fragment() , OnClickListener {
                 if(newText.isNullOrEmpty()){
                     typeToSearchLayout.visibility = View.VISIBLE
                     recyclerView.visibility = View.GONE
+                    lootieNotFound.visibility = View.GONE
+
                 }
                 else{
                     typeToSearchLayout.visibility = View.GONE
+                    recyclerView.visibility = View.GONE
+                    typeToSearchLayout.visibility = View.VISIBLE
                     searchViewModel.getMealsWithFavourite(userid!!,newText!!)
                 }
                 return false
