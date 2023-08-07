@@ -1,12 +1,12 @@
 package com.example.recipe_app.view.home
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.annotation.NonNull
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -24,6 +24,7 @@ import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS3
 import com.example.recipe_app.view.home.HomeFragment.Companion.ARGS4
 import com.example.recipe_app.viewModels.DetailsViewModel
 import com.example.recipe_app.viewModels.DetailsViewModelFactory
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -40,8 +41,10 @@ class detailsFragment : Fragment() {
 //    lateinit var videoView :VideoView
     var videoId : String = ""
 lateinit var  youtubeVideo : YouTubePlayerView
+lateinit var btnDisplayBottomSheet : Button
+    //lateinit var btnDismissBottomSheet : Button
 
-    @SuppressLint("SetJavaScriptEnabled")
+   // @SuppressLint("SetJavaScriptEnabled")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,12 +55,31 @@ lateinit var  youtubeVideo : YouTubePlayerView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
         mealImage = view.findViewById(R.id.imageView2)
         mealName =view.findViewById(R.id.textView2)
         mealDescription =view.findViewById(R.id.textView3)
+        btnDisplayBottomSheet =view.findViewById(R.id.btnBottomSheet)
+
+        val bottom_sheet_view = layoutInflater.inflate(R.layout.bottom_sheet,null)
+        btnDisplayBottomSheet.setOnClickListener {
+            val dialog = BottomSheetDialog(requireContext())
+
+            var btnDismissBottomSheet : Button =bottom_sheet_view.findViewById(R.id.btnDismiss)
+            btnDismissBottomSheet.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.setCancelable(false)
+            if (bottom_sheet_view.getParent() != null) {
+                (bottom_sheet_view.getParent() as ViewGroup).removeView(bottom_sheet_view)
+            }
+            dialog.setContentView(bottom_sheet_view)
+            dialog.show()
+        }
 
 
-       youtubeVideo =view.findViewById(R.id.youtube_player_view)
+       youtubeVideo =bottom_sheet_view.findViewById(R.id.youtube_player_view)
         lifecycle.addObserver(youtubeVideo)
         youtubeVideo.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(@NonNull youTubePlayer: YouTubePlayer) {
@@ -88,7 +110,9 @@ lateinit var  youtubeVideo : YouTubePlayerView
         detailsViewModel.detailsMeal?.observe(viewLifecycleOwner){
             displayinfo(it)
         }
+
     }
+
 
     private fun displayinfo(it: List<MealX>?) {
         mealName.text =arguments?.getString(ARGS).toString()
