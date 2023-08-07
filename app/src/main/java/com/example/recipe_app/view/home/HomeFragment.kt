@@ -121,6 +121,7 @@ class HomeFragment : Fragment(), OnClickListener {
     override fun onFav(isChecked: Boolean, meal: MealX) {
         var pref = requireActivity().getSharedPreferences("mypref",0)
         var userId = pref.getString("CurrentUserMail","")
+
             if (isChecked)
             {
                 HomeViewModel.insertFavMealToUser(meal,userId!!)

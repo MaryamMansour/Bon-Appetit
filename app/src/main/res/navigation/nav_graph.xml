@@ -60,9 +60,9 @@
         android:label="Details"
         tools:layout="@layout/fragment_details">
 
-        <argument
-            android:name="itemId"
-            app:argType="string" />
 
+        <argument
+            android:name="id"
+            app:argType="string" />
     </fragment>
 </navigation>

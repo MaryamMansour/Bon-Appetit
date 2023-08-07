@@ -83,7 +83,7 @@ lateinit var  youtubeVideo : YouTubePlayerView
         }
 
         getViewModelReady()
-       detailsViewModel.getMealById(args.itemId)
+       detailsViewModel.getMealById(args.id)
         detailsViewModel.singleMeal?.observe(viewLifecycleOwner){
             displayinfo(it)
         }
