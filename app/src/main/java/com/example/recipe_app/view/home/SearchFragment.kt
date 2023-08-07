@@ -36,6 +36,7 @@ class SearchFragment : Fragment() , OnClickListener {
     lateinit var text_NO_MEALS: TextView
     lateinit var typeToSearchLayout:LinearLayout
     lateinit var lootieNotFound :LottieAnimationView
+    lateinit var shimmerFrameLayout: ShimmerFrameLayout
 
 
     override fun onCreateView(
@@ -55,6 +56,7 @@ class SearchFragment : Fragment() , OnClickListener {
         recyclerView = view.findViewById(R.id.searchRecyclerView)
         typeToSearchLayout = view.findViewById(R.id.lottie_type_to_search_layout)
         lootieNotFound = view.findViewById(R.id.lottie_not_found)
+        shimmerFrameLayout = view.findViewById(R.id.shimmer_view_container_search)
         recyclerAdapter = searchAdapter(this)
         recyclerView.adapter = recyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
@@ -64,12 +66,14 @@ class SearchFragment : Fragment() , OnClickListener {
                     recyclerView.visibility = View.GONE
                     typeToSearchLayout.visibility = View.GONE
                     lootieNotFound.visibility = View.VISIBLE
+                    shimmerFrameLayout.visibility = View.GONE
 
                 }else{
                     recyclerView.visibility = View.VISIBLE
                     lootieNotFound.visibility = View.GONE
                     typeToSearchLayout.visibility = View.GONE
                     recyclerAdapter.setDataAdapter(meals)
+                    shimmerFrameLayout.visibility = View.GONE
                 }
             }
 
@@ -85,8 +89,9 @@ class SearchFragment : Fragment() , OnClickListener {
                 else{
                     typeToSearchLayout.visibility = View.GONE
                     recyclerView.visibility = View.GONE
-                    typeToSearchLayout.visibility = View.VISIBLE
+                    typeToSearchLayout.visibility = View.GONE
                     searchViewModel.getMealsWithFavourite(userid!!,query!!)
+                    shimmerFrameLayout.visibility = View.VISIBLE
                 }
                 return false
             }
@@ -101,8 +106,8 @@ class SearchFragment : Fragment() , OnClickListener {
                 else{
                     typeToSearchLayout.visibility = View.GONE
                     recyclerView.visibility = View.GONE
-                    typeToSearchLayout.visibility = View.VISIBLE
                     searchViewModel.getMealsWithFavourite(userid!!,newText!!)
+                    shimmerFrameLayout.visibility = View.VISIBLE
                 }
                 return false
             }
