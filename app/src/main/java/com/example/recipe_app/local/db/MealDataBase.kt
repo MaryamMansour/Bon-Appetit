@@ -7,7 +7,9 @@ import com.example.recipe_app.local.dao.PersonInfoDao
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.model.PersonInfo
 import com.example.recipe_app.model.UserFavourite
+import com.example.recipe_app.network.RetrofitHelper.gson
 import com.google.gson.Gson
+import com.google.gson.JsonArray
 
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
@@ -51,12 +53,67 @@ abstract class MealDataBase : RoomDatabase() {
 //}
 
 class Converters {
+//    @TypeConverter
+//    fun fromJson(json: String): MutableList<String?>? {
+//        val typeToken = object : TypeToken<MutableList<String?>?>() {}.type
+//        return Gson().fromJson(json, typeToken)
+//    }
+//
+//    @TypeConverter
+//    fun toJson(dataList: MutableList<String?>?): String {
+//        return Gson().toJson(dataList)
+//    }
+//private val gson = Gson()
+//
+//    @TypeConverter
+//    fun fromJson(json: String?): MutableList<String?>? {
+//        val listType = object : TypeToken<MutableList<String?>?>() {}.type
+//        return gson.fromJson(json, listType)
+//    }
+//
+//    @TypeConverter
+//    fun toJson(dataList: MutableList<String?>?): String? {
+//        return gson.toJson(dataList)
+//    }
+//@TypeConverter
+
+//fun fromJson(json: String?): MutableList<String?>? {
+//    val type = object : TypeToken<MutableList<String?>?>() {}.type
+//    return Gson().fromJson(json, type)
+//}
+//
+//    @TypeConverter
+//    fun toJson(dataList: MutableList<String?>?): String? {
+//        val jsonArray = JsonArray()
+//        if (dataList != null) {
+//            dataList.forEach { jsonArray.add(it) }
+//        }
+//        return jsonArray.toString()
+//    }
+
+
+//    @TypeConverter
+//    fun fromJson(json: String?): MutableList<String?>? {
+//        val listType = object : TypeToken<MutableList<String?>?>() {}.type
+//        return gson.fromJson(json, listType)
+//    }
+//
+//    @TypeConverter
+//    fun toJson(dataList: MutableList<String?>?): String? {
+//        return gson.toJson(dataList)
+//    }
+
+
     @TypeConverter
-    fun convertToAlertList(value: String): List<String>? {
-        val type: Type = object : TypeToken<List<String>>() {}.type
-        return Gson().fromJson(value, type)
+    fun fromString(value: String?): MutableList<String>? {
+        return value?.split(",")?.map { it.trim() }?.toMutableList()
     }
 
     @TypeConverter
-    fun convertAlertListToString(list: List<String>?): String = Gson().toJson(list)
+    fun toString(list: MutableList<String>?): String? {
+        return list?.joinToString(",") // Make sure there are no extra spaces after the comma
+    }
+
+
+
 }

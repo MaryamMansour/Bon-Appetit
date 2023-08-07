@@ -15,6 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.Collections.addAll
 
 class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
     private val viewModelScope2 = CoroutineScope(Dispatchers.Main)
@@ -129,15 +130,38 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
 
                 currentDataList?.add(id)
 
+                if (currentDataList != null) {
+                    for(i  in 0 until currentDataList.size) {
+                        Log.d("Element in add $i ","${currentDataList.get(i)}")
 
+                    }
+                }
+
+//                repository.updateEntity(meal)
                 repository.updateDataList(meal.idMeal, currentDataList)
+
+                    for(i  in 0 until repository.getuserIDs(meal.idMeal)!!.size) {
+                        Log.d("Element in meal  $i ","${repository.getuserIDs(meal.idMeal)!!.get(i)}")
+
+                    }
+
 //             currentDataList   meal.getuserIDs()?.add(id)
 
                 Log.d("MAIL", "$id")
                 Log.d("Size Meal", "${repository.getuserIDs(meal.idMeal)?.size}")
                 Log.d("Size List ", "${currentDataList?.size}")
 
+                var currentDataList2 = repository.getuserIDs(meal.idMeal)
+
+
+                if (currentDataList2 != null) {
+                    for(i  in 0 until currentDataList2.size) {
+                        Log.d("Element in add $i ","${currentDataList2.get(i)}")
+
+                    }
+                }
             }
+
 
         }
     }
@@ -147,19 +171,40 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
         viewModelScope2.launch {
             withContext(Dispatchers.IO){
 
-                var currentIds: MutableList<String?>? = repository.getuserIDs(meal.idMeal)
-                Log.d("delete Size List ", "${currentIds?.size}")
-
+                var currentIds = repository.getuserIDs(meal.idMeal)
+                var emailList : MutableList<String?>? = mutableListOf()
                 if (currentIds != null) {
-                    // Remove the ID to delete from the current list
-                    currentIds.remove(idToDelete)
+
+
                     Log.d("delete Size List ", "${currentIds?.size}")
+
+                    if (currentIds != null) {
+                        // Since we've properly trimmed and split the retrieved string, each email should be separate
+                        for (email in currentIds) {
+                            if (email != null) {
+                                Log.d("Element after", email)
+                            }
+                        }
+                    }
+                    if (emailList != null) {
+                        for(i  in 0 until emailList.size) {
+                            Log.d("Element after ","${emailList.get(i)}")
+
+
+                        }
+                    }
+
+// Convert the list of email strings into a MutableList
+                    var index = emailList?.indexOf(idToDelete)
+                    Log.d("Element num ","$index")
+
                 }
+
+
 
 //                repository.updateDataList(meal.idMeal, currentIds)
 //                    meal.userId=currentIds
 //                repository.updateEntity(meal)
-                meal.userId?.remove(idToDelete)
             }
 
         }
