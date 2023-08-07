@@ -1,5 +1,6 @@
 package com.example.recipe_app.view.home
 
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipe_app.R
 import com.example.recipe_app.model.MealX
+
 
 
 class home_adapter(var OnClick : OnClickListener) : RecyclerView.Adapter<home_adapter.MyViewHolder>() {

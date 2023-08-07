@@ -20,6 +20,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.recipe_app.R
 import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
@@ -39,7 +40,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
     lateinit var favRecyclerView: RecyclerView
     lateinit var favRecyclerAdapter : favMealAdapter
     private lateinit var builder: AlertDialog.Builder
-    lateinit var textviewbackfav :TextView
+    lateinit var textviewbackfav :LottieAnimationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,7 +74,11 @@ class FavouriteFragment : Fragment(), OnClickListener {
                                 .setPositiveButton("Yes"){dialog , it ->
                                     HomeViewModel.deleteFavMeal(userid!!,favRecyclerAdapter.mealListM[viewHolder.adapterPosition].idMeal)
                                     favRecyclerAdapter.deleteItem(viewHolder.adapterPosition)
-                                     show()
+                                    if(favRecyclerAdapter.itemCount==0){
+                                        show()
+                                    }else{
+                                        hide()
+                                    }
 
                                 }
 
@@ -86,6 +91,8 @@ class FavouriteFragment : Fragment(), OnClickListener {
                         }
 
                     }
+
+
                 }
 
             }
@@ -98,12 +105,20 @@ class FavouriteFragment : Fragment(), OnClickListener {
             favRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             HomeViewModel.listOfMealsItems.observe(viewLifecycleOwner) {
                 favRecyclerAdapter.setDataAdapter(it)
+
+                if(favRecyclerAdapter.itemCount==0){
+                    show()
+                }else{
+                    hide()
+                }
+
+
             }
 
 
         navHostFragment = activity?.supportFragmentManager?.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
-        hide()
+//        hide()
     }
 
 

@@ -1,5 +1,6 @@
 package com.example.recipe_app.view.home
 
+import android.app.AlertDialog
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -105,7 +106,19 @@ class HomeFragment : Fragment(), OnClickListener {
                         ARGS3 to randomMeal.strMealThumb , ARGS4 to randomMeal.strYoutube))
                 }
             }
-
+//        val builder = AlertDialog.Builder(context)
+//        builder.setMessage("Are you sure ?")
+//            .setCancelable(true)
+//            .setPositiveButton("Yes") { dialog, it ->
+//
+//
+//            }
+//            .setNegativeButton("No"){dialog , it ->
+//                dialog.cancel()
+//
+//            }
+//        val dialog = builder.create()
+//        dialog.show()
 
 
         }
@@ -141,8 +154,23 @@ class HomeFragment : Fragment(), OnClickListener {
             {
                 HomeViewModel.deleteFavMeal(userId!!,meal.idMeal)
                 Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
+                val builder = AlertDialog.Builder(context)
+                builder.setMessage("Do you want to remove it ?")
+                    .setCancelable(true)
+                    .setPositiveButton("Yes") { dialog, it ->
 
+
+                    }
+                    .setNegativeButton("No"){dialog , it ->
+                        dialog.cancel()
+
+
+                    }
+                val dialog = builder.create()
+                dialog.show()
             }
+
+
 
     }
 
