@@ -24,6 +24,7 @@ class LoginFragment : Fragment() {
     lateinit var etTxtLayoutEmail:TextInputLayout
     lateinit var etTxtLayoutPassword:TextInputLayout
     lateinit var btnlogin: Button
+
     val viewModel: AuthViewModel by viewModels()
 
 
