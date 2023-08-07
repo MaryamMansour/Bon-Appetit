@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -15,6 +16,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.recipe_app.R
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.viewModels.DetailsViewModel
@@ -32,6 +34,8 @@ class SearchFragment : Fragment() , OnClickListener {
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: searchAdapter
     lateinit var text_NO_MEALS: TextView
+    lateinit var typeToSearchLayout:LinearLayout
+    lateinit var lootieNotFound :LottieAnimationView
 
 
     override fun onCreateView(
@@ -49,19 +53,20 @@ class SearchFragment : Fragment() , OnClickListener {
 
         searchView = view.findViewById(R.id.searchView)
         recyclerView = view.findViewById(R.id.searchRecyclerView)
-        text_NO_MEALS = view.findViewById(R.id.noMaTCHEsFoundTextView)
+        typeToSearchLayout = view.findViewById(R.id.lottie_type_to_search_layout)
+        lootieNotFound = view.findViewById(R.id.lottie_not_found)
         recyclerAdapter = searchAdapter(this)
         recyclerView.adapter = recyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
             searchViewModel.listOfMeals.observe(viewLifecycleOwner){meals->
                 if (meals.isNullOrEmpty()){
-                    //todo replace the text view below with animation
-                    text_NO_MEALS.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
+                    lootieNotFound.visibility = View.VISIBLE
+
                 }else{
-                    //todo replace the text view below with animation
-                    text_NO_MEALS.visibility = View.GONE
                     recyclerView.visibility = View.VISIBLE
+                    lootieNotFound.visibility = View.GONE
                     recyclerAdapter.setDataAdapter(meals)
                 }
             }
@@ -69,12 +74,26 @@ class SearchFragment : Fragment() , OnClickListener {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                searchViewModel.getMealsWithFavourite(userid!!,query!!)
+                if(query.isNullOrEmpty()){
+                    typeToSearchLayout.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
+                }
+                else{
+                    typeToSearchLayout.visibility = View.GONE
+                    searchViewModel.getMealsWithFavourite(userid!!,query!!)
+                }
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                searchViewModel.getMealsWithFavourite(userid!!,newText!!)
+                if(newText.isNullOrEmpty()){
+                    typeToSearchLayout.visibility = View.VISIBLE
+                    recyclerView.visibility = View.GONE
+                }
+                else{
+                    typeToSearchLayout.visibility = View.GONE
+                    searchViewModel.getMealsWithFavourite(userid!!,newText!!)
+                }
                 return false
             }
 
