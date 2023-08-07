@@ -40,7 +40,7 @@
             android:background="#ECE8E9"
             app:iconifiedByDefault="false"
             app:queryBackground="@android:color/transparent"
-            app:queryHint="Search here ..." />
+            app:queryHint="Search Recipes ..." />
 
     </com.google.android.material.card.MaterialCardView>
 
