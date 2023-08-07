@@ -17,7 +17,7 @@ class RepositoryImpl(
     }
 
     override suspend fun getRandomMeal(): Meal = remoteDataSource.getRandomMeal()
-    override suspend fun getFavMeals(userId: String): List<UserFavourite> = localDataSource.getFavMeals(userId)
+    override suspend fun getFavMeals(userId: String): List<MealX> = localDataSource.getFavMeals(userId)
 
     override suspend fun insertFavMeal(userFavourite: UserFavourite) = localDataSource.insertFavMeal(userFavourite)
 

@@ -116,6 +116,7 @@ class SearchFragment : Fragment() , OnClickListener {
         {
             HomeViewModel.inserFavtMeal(UserFavourite(userid!! ,meal.idMeal))
             HomeViewModel.insertFavMealItem(meal)
+            HomeViewModel.update(userid,meal)
             Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
 
         }

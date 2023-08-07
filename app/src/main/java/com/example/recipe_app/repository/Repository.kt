@@ -13,7 +13,7 @@ interface Repository {
     suspend fun updateEntity(meal: MealX)
     suspend fun getRandomMeal(): Meal
 
-    suspend fun getFavMeals(userId : String):List<UserFavourite>
+    suspend fun getFavMeals(userId : String):List<MealX>
     suspend fun insertFavMeal(userFavourite: UserFavourite)
     suspend fun deleteFavMeal(id : String, mealId: String)
 

@@ -11,11 +11,13 @@ import com.example.recipe_app.model.MealX
 import com.example.recipe_app.model.UserFavourite
 import com.example.recipe_app.network.ApiClient
 import com.example.recipe_app.repository.Repository
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
+    private val viewModelScope2 = CoroutineScope(Dispatchers.Main)
 
     private val _listOfMeals = MutableLiveData<List<MealX>>()
     val listOfMeals: LiveData<List<MealX>> = _listOfMeals
@@ -50,12 +52,12 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
             _listOfMeals.postValue(repository.getMealsResponse(alphabets).meals)
         }
     }
-        fun getFavMeals(userId: String) {
-            viewModelScope.launch  (Dispatchers.IO){
-                _listOfFavMeals.postValue(repository.getFavMeals(userId))
-            }
-
-        }
+//        fun getFavMeals(userId: String) {
+//            viewModelScope.launch  (Dispatchers.IO){
+//                _listOfFavMeals.postValue(repository.getFavMeals(userId))
+//            }
+//
+//        }
 
         fun inserFavtMeal(meal: UserFavourite) {
             viewModelScope.launch (Dispatchers.IO){
@@ -116,5 +118,23 @@ class HomeMealsViewModel (private val repository: Repository)  : ViewModel() {
         }
 
     }
+
+
+    fun update(id: String?,meal: MealX)
+    {
+        viewModelScope2.launch {
+            withContext(Dispatchers.IO) {
+
+//                meal.userId?.add(id)
+                meal.getuserIDs()?.add(id)
+                repository.updateEntity(meal)
+                Log.d("MAIL", "$id")
+                Log.d("Size", "${meal.userId?.size}")
+
+            }
+
+        }
+    }
+
 }
 

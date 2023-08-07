@@ -9,8 +9,8 @@ import com.example.recipe_app.model.UserFavourite
 interface MealDao {
 
 //    @Query("SELECT * FROM FavMeals")
-    @Query("SELECT * FROM user_favourite WHERE userID LIKE :userId ")
-    suspend fun getFavMeals(userId : String):List<UserFavourite>
+    @Query("SELECT * FROM FavMeals WHERE userId LIKE '%' || :userId || '%'")
+    suspend fun getFavMeals(userId : String):List<MealX>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFavMeal(userFavourite: UserFavourite)
     @Query("DELETE FROM user_favourite WHERE userId = :id AND mealId = :mealId")
@@ -23,4 +23,6 @@ interface MealDao {
     suspend fun insertFavMealItem(MealX: MealX)
     @Query("DELETE FROM favmeals WHERE idMeal = :mealId ")
     suspend fun deleteFavMealItem( mealId: String)
+
+
 }
