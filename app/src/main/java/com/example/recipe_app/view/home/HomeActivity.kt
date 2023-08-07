@@ -16,7 +16,9 @@ import com.example.recipe_app.R
 import com.example.recipe_app.view.auth.MainActivity
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity(){
     lateinit var navController: NavController
     lateinit var navHostFragment : NavHostFragment

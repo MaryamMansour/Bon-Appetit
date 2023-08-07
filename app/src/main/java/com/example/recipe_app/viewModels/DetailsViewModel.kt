@@ -7,10 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.recipe_app.model.Meal
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailsViewModel (private val repository: Repository)  : ViewModel() {
+@HiltViewModel
+class DetailsViewModel @Inject constructor (
+    private val repository: Repository
+)  : ViewModel() {
 
 
 

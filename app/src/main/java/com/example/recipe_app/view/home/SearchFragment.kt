@@ -1,43 +1,32 @@
 package com.example.recipe_app.view.home
 
-import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.core.os.bundleOf
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipe_app.R
-import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
-import com.example.recipe_app.model.UserFavourite
-import com.example.recipe_app.network.ApiClient
-import com.example.recipe_app.repository.RepositoryImpl
 import com.example.recipe_app.viewModels.DetailsViewModel
-import com.example.recipe_app.viewModels.HomeMealsViewModel
 import com.example.recipe_app.viewModels.SearchViewModel
-import com.example.recipe_app.viewModels.ViewModelFactory
 import com.facebook.shimmer.ShimmerFrameLayout
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SearchFragment : Fragment() , OnClickListener {
     lateinit var navController: NavController
     lateinit var navHostFragment : NavHostFragment
     lateinit var detailsViewModel: DetailsViewModel
-    lateinit var searchViewModel: SearchViewModel
+    val searchViewModel: SearchViewModel by viewModels()
     lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: searchAdapter
@@ -55,7 +44,6 @@ class SearchFragment : Fragment() , OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getViewModelReady()
         var pref=requireActivity().getSharedPreferences("mypref",0)
         var userid=pref.getString("CurrentUserMail","0")
         searchViewModel.getFavMealsByUserId(userid!!)
@@ -70,7 +58,7 @@ class SearchFragment : Fragment() , OnClickListener {
 
         searchViewModel.favMeal.observe(viewLifecycleOwner){favMeals->
             searchViewModel.listOfMeals.observe(viewLifecycleOwner){meals->
-                var ApiMeal= meals
+                var ApiMeal = meals
                 ApiMeal.forEach { meal ->
                     favMeals.forEach { favMeal ->
                         if (meal.idMeal == favMeal.idMeal) {
@@ -80,7 +68,7 @@ class SearchFragment : Fragment() , OnClickListener {
                 }
                 shimmer.stopShimmer()
                 shimmer.visibility = View.GONE
-                if (ApiMeal.isEmpty()){
+                if (ApiMeal.isNullOrEmpty()){
                     //todo replace the text view below with animation
                     text_NO_MEALS.visibility = View.VISIBLE
                 }else{
@@ -127,10 +115,7 @@ class SearchFragment : Fragment() , OnClickListener {
 
     }
 
-    private fun getViewModelReady() {
-        val searchFactory = ViewModelFactory(RepositoryImpl(LocalSourceImp(requireActivity()),ApiClient))
-        searchViewModel= ViewModelProvider(requireActivity(),searchFactory).get(SearchViewModel::class.java)
-    }
+
 
 }
 

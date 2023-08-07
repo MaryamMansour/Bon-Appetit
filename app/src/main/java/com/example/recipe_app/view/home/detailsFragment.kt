@@ -10,27 +10,24 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import at.blogc.android.views.ExpandableTextView
 import com.bumptech.glide.Glide
 import com.example.recipe_app.R
-import com.example.recipe_app.local.LocalSourceImp
 import com.example.recipe_app.model.MealX
-import com.example.recipe_app.network.ApiClient
-import com.example.recipe_app.repository.RepositoryImpl
 
 import com.example.recipe_app.viewModels.DetailsViewModel
-import com.example.recipe_app.viewModels.ViewModelFactory
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class detailsFragment : Fragment() {
     val args : detailsFragmentArgs by navArgs()
 
-    lateinit var detailsViewModel: DetailsViewModel
+    val detailsViewModel: DetailsViewModel by viewModels()
     lateinit var mealImage : ImageView
     lateinit var mealName : TextView
     lateinit var mealDescription :ExpandableTextView
@@ -82,9 +79,8 @@ lateinit var  youtubeVideo : YouTubePlayerView
             }
         }
 
-        getViewModelReady()
        detailsViewModel.getMealById(args.id)
-        detailsViewModel.singleMeal?.observe(viewLifecycleOwner){
+        detailsViewModel.singleMeal.observe(viewLifecycleOwner){
             displayinfo(it)
         }
     }
@@ -98,10 +94,5 @@ lateinit var  youtubeVideo : YouTubePlayerView
 
     }
 
-    private fun getViewModelReady() {
-        val mealsFactory = ViewModelFactory(
-            RepositoryImpl(LocalSourceImp(requireActivity()), ApiClient)
-        )
-        detailsViewModel= ViewModelProvider(this,mealsFactory).get(DetailsViewModel::class.java)
-    }
+
 }

@@ -6,10 +6,11 @@ import com.example.recipe_app.model.MealX
 import com.example.recipe_app.model.PersonInfo
 import com.example.recipe_app.model.UserFavourite
 import com.example.recipe_app.network.RemoteDataSource
+import javax.inject.Inject
 
-class RepositoryImpl(
-    private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource
+class RepositoryImpl @Inject constructor(
+     val localDataSource: LocalDataSource,
+     val remoteDataSource: RemoteDataSource
 )  : Repository {
     override suspend fun getMealsResponse(char:String): Meal = remoteDataSource.getMealsResponse(char)
 

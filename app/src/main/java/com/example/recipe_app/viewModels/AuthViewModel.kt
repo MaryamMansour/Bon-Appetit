@@ -6,10 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.recipe_app.model.PersonInfo
 import com.example.recipe_app.repository.Repository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+@HiltViewModel
 
-class AuthViewModel (val repository: Repository): ViewModel()    {
+class AuthViewModel @Inject constructor(val repository: Repository): ViewModel()    {
     private val _user = MutableLiveData <PersonInfo> ()
     val user: LiveData<PersonInfo> = _user
 
