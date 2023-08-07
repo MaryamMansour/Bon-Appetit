@@ -15,7 +15,9 @@ import com.example.recipe_app.model.PersonInfo
 import com.example.recipe_app.viewModels.AuthViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
     lateinit var btntosignup: TextView

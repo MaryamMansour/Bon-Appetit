@@ -15,10 +15,11 @@ import com.example.recipe_app.model.PersonInfo
 import com.example.recipe_app.viewModels.AuthViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
+@AndroidEntryPoint
 class SignUpFragment : Fragment() {
     lateinit var et_name: TextInputEditText
     lateinit var et_email: TextInputEditText

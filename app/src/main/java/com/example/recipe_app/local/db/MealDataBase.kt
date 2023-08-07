@@ -14,7 +14,7 @@ import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
 
-@Database(entities = [UserFavourite::class, PersonInfo::class,MealX::class], version=20 , exportSchema = false)
+@Database(entities = [UserFavourite::class, PersonInfo::class,MealX::class], version=1 , exportSchema = false)
 abstract class MealDataBase : RoomDatabase() {
     abstract fun mealDao(): MealDao
     abstract fun personinfodao(): PersonInfoDao
@@ -32,7 +32,6 @@ abstract class MealDataBase : RoomDatabase() {
                     MealDataBase::class.java ,
                     "FavMeals"
                 )
-                    .fallbackToDestructiveMigration()
                     .build()
                     .also { INSTANCE = it }
             }
