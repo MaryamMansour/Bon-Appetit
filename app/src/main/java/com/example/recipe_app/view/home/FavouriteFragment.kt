@@ -10,8 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.core.view.isGone
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -37,6 +39,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
     lateinit var favRecyclerView: RecyclerView
     lateinit var favRecyclerAdapter : favMealAdapter
     private lateinit var builder: AlertDialog.Builder
+    lateinit var textviewbackfav :TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,8 +51,10 @@ class FavouriteFragment : Fragment(), OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         favRecyclerView = view.findViewById(R.id.FavRecyclerView)
+        textviewbackfav= view.findViewById(R.id.txtBackFav)
 
         getViewModelReady()
+
         var pref=requireActivity().getSharedPreferences("mypref",0)
 
         var userid=pref.getString("CurrentUserMail","0")
@@ -62,15 +67,13 @@ class FavouriteFragment : Fragment(), OnClickListener {
                     {
                         ItemTouchHelper.LEFT -> {
 
-
-
                             val builder = AlertDialog.Builder(context)
                             builder.setMessage("Do you want to delete the item ?")
                                 .setCancelable(true)
                                 .setPositiveButton("Yes"){dialog , it ->
                                     HomeViewModel.deleteFavMeal(userid!!,favRecyclerAdapter.mealListM[viewHolder.adapterPosition].idMeal)
                                     favRecyclerAdapter.deleteItem(viewHolder.adapterPosition)
-
+                                     show()
 
                                 }
 
@@ -100,19 +103,33 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
         navHostFragment = activity?.supportFragmentManager?.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
-
+        hide()
     }
 
 
-    override fun onClick(model: MealX) {
+    override fun onClick(model: MealX)  {
        // Toast.makeText(requireActivity(),"Meal Clicked", Toast.LENGTH_SHORT).show()
         navController.navigate(R.id.detailsFragment, bundleOf(ARGS to model.strMeal ,ARGS2 to model.strInstructions,
             ARGS3 to model.strMealThumb))
+
+//        when (onClick(model))  {
+//            true -> {
+//                textviewbackfav.setVisibility(View.VISIBLE)
+//
+//            }
+//            false->{
+//                textviewbackfav.setVisibility(View.GONE)
+//            }
+//
+//       }
+
+
     }
 
 
 
     override fun onFav(isChecked: Boolean, meal: MealX) {
+
 //
 //            if (isChecked)
 //            {
@@ -124,6 +141,8 @@ class FavouriteFragment : Fragment(), OnClickListener {
 //                HomeViewModel.deleteFavMeal(meal.idMeal)
 //            }
 
+
+
     }
 
     private fun getViewModelReady() {
@@ -134,6 +153,12 @@ class FavouriteFragment : Fragment(), OnClickListener {
         HomeViewModel= ViewModelProvider(requireActivity(),mealsFactory).get(HomeMealsViewModel::class.java)
     }
 
+    fun show(){
+        textviewbackfav.setVisibility(View.VISIBLE)
 
+    }
 
+    fun hide(){
+        textviewbackfav.setVisibility(View.GONE)
+    }
 }
