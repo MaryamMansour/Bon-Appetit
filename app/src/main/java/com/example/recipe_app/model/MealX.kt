@@ -66,4 +66,4 @@ data class MealX   (
     var isFavourite: Boolean,
 
 
-)
+) :Serializable

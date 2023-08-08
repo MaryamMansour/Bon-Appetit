@@ -1,112 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/constrain_random"
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/constrain_random"
     android:layout_width="match_parent"
-    android:visibility="visible"
     android:layout_height="wrap_content"
-    android:background="@color/md_theme_light_inverseOnSurface"
+    android:visibility="visible"
     app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
+    tools:visibility="visible"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/img_random"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:background="#dddddd"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#dddddd"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-         />
+        app:layout_constraintTop_toBottomOf="@+id/textView100">
+
+
+    </androidx.cardview.widget.CardView>
+
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Dish of the Day"
-        android:background="#dddddd"
-        android:textColor="#dddddd"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/img_random"
-        app:layout_constraintTop_toTopOf="@+id/img_random" />
-
-    <TextView
-        android:id="@+id/name_random"
-        android:background="#dddddd"
-        android:textColor="#dddddd"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:gravity="center"
-        android:text="TextView"
-        android:textSize="16sp"
+        android:layout_marginBottom="8dp"
+        android:background="#dddddd"
+        android:paddingLeft="20dp"
+        android:text="Recommended for you"
+        android:textColor="#dddddd"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/img_random"
-        app:layout_constraintStart_toStartOf="@+id/img_random"
-        app:layout_constraintTop_toBottomOf="@+id/img_random" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/textView100"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Category :"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
         android:background="#dddddd"
         android:textColor="#dddddd"
-        android:textSize="16sp"
+
+        android:paddingLeft="20dp"
+        android:paddingTop="4dp"
+        android:text="Dish of the Day"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/img_random"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Area :"
-        android:background="#dddddd"
-        android:textColor="#dddddd"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/img_random"
-        app:layout_constraintStart_toEndOf="@+id/img_random"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <TextView
-        android:id="@+id/cat_random"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
-        android:background="#dddddd"
-        android:textColor="#dddddd"
-        android:textSize="16sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView6"
-        app:layout_constraintStart_toEndOf="@+id/textView6" />
-
-    <TextView
-        android:id="@+id/area_random"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="TextView"
-        android:background="#dddddd"
-        android:textColor="#dddddd"
-        android:textSize="16sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/textView7"
-        app:layout_constraintStart_toEndOf="@+id/textView7" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 

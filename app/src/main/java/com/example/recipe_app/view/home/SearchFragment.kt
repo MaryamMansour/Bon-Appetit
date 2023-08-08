@@ -123,7 +123,7 @@ class SearchFragment : Fragment() , OnClickListener {
     }
 
     override fun onClick(model: MealX) {
-        findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToDetailsFragment(model.idMeal))
+        findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToDetailsFragment(model))
     }
 
     override fun onFav(isChecked: Boolean, meal: MealX) {

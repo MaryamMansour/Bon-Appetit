@@ -59,7 +59,6 @@ class HomeFragment : Fragment(), OnClickListener {
 
         var pref=requireActivity().getSharedPreferences("mypref",0)
         var userId = pref.getString("CurrentUserMail","")
-
         HomeViewModel.getRandomMeal()
         HomeViewModel.getMealsWithFavourite(userId!!)
 
@@ -85,7 +84,7 @@ class HomeFragment : Fragment(), OnClickListener {
                 recyclerView.visibility = View.VISIBLE
 
             constrainRandom.setOnClickListener {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(randomMeal.idMeal))
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(randomMeal))
 
             }
     }
@@ -102,7 +101,7 @@ class HomeFragment : Fragment(), OnClickListener {
 
 
     override fun onClick(model: MealX) {
-      findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(model.idMeal))
+      findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(model))
     }
 
     override fun onFav(isChecked: Boolean, meal: MealX) {

@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.recipe_app.R
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.viewModels.FavouriteViewModel
@@ -27,6 +28,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
     lateinit var favRecyclerView: RecyclerView
     lateinit var favRecyclerAdapter : favMealAdapter
     private lateinit var builder: AlertDialog.Builder
+    lateinit var lottieEmpty :LottieAnimationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +40,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         favRecyclerView = view.findViewById(R.id.FavRecyclerView)
+        lottieEmpty=view.findViewById(R.id.txtBackFav)
 
         var pref=requireActivity().getSharedPreferences("mypref",0)
         var userid=pref.getString("CurrentUserMail","0")
@@ -48,6 +51,12 @@ class FavouriteFragment : Fragment(), OnClickListener {
         favRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
         favouriteViewModel.favMeal.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                lottieEmpty.visibility=View.VISIBLE
+            }
+            else{
+                lottieEmpty.visibility=View.GONE
+            }
             favRecyclerAdapter.setDataAdapter(it)
 
         }
@@ -65,6 +74,9 @@ class FavouriteFragment : Fragment(), OnClickListener {
                                 .setPositiveButton("Yes"){dialog , it ->
                                     favouriteViewModel.deleteFavMealById(favRecyclerAdapter.listOfMeals[viewHolder.adapterPosition].idMeal,userid)
                                     favRecyclerAdapter.deleteItem(viewHolder.adapterPosition)
+                                    if(favRecyclerAdapter.listOfMeals.isNullOrEmpty()){
+                                        lottieEmpty.visibility=View.VISIBLE
+                                    }
 
                                 }
 
@@ -87,7 +99,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
 
     override fun onClick(model: MealX) {
-       findNavController().navigate(FavouriteFragmentDirections.actionFavouriteFragmentToDetailsFragment(model.idMeal))
+       findNavController().navigate(FavouriteFragmentDirections.actionFavouriteFragmentToDetailsFragment(model))
     }
 
     override fun onFav(isChecked: Boolean, meal: MealX) {
