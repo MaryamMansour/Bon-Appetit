@@ -45,13 +45,10 @@ class detailsFragment : Fragment() ,OnClickListener {
     lateinit var textToggle :TextView
     lateinit var meal_area :TextView
     lateinit var meal_category :TextView
-//    lateinit var videoView :VideoView
     var videoId : String = ""
-lateinit var  youtubeVideo : YouTubePlayerView
-lateinit var btnDisplayBottomSheet : Button
-    //lateinit var btnDismissBottomSheet : Button
+    lateinit var  youtubeVideo : YouTubePlayerView
+    lateinit var btnDisplayBottomSheet : Button
 
-   // @SuppressLint("SetJavaScriptEnabled")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,8 +82,6 @@ lateinit var btnDisplayBottomSheet : Button
             if (bottom_sheet_view.getParent() != null) {
                 (bottom_sheet_view.getParent() as ViewGroup).removeView(bottom_sheet_view)
             }
-
-
             dialog.setContentView(bottom_sheet_view)
             dialog.show()
         }
