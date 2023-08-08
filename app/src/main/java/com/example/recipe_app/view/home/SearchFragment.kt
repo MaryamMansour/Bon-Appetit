@@ -102,7 +102,7 @@ class SearchFragment : Fragment() , OnClickListener {
         //Toast.makeText(requireActivity(), "Meal Clicked", Toast.LENGTH_SHORT).show()
         navController.navigate(R.id.detailsFragment, bundleOf(
             HomeFragment.ARGS to model.strMeal , HomeFragment.ARGS2 to model.strInstructions,
-            HomeFragment.ARGS3 to model.strMealThumb)
+            HomeFragment.ARGS3 to model.strMealThumb,HomeFragment.ARGS4 to model.strArea,HomeFragment.ARGS3 to model.strCategory )
         )
     }
 
