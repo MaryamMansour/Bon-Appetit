@@ -59,10 +59,11 @@
             android:layout_marginStart="6dp"
             android:layout_marginTop="8dp"
 
+            android:layout_marginBottom="8dp"
             android:drawableStart="@drawable/baseline_location_on_24_scaled"
             android:drawablePadding="4dp"
-            android:text="Area"
 
+            android:text="Area"
             android:textSize="14sp" />
 
 
