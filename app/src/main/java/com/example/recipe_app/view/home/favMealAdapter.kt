@@ -29,6 +29,8 @@ class favMealAdapter(
         val currentMeal = listOfMeals[position]
         //todo: bind remain data to views
         holder.textView.text=currentMeal.strMeal
+        holder.textArea.text=currentMeal.strArea
+        holder.textCategory.text=currentMeal.strCategory
         Glide.with(holder.itemView.context).load(currentMeal.strMealThumb).into(holder.imageView)
 
         holder.itemView.setOnClickListener {
@@ -45,6 +47,8 @@ class favMealAdapter(
         //todo: find remain views and set them
         var textView = row.findViewById<TextView>(R.id.title_text_view_fav)
         var imageView = row.findViewById<ImageView>(R.id.image_view_fav)
+        var textArea = row.findViewById<TextView>(R.id.area_text_view_fav)
+        var textCategory = row.findViewById<TextView>(R.id.category_text_view_fav)
 
     }
     fun setDataAdapter(mealList: List<MealX>){

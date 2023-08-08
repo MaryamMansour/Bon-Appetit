@@ -23,6 +23,8 @@ class searchAdapter(var OnClick : OnClickListener
         var textView = row.findViewById<TextView>(R.id.title_text_view)
         var imageView = row.findViewById<ImageView>(R.id.image_view)
         var favItem = row.findViewById<CheckBox>(R.id.fav_box_v1)
+        var textArea = row.findViewById<TextView>(R.id.area_text_view)
+        var textCategory = row.findViewById<TextView>(R.id.category_text_view)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val  row= LayoutInflater.from(parent.context).inflate(R.layout.simple_row, parent, false )
@@ -38,6 +40,8 @@ class searchAdapter(var OnClick : OnClickListener
         holder.favItem.setOnCheckedChangeListener(null)
         val meal = listOfMeals[position]
         holder.textView.text=meal.strMeal
+        holder.textArea.text=meal.strArea
+        holder.textCategory.text=meal.strCategory
         holder.favItem.isChecked = meal.isFavourite
         Glide.with(holder.itemView.context).load(meal.strMealThumb).into(holder.imageView)
 
