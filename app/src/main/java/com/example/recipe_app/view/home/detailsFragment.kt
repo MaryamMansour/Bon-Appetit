@@ -99,7 +99,9 @@ lateinit var btnDisplayBottomSheet : Button
 
 
                 val result = videoId.substringAfter("v=")
-                youTubePlayer.loadVideo(result, 0f)
+                //youTubePlayer.loadVideo(result,false)
+                youTubePlayer.cueVideo(result, 0f)
+
             }
         })
 
