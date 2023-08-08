@@ -23,4 +23,5 @@ object NetworkUtils {
             return networkInfo != null && networkInfo.isConnected
         }
     }
+
 }

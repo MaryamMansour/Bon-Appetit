@@ -101,20 +101,28 @@ class SignUpFragment : Fragment() {
 
 
             if (e_email && e_pass && e_name && valid_email) {
-                var user = PersonInfo(0, email, password)
-                user.name = name
-                lifecycleScope.launch(Dispatchers.IO) {
-                    viewModel.insertUser(user)
-                    withContext(Dispatchers.Main) {
-                        Toast.makeText(context, "user created", Toast.LENGTH_LONG).show()
-                        findNavController().navigate(R.id.homeActivity)
-                        var pref = requireActivity().getSharedPreferences("mypref", 0)
-                        var editor = pref.edit()
-                        editor.putBoolean("isloggedin", true)
-                        editor.putString("CurrentUserMail","$email")
-                        editor.apply()
-                        activity?.finish()
-
+                //check email is already exist or not
+                viewModel.getUserByEmail(email)
+                viewModel.user.observe(viewLifecycleOwner) {
+                    if (it != null) {
+                        et_layout_email.error = "Email is already exist"
+                    } else {
+                        et_layout_email.error = null
+                        var user = PersonInfo(0, email, password)
+                        user.name = name
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            viewModel.insertUser(user)
+                            withContext(Dispatchers.Main) {
+                                Toast.makeText(context, "user created", Toast.LENGTH_LONG).show()
+                                findNavController().navigate(R.id.homeActivity)
+                                var pref = requireActivity().getSharedPreferences("mypref", 0)
+                                var editor = pref.edit()
+                                editor.putBoolean("isloggedin", true)
+                                editor.putString("CurrentUserMail","$email")
+                                editor.apply()
+                                activity?.finish()
+                            }
+                        }
                     }
                 }
             } else {
