@@ -65,7 +65,7 @@ class searchAdapter(var OnClick : OnClickListener
     fun updateItem(state: Boolean, meal: MealX) {
         listOfMeals.indexOf(meal).let {
             listOfMeals[it].isFavourite = state
-            notifyItemChanged(it)
+            notifyDataSetChanged()
         }
     }
 
