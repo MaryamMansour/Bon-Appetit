@@ -3,7 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
 
     <string name="BaseUrl">"https://www.themealdb.com/api/json/v1/1/"</string>
-    <string name="see_more">see more</string>
-    <string name="see_less">see less</string>
+    <string name="see_more">Read More</string>
+    <string name="see_less">Read Less</string>
 
 </resources>
