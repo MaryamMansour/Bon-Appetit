@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.example.recipe_app.R
 import com.example.recipe_app.model.MealX
+import com.example.recipe_app.utils.NetworkUtils
 import com.example.recipe_app.viewModels.DetailsViewModel
 import com.example.recipe_app.viewModels.SearchViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -113,8 +114,15 @@ class SearchFragment : Fragment() , OnClickListener {
                 else{
                     typeToSearchLayout.visibility = View.GONE
                     recyclerView.visibility = View.GONE
-                    searchViewModel.getMealsWithFavourite(userid!!,newText!!)
                     shimmerFrameLayout.visibility = View.VISIBLE
+
+                    if(NetworkUtils.isInternetAvailable(requireActivity())) {
+                        searchViewModel.getMealsWithFavourite(userid!!,newText!!)
+                    }
+                    else{
+                        Toast.makeText(requireActivity(),"No Internet Connection",Toast.LENGTH_SHORT).show()
+                    }
+
                 }
                 return false
             }

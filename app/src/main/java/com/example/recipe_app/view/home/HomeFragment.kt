@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipe_app.R
 import com.example.recipe_app.model.MealX
+import com.example.recipe_app.utils.NetworkUtils
 import com.example.recipe_app.viewModels.HomeMealsViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,8 +60,13 @@ class HomeFragment : Fragment(), OnClickListener {
 
         var pref=requireActivity().getSharedPreferences("mypref",0)
         var userId = pref.getString("CurrentUserMail","")
-        HomeViewModel.getRandomMeal()
-        HomeViewModel.getMealsWithFavourite(userId!!)
+        if(NetworkUtils.isInternetAvailable(requireActivity())) {
+            HomeViewModel.getRandomMeal()
+            HomeViewModel.getMealsWithFavourite(userId!!)
+        }
+        else{
+            Toast.makeText(requireActivity(),"No Internet Connection",Toast.LENGTH_SHORT).show()
+        }
 
         recyclerView = view.findViewById(R.id.HomeRecyclerView)
         recyclerAdapter = home_adapter(this)

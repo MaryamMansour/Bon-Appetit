@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.example.recipe_app.R
 import com.example.recipe_app.model.MealX
+import com.example.recipe_app.utils.NetworkUtils.isInternetAvailable
 import com.example.recipe_app.viewModels.FavouriteViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,8 +46,12 @@ class FavouriteFragment : Fragment(), OnClickListener {
 
         var pref=requireActivity().getSharedPreferences("mypref",0)
         var userid=pref.getString("CurrentUserMail","0")
-        favouriteViewModel.getFavMealsByUserId(userid!!)
-
+        if(isInternetAvailable(requireActivity())) {
+            favouriteViewModel.getFavMealsByUserId(userid!!)
+        }
+        else{
+            Toast.makeText(requireActivity(),"No Internet Connection",Toast.LENGTH_SHORT).show()
+        }
         favRecyclerAdapter = favMealAdapter(this)
         favRecyclerView.adapter = favRecyclerAdapter
         favRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
@@ -72,7 +78,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
                             builder.setMessage("Do you want to delete the item ?")
                                 .setCancelable(true)
                                 .setPositiveButton("Yes"){dialog , it ->
-                                    favouriteViewModel.deleteFavMealById(favRecyclerAdapter.listOfMeals[viewHolder.adapterPosition].idMeal,userid)
+                                    favouriteViewModel.deleteFavMealById(favRecyclerAdapter.listOfMeals[viewHolder.adapterPosition].idMeal,userid!!)
                                     favRecyclerAdapter.deleteItem(viewHolder.adapterPosition)
                                     if(favRecyclerAdapter.listOfMeals.isNullOrEmpty()){
                                         lottieEmpty.visibility=View.VISIBLE
