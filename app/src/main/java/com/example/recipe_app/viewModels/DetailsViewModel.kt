@@ -33,16 +33,12 @@ class DetailsViewModel @Inject constructor (
         viewModelScope.launch(Dispatchers.IO) {
             repository.insertFavMealToUser(meal)
             repository.insertFavMealToUser(UserFavourite(userId, meal.idMeal))
-//            getMealsWithFavourite(userId)
         }
     }
 
     fun deleteFavMealById(mealId: String, userId: String){
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteFavMealById(mealId, userId)
-//            repository.deleteFavMealById(mealId)
-//            getMealsWithFavourite(userId)
-
         }
     }
 

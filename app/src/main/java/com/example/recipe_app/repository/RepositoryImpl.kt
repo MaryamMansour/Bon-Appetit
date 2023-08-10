@@ -9,8 +9,8 @@ import com.example.recipe_app.network.RemoteDataSource
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
-     val localDataSource: LocalDataSource,
-     val remoteDataSource: RemoteDataSource
+    private val localDataSource: LocalDataSource,
+    private val remoteDataSource: RemoteDataSource
 )  : Repository {
     override suspend fun getMealsResponse(char:String): Meal = remoteDataSource.getMealsResponse(char)
 

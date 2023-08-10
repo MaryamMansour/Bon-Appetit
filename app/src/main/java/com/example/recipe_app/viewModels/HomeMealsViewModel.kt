@@ -38,7 +38,7 @@ class HomeMealsViewModel @Inject constructor(
         }
     }}
 
-    val alphabets = ('a'..'z').map { it.toString() }.shuffled().get(0)
+    private val alphabets = ('a'..'z').map { it.toString() }.shuffled()[0]
 
 
     fun getMeals() {

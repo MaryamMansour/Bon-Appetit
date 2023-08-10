@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.example.recipe_app.R
 
 
-class aboutFragment : Fragment() {
+class AboutFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

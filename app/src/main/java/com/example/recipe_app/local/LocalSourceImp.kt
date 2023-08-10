@@ -1,19 +1,17 @@
 package com.example.recipe_app.local
 
-import android.content.Context
 import com.example.recipe_app.local.dao.MealDao
 import com.example.recipe_app.local.dao.PersonInfoDao
 import com.example.recipe_app.local.dao.UserFavouriteDao
-import com.example.recipe_app.local.db.MealDataBase
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.model.PersonInfo
 import com.example.recipe_app.model.UserFavourite
 import javax.inject.Inject
 
 class LocalSourceImp @Inject constructor(
-       var mealsDao: MealDao,
-      var userDao :PersonInfoDao,
-     var userFavouriteDao: UserFavouriteDao,
+    private var mealsDao: MealDao,
+    private var userDao :PersonInfoDao,
+    private var userFavouriteDao: UserFavouriteDao,
 ) : LocalDataSource{
 
 

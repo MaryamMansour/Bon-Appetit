@@ -1,12 +1,10 @@
 package com.example.recipe_app.network
 
-import android.util.Log
 import com.example.recipe_app.model.Meal
-import retrofit2.Retrofit
 import javax.inject.Inject
 
 class ApiClient @Inject constructor(
-      var apiInterface: ApiInterface
+    private var apiInterface: ApiInterface
 ): RemoteDataSource {
 
      override suspend fun getMealsResponse(char:String): Meal {

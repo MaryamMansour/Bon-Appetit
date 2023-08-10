@@ -21,65 +21,62 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {
-    lateinit var et_name: TextInputEditText
-    lateinit var et_email: TextInputEditText
-    lateinit var et_password: TextInputEditText
-    lateinit var btn_signUp: Button
-    lateinit var et_layout_email: TextInputLayout
-    lateinit var et_layout_name: TextInputLayout
-    lateinit var et_layout_password: TextInputLayout
-    val viewModel: AuthViewModel by viewModels()
-
+    private lateinit var etName: TextInputEditText
+    private lateinit var etEmail: TextInputEditText
+    private lateinit var etPassword: TextInputEditText
+    private lateinit var btnSignup: Button
+    private lateinit var etLayoutEmail: TextInputLayout
+    private lateinit var etLayoutName: TextInputLayout
+    private lateinit var etLayoutPassword: TextInputLayout
+    private val viewModel: AuthViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_sign_up, container, false)
-
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        et_name = view.findViewById(R.id.et_name_signup)
-        et_email = view.findViewById(R.id.et_email_signup)
-        et_password = view.findViewById(R.id.et_password_signup)
-        btn_signUp = view.findViewById(R.id.btn_create_account)
-        et_layout_email = view.findViewById(R.id.et_layot_email_signup)
-        et_layout_name = view.findViewById(R.id.et_layout_name_signup)
-        et_layout_password = view.findViewById(R.id.et_layout_password_signup)
+        etName = view.findViewById(R.id.et_name_signup)
+        etEmail = view.findViewById(R.id.et_email_signup)
+        etPassword = view.findViewById(R.id.et_password_signup)
+        btnSignup = view.findViewById(R.id.btn_create_account)
+        etLayoutEmail = view.findViewById(R.id.et_layot_email_signup)
+        etLayoutName = view.findViewById(R.id.et_layout_name_signup)
+        etLayoutPassword = view.findViewById(R.id.et_layout_password_signup)
 
-        btn_signUp.setOnClickListener {
-            var name = et_name.text.toString()
-            var email = et_email.text.toString()
-            var password = et_password.text.toString()
+        btnSignup.setOnClickListener {
+            val name = etName.text.toString()
+            val email = etEmail.text.toString()
+            val password = etPassword.text.toString()
             //check email is valid or not
-            var e_email = when (email.isEmpty()) {
+            val eEmail = when (email.isEmpty()) {
                 true -> {
-                    et_layout_email.error = "Email is required"
+                    etLayoutEmail.error = "Email is required"
                     false
                 }
                 false -> {
-                    et_layout_email.error = null
+                    etLayoutEmail.error = null
                     true
                 }
             }
-            var e_pass = when (password.isEmpty()) {
+            val ePass = when (password.isEmpty()) {
                 true -> {
-                    et_layout_password.error = "password is required"
+                    etLayoutPassword.error = "password is required"
                     false
                 }
                 false -> {
 
-                    var checked = isValidPassword(password)
+                    val checked = isValidPassword(password)
                     if (checked == null) {
-                        et_layout_password.error = null
+                        etLayoutPassword.error = null
                         true
                     } else {
-                        et_layout_password.error = checked
+                        etLayoutPassword.error = checked
                         false
 
                     }
@@ -87,38 +84,38 @@ class SignUpFragment : Fragment() {
                 }
             }
 
-            var e_name = when (name.isEmpty()) {
+            val eName = when (name.isEmpty()) {
                 true -> {
-                    et_layout_name.error = "name is required"
+                    etLayoutName.error = "name is required"
                     false
                 }
                 false -> {
-                    et_layout_name.error = null
+                    etLayoutName.error = null
                     true
                 }
             }
-            var valid_email = isValidmail(email)
+            val validEmail = isValidmail(email)
 
 
-            if (e_email && e_pass && e_name && valid_email) {
+            if (eEmail && ePass && eName && validEmail) {
                 //check email is already exist or not
                 viewModel.getUserByEmail(email)
                 viewModel.user.observe(viewLifecycleOwner) {
                     if (it != null) {
-                        et_layout_email.error = "Email is already exist"
+                        etLayoutEmail.error = "Email is already exist"
                     } else {
-                        et_layout_email.error = null
-                        var user = PersonInfo(0, email, password)
+                        etLayoutEmail.error = null
+                        val user = PersonInfo(0, email, password)
                         user.name = name
                         lifecycleScope.launch(Dispatchers.IO) {
                             viewModel.insertUser(user)
                             withContext(Dispatchers.Main) {
                                 Toast.makeText(context, "user created", Toast.LENGTH_LONG).show()
                                 findNavController().navigate(R.id.homeActivity)
-                                var pref = requireActivity().getSharedPreferences("mypref", 0)
-                                var editor = pref.edit()
+                                val pref = requireActivity().getSharedPreferences("mypref", 0)
+                                val editor = pref.edit()
                                 editor.putBoolean("isloggedin", true)
-                                editor.putString("CurrentUserMail","$email")
+                                editor.putString("CurrentUserMail", email)
                                 editor.apply()
                                 activity?.finish()
                             }
@@ -135,16 +132,16 @@ class SignUpFragment : Fragment() {
 
     }
 
-    fun isValidmail(email: String): Boolean {
+    private fun isValidmail(email: String): Boolean {
         val emailPattern = Regex("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\$")
         return when{
-            !et_email.text.toString().trim().matches(emailPattern)->{
-                et_layout_email.error="Email is not valid"
+            !etEmail.text.toString().trim().matches(emailPattern)->{
+                etLayoutEmail.error="Email is not valid"
                 false
 
             }
             else ->{
-                et_layout_email.error = null
+                etLayoutEmail.error = null
                 true
             }
         }

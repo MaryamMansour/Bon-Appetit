@@ -6,13 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.recipe_app.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class SplashFragment : Fragment() {
@@ -27,8 +25,8 @@ class SplashFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //if user is logged in then navigate to home activity else navigate to login fragment
-        var pref=requireActivity().getSharedPreferences("mypref",0)
-        var isloggedin=pref.getBoolean("isloggedin",false)
+        val pref=requireActivity().getSharedPreferences("mypref",0)
+        val isloggedin=pref.getBoolean("isloggedin",false)
         lifecycleScope.launch (Dispatchers.Main){
             delay(3000)
             if(isloggedin){

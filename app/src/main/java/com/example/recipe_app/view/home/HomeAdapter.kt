@@ -1,6 +1,5 @@
 package com.example.recipe_app.view.home
 
-import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +13,8 @@ import com.example.recipe_app.model.MealX
 
 
 
-class home_adapter(var OnClick : OnClickListener,) : RecyclerView.Adapter<home_adapter.MyViewHolder>() {
-    var listOfMeals = mutableListOf<MealX>()
+class HomeAdapter(private var OnClick : OnClickListener) : RecyclerView.Adapter<HomeAdapter.MyViewHolder>() {
+    private var listOfMeals = mutableListOf<MealX>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.simple_row_v2, parent, false)
         return MyViewHolder(view)
@@ -37,8 +36,7 @@ class home_adapter(var OnClick : OnClickListener,) : RecyclerView.Adapter<home_a
 
         holder.favButton.setOnCheckedChangeListener {_, isChecked ->
             OnClick.onFav(isChecked, meal)
-//            meal.isFavourite = isChecked
-//            listOfMeals.set(position,meal)
+
         }
     }
 

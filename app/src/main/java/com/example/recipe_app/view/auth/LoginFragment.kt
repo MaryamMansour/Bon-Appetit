@@ -20,14 +20,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
 
-    lateinit var btntosignup: TextView
-    lateinit var etEmailLogin: TextInputEditText
-    lateinit var etPasswordLogin: TextInputEditText
-    lateinit var etTxtLayoutEmail:TextInputLayout
-    lateinit var etTxtLayoutPassword:TextInputLayout
-    lateinit var btnlogin: Button
+    private lateinit var btntosignup: TextView
+    private lateinit var etEmailLogin: TextInputEditText
+    private lateinit var etPasswordLogin: TextInputEditText
+    private lateinit var etTxtLayoutEmail:TextInputLayout
+    private lateinit var etTxtLayoutPassword:TextInputLayout
+    private lateinit var btnlogin: Button
 
-    val viewModel: AuthViewModel by viewModels()
+    private val viewModel: AuthViewModel by viewModels()
 
 
 
@@ -53,10 +53,10 @@ class LoginFragment : Fragment() {
 
         btnlogin.setOnClickListener {
 
-            var email = etEmailLogin.text.toString()
-            var password = etPasswordLogin.text.toString()
+            val email = etEmailLogin.text.toString()
+            val password = etPasswordLogin.text.toString()
 
-            var e_email=when(email.isEmpty()){
+            val flagEmail=when(email.isEmpty()){
                 true -> {
                     etTxtLayoutEmail.error = "Email is required"
                     false
@@ -66,7 +66,7 @@ class LoginFragment : Fragment() {
                     true
                 }
             }
-            var e_pass=when(password.isEmpty()){
+            val flagPass=when(password.isEmpty()){
                 true -> {
                     etTxtLayoutPassword.error = "password is required"
                     false
@@ -76,13 +76,13 @@ class LoginFragment : Fragment() {
                     true
                 }
             }
-            var valid_email = when((email.contains("@") && email.contains(".")) ){
+            val validEmail = when((email.contains("@") && email.contains(".")) ){
                 true -> {
                     etTxtLayoutEmail.error = null
                     true
                 }
                 false -> {
-                    if(e_email){
+                    if(flagEmail){
                         etTxtLayoutEmail.error = "Email is not valid"
                         false
                     }
@@ -91,17 +91,17 @@ class LoginFragment : Fragment() {
                     }
                 }
             }
-            if(e_email && e_pass && valid_email){
-                var currentuser= PersonInfo(0, email, password)
+            if(flagEmail && flagPass && validEmail){
+                val currentuser= PersonInfo(0, email, password)
                 viewModel.getUserByEmail(email)
                 viewModel.user.observe(viewLifecycleOwner){result->
                     if(result!=null){
-                        if(result?.password.equals(currentuser.password)){
+                        if(result.password == currentuser.password){
                             Toast.makeText(context, "Login Successful", Toast.LENGTH_LONG).show()
-                            var pref=requireActivity().getSharedPreferences("mypref",0)
-                            var editor=pref.edit()
+                            val pref=requireActivity().getSharedPreferences("mypref",0)
+                            val editor=pref.edit()
                             editor.putBoolean("isloggedin",true)
-                            editor.putString("CurrentUserMail","$email")
+                            editor.putString("CurrentUserMail", email)
                             editor.apply()
                             editor.commit()
                             findNavController().navigate(R.id.homeActivity)

@@ -28,9 +28,7 @@
         <action
             android:id="@+id/action_homeFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_signoutFragment"
-            app:destination="@id/signoutFragment" />
+
         <action
             android:id="@+id/action_homeFragment_to_favouriteFragment"
             app:destination="@id/favouriteFragment" />
@@ -46,17 +44,13 @@
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.example.recipe_app.view.home.aboutFragment"
+        android:name="com.example.recipe_app.view.home.AboutFragment"
         android:label="About Us"
         tools:layout="@layout/fragment_about" />
-    <fragment
-        android:id="@+id/signoutFragment"
-        android:name="com.example.recipe_app.view.home.signoutFragment"
-        android:label="Sign out"
-        tools:layout="@layout/fragment_signout" />
+
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.example.recipe_app.view.home.detailsFragment"
+        android:name="com.example.recipe_app.view.home.DetailsFragment"
         android:label="Details"
         tools:layout="@layout/fragment_details">
 

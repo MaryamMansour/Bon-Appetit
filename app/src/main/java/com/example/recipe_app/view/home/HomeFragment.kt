@@ -1,7 +1,6 @@
 package com.example.recipe_app.view.home
 
 import android.app.AlertDialog
-import android.widget.Toast
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -19,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipe_app.R
 import com.example.recipe_app.model.MealX
+import com.example.recipe_app.utils.CurrentUser
+import com.example.recipe_app.utils.GreenSnackBar
 import com.example.recipe_app.utils.NetworkUtils
 import com.example.recipe_app.viewModels.HomeMealsViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -28,17 +29,17 @@ import dagger.hilt.android.AndroidEntryPoint
 
 class HomeFragment : Fragment(), OnClickListener {
 
-    private val HomeViewModel: HomeMealsViewModel by viewModels()
+    private val homeViewModel: HomeMealsViewModel by viewModels()
 
 
-    lateinit var recyclerView: RecyclerView
-    lateinit var nameRandom :TextView
-    lateinit var catRandom :TextView
-    lateinit var areaRandom :TextView
-    lateinit var constrainRandom :ConstraintLayout
-    lateinit var imgRandom :ImageView
-    lateinit var shimmerFrameLayout: ShimmerFrameLayout
-    lateinit var recyclerAdapter: home_adapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var nameRandom: TextView
+    private lateinit var catRandom: TextView
+    private lateinit var areaRandom: TextView
+    private lateinit var constrainRandom: ConstraintLayout
+    private lateinit var imgRandom: ImageView
+    private lateinit var shimmerFrameLayout: ShimmerFrameLayout
+    private lateinit var recyclerAdapter: HomeAdapter
 
 
     override fun onCreateView(
@@ -58,90 +59,81 @@ class HomeFragment : Fragment(), OnClickListener {
         shimmerFrameLayout = view.findViewById(R.id.shimmer_layout)
 
 
-        var pref=requireActivity().getSharedPreferences("mypref",0)
-        var userId = pref.getString("CurrentUserMail","")
-        if(NetworkUtils.isInternetAvailable(requireActivity())) {
-            HomeViewModel.getRandomMeal()
-            HomeViewModel.getMealsWithFavourite(userId!!)
-        }
-        else{
-            Toast.makeText(requireActivity(),"No Internet Connection",Toast.LENGTH_SHORT).show()
+        val userId = CurrentUser.getCurrentUser(requireActivity())
+        if (NetworkUtils.isInternetAvailable(requireActivity())) {
+            homeViewModel.getRandomMeal()
+            homeViewModel.getMealsWithFavourite(userId)
+        } else {
+            GreenSnackBar.showSnackBarWithDismiss(view, "No Internet Connection")
         }
 
         recyclerView = view.findViewById(R.id.HomeRecyclerView)
-        recyclerAdapter = home_adapter(this)
+        recyclerAdapter = HomeAdapter(this)
         recyclerView.adapter = recyclerAdapter
-        recyclerView.layoutManager = GridLayoutManager(requireActivity(), 2,GridLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager =
+            GridLayoutManager(requireActivity(), 2, GridLayoutManager.HORIZONTAL, false)
 
-        HomeViewModel.listOfMeals.observe(viewLifecycleOwner) { meals ->
-                recyclerAdapter.setDataToAdapter(meals)
+        homeViewModel.listOfMeals.observe(viewLifecycleOwner) { meals ->
+            recyclerAdapter.setDataToAdapter(meals)
         }
 
-            HomeViewModel.randomMeal.observe(viewLifecycleOwner) { randomMeal ->
-                nameRandom.text = randomMeal.strMeal
-                catRandom.text = randomMeal.strCategory.plus(" |")
-                areaRandom.text = randomMeal.strArea
-                Glide.with(this)
-                    .load(randomMeal.strMealThumb)
-                    .into(imgRandom)
-                shimmerFrameLayout.stopShimmer()
-                shimmerFrameLayout.visibility = View.GONE
-                constrainRandom.visibility = View.VISIBLE
-                recyclerView.visibility = View.VISIBLE
+        homeViewModel.randomMeal.observe(viewLifecycleOwner) { randomMeal ->
+            nameRandom.text = randomMeal.strMeal
+            catRandom.text = randomMeal.strCategory.plus(" |")
+            areaRandom.text = randomMeal.strArea
+            Glide.with(this)
+                .load(randomMeal.strMealThumb)
+                .into(imgRandom)
+            shimmerFrameLayout.stopShimmer()
+            shimmerFrameLayout.visibility = View.GONE
+            constrainRandom.visibility = View.VISIBLE
+            recyclerView.visibility = View.VISIBLE
 
             constrainRandom.setOnClickListener {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(randomMeal))
-
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToDetailsFragment(
+                        randomMeal
+                    )
+                )
             }
-    }
-
-
-
-
         }
-
-
-
-
-
+    }
 
 
     override fun onClick(model: MealX) {
-      findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailsFragment(model))
+        findNavController().navigate(
+            HomeFragmentDirections.actionHomeFragmentToDetailsFragment(
+                model
+            )
+        )
     }
 
     override fun onFav(isChecked: Boolean, meal: MealX) {
-        var pref = requireActivity().getSharedPreferences("mypref",0)
-        var userId = pref.getString("CurrentUserMail","")
+        val userId = CurrentUser.getCurrentUser(requireActivity())
 
-            if (isChecked)
-            {
-                HomeViewModel.insertFavMealToUser(meal,userId!!)
-                recyclerAdapter.updateItem(isChecked,meal)
-                Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
-            }
-            else
-            {
-                val builder = AlertDialog.Builder(context)
-                builder.setMessage("Do you want to delete the item ?")
-                    .setCancelable(true)
-                    .setPositiveButton("Yes"){dialog , it ->
-                        recyclerAdapter.updateItem(false,meal)
-                        HomeViewModel.deleteFavMealById(meal.idMeal,userId!!)
-                        Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
-                    }
-                    .setNegativeButton("No"){dialog , it ->
-                        dialog.cancel()
-                        recyclerAdapter.updateItem(true,meal)
-                        recyclerAdapter.notifyDataSetChanged()
-                    }
-                val dialog = builder.create()
-                dialog.show()
-            }
+        if (isChecked) {
+            homeViewModel.insertFavMealToUser(meal, userId)
+            recyclerAdapter.updateItem(true, meal)
+            GreenSnackBar.showSnackBarLong(requireView(), "Added to favourites")
+        } else {
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage("Do you want to delete the item ?")
+                .setCancelable(true)
+                .setPositiveButton("Yes") { dialog, it ->
+                    recyclerAdapter.updateItem(false, meal)
+                    homeViewModel.deleteFavMealById(meal.idMeal, userId)
+                    GreenSnackBar.showSnackBarLong(requireView(), "Removed from favourites")
+                }
+                .setNegativeButton("No") { dialog, _ ->
+                    dialog.cancel()
+                    recyclerAdapter.updateItem(true, meal)
+                    recyclerAdapter.notifyDataSetChanged()
+                }
+            val dialog = builder.create()
+            dialog.show()
+        }
 
     }
-
-
 
 
 }

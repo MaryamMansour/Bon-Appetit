@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -19,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.lottie.LottieAnimationView
 import com.example.recipe_app.R
 import com.example.recipe_app.model.MealX
+import com.example.recipe_app.utils.CurrentUser
+import com.example.recipe_app.utils.GreenSnackBar
 import com.example.recipe_app.utils.NetworkUtils
 import com.example.recipe_app.viewModels.DetailsViewModel
 import com.example.recipe_app.viewModels.SearchViewModel
@@ -33,7 +34,7 @@ class SearchFragment : Fragment() , OnClickListener {
     val searchViewModel: SearchViewModel by viewModels()
     lateinit var searchView: SearchView
     lateinit var recyclerView: RecyclerView
-    lateinit var recyclerAdapter: searchAdapter
+    lateinit var recyclerAdapter: SearchAdapter
     lateinit var text_NO_MEALS: TextView
     lateinit var typeToSearchLayout:LinearLayout
     lateinit var lootieNotFound :LottieAnimationView
@@ -50,15 +51,14 @@ class SearchFragment : Fragment() , OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var pref=requireActivity().getSharedPreferences("mypref",0)
-        var userid=pref.getString("CurrentUserMail","0")
+        var userid=CurrentUser.getCurrentUser(requireActivity())
 
         searchView = view.findViewById(R.id.searchView)
         recyclerView = view.findViewById(R.id.searchRecyclerView)
         typeToSearchLayout = view.findViewById(R.id.lottie_type_to_search_layout)
         lootieNotFound = view.findViewById(R.id.lottie_not_found)
         shimmerFrameLayout = view.findViewById(R.id.shimmer_view_container_search)
-        recyclerAdapter = searchAdapter(this)
+        recyclerAdapter = SearchAdapter(this)
         recyclerView.adapter = recyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
@@ -120,8 +120,7 @@ class SearchFragment : Fragment() , OnClickListener {
                         searchViewModel.getMealsWithFavourite(userid!!,newText!!)
                     }
                     else{
-                        Toast.makeText(requireActivity(),"No Internet Connection",Toast.LENGTH_SHORT).show()
-                    }
+                        GreenSnackBar.showSnackBarWithDismiss(view,"Internet disconnected")                 }
 
                 }
                 return false
@@ -135,13 +134,12 @@ class SearchFragment : Fragment() , OnClickListener {
     }
 
     override fun onFav(isChecked: Boolean, meal: MealX) {
-        var pref=requireActivity().getSharedPreferences("mypref",0)
-        var userid=pref.getString("CurrentUserMail","0")
+        var userid=CurrentUser.getCurrentUser(requireActivity())
         if (isChecked)
         {
             searchViewModel.insertFavMealToUser(meal,userid!!)
             recyclerAdapter.updateItem(isChecked,meal)
-            Toast.makeText(requireActivity(),"Added to favourites", Toast.LENGTH_SHORT).show()
+            GreenSnackBar.showSnackBarLong(requireView(),"Added to favourites")
         }
         else
         {
@@ -151,7 +149,7 @@ class SearchFragment : Fragment() , OnClickListener {
                 .setPositiveButton("Yes"){dialog , it ->
                     recyclerAdapter.updateItem(false,meal)
                     searchViewModel.deleteFavMealById(meal.idMeal,userid!!)
-                    Toast.makeText(requireActivity(),"Removed from favourites", Toast.LENGTH_SHORT).show()
+                    GreenSnackBar.showSnackBarLong(requireView(),"Removed from favourites")
                 }
                 .setNegativeButton("No"){dialog , it ->
                     dialog.cancel()
