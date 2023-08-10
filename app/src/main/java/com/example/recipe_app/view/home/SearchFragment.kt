@@ -20,7 +20,10 @@ import com.example.recipe_app.R
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.utils.CurrentUser
 import com.example.recipe_app.utils.GreenSnackBar
+import com.example.recipe_app.utils.GreenSnackBar.showSnackBarLong
+import com.example.recipe_app.utils.GreenSnackBar.showSnackBarWithDismiss
 import com.example.recipe_app.utils.NetworkUtils
+import com.example.recipe_app.utils.NetworkUtils.isInternetAvailable
 import com.example.recipe_app.viewModels.DetailsViewModel
 import com.example.recipe_app.viewModels.SearchViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -61,7 +64,6 @@ class SearchFragment : Fragment() , OnClickListener {
         recyclerAdapter = SearchAdapter(this)
         recyclerView.adapter = recyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
-
             searchViewModel.listOfMeals.observe(viewLifecycleOwner){meals->
                 if(meals.isNullOrEmpty() && searchView.query.isNullOrEmpty()){
                     recyclerView.visibility = View.GONE
@@ -116,11 +118,11 @@ class SearchFragment : Fragment() , OnClickListener {
                     recyclerView.visibility = View.GONE
                     shimmerFrameLayout.visibility = View.VISIBLE
 
-                    if(NetworkUtils.isInternetAvailable(requireActivity())) {
+                    if(isInternetAvailable(requireActivity())) {
                         searchViewModel.getMealsWithFavourite(userid!!,newText!!)
                     }
                     else{
-                        GreenSnackBar.showSnackBarWithDismiss(view,"Internet disconnected")                 }
+                        showSnackBarWithDismiss(view,"Internet disconnected")                 }
 
                 }
                 return false
@@ -139,7 +141,7 @@ class SearchFragment : Fragment() , OnClickListener {
         {
             searchViewModel.insertFavMealToUser(meal,userid!!)
             recyclerAdapter.updateItem(isChecked,meal)
-            GreenSnackBar.showSnackBarLong(requireView(),"Added to favourites")
+            showSnackBarLong(requireView(),"Added to favourites")
         }
         else
         {
@@ -149,13 +151,14 @@ class SearchFragment : Fragment() , OnClickListener {
                 .setPositiveButton("Yes"){dialog , it ->
                     recyclerAdapter.updateItem(false,meal)
                     searchViewModel.deleteFavMealById(meal.idMeal,userid!!)
-                    GreenSnackBar.showSnackBarLong(requireView(),"Removed from favourites")
+                    showSnackBarLong(requireView(),"Removed from favourites")
                 }
                 .setNegativeButton("No"){dialog , it ->
                     dialog.cancel()
                     recyclerAdapter.updateItem(true,meal)
                     recyclerAdapter.notifyDataSetChanged()
                 }
+
             val dialog = builder.create()
             dialog.show()
         }

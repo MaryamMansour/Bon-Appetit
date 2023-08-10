@@ -64,5 +64,10 @@
         <item name="checkboxStyle">@style/checkButtonTheme1</item>
         <item name="android:checkboxStyle">@style/checkButtonTheme1</item>
     </style>
+    <style name="bottom" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
+        <item name="android:minHeight"> 65dp</item>
+        <item name="iconGravity"> </item>
+
+    </style>
 
 </resources>

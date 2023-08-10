@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.recipe_app.R
 import com.example.recipe_app.model.PersonInfo
+import com.example.recipe_app.utils.GreenSnackBar
 import com.example.recipe_app.viewModels.AuthViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -19,6 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {
     private lateinit var etName: TextInputEditText
@@ -59,6 +61,7 @@ class SignUpFragment : Fragment() {
                     etLayoutEmail.error = "Email is required"
                     false
                 }
+
                 false -> {
                     etLayoutEmail.error = null
                     true
@@ -69,6 +72,7 @@ class SignUpFragment : Fragment() {
                     etLayoutPassword.error = "password is required"
                     false
                 }
+
                 false -> {
 
                     val checked = isValidPassword(password)
@@ -89,12 +93,13 @@ class SignUpFragment : Fragment() {
                     etLayoutName.error = "name is required"
                     false
                 }
+
                 false -> {
                     etLayoutName.error = null
                     true
                 }
             }
-            val validEmail = isValidmail(email)
+            val validEmail = isValidmail()
 
 
             if (eEmail && ePass && eName && validEmail) {
@@ -107,37 +112,33 @@ class SignUpFragment : Fragment() {
                         etLayoutEmail.error = null
                         val user = PersonInfo(0, email, password)
                         user.name = name
-                            viewModel.insertUser(user)
-                                Toast.makeText(context, "user created", Toast.LENGTH_LONG).show()
-                                findNavController().navigate(R.id.homeActivity)
-                                val pref = requireActivity().getSharedPreferences("mypref", 0)
-                                val editor = pref.edit()
-                                editor.putBoolean("isloggedin", true)
-                                editor.putString("CurrentUserMail", email)
-                                editor.apply()
-                                activity?.finish()
-
+                        viewModel.insertUser(user)
+                        Toast.makeText(context, "user created", Toast.LENGTH_LONG).show()
+                        findNavController().navigate(R.id.homeActivity)
+                        val pref = requireActivity().getSharedPreferences("mypref", 0)
+                        val editor = pref.edit()
+                        editor.putBoolean("isloggedin", true)
+                        editor.putString("CurrentUserMail", email)
+                        editor.apply()
+                        activity?.finish()
                     }
                 }
             } else {
-                Toast.makeText(context, "user not created", Toast.LENGTH_LONG).show()
+                GreenSnackBar.showSnackBarLong(view,"user not created")
             }
-
-
         }
-
-
     }
 
-    private fun isValidmail(email: String): Boolean {
+    private fun isValidmail(): Boolean {
         val emailPattern = Regex("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}\$")
-        return when{
-            !etEmail.text.toString().trim().matches(emailPattern)->{
-                etLayoutEmail.error="Email is not valid"
+        return when {
+            !etEmail.text.toString().trim().matches(emailPattern) -> {
+                etLayoutEmail.error = "Email is not valid"
                 false
 
             }
-            else ->{
+
+            else -> {
                 etLayoutEmail.error = null
                 true
             }
@@ -161,7 +162,7 @@ class SignUpFragment : Fragment() {
             return "Must Contain 1 Special Character (@#\$%^&+=)"
         }
 
-          return null
+        return null
     }
 
 }

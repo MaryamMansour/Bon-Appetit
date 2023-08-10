@@ -43,7 +43,6 @@ class HomeActivity : AppCompatActivity(){
                 editor.apply()
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
-                // todo delete all data from database
                 true
             } else if (it.getItemId() == R.id.action_about) {
                 navController.navigate(R.id.aboutFragment)
@@ -61,6 +60,7 @@ class HomeActivity : AppCompatActivity(){
             when (destination.id) {
                 R.id.detailsFragment -> {
                     bottomNavigationView.visibility = BottomNavigationView.GONE
+
                 }
                 R.id.aboutFragment -> {
                     bottomNavigationView.visibility = BottomNavigationView.GONE

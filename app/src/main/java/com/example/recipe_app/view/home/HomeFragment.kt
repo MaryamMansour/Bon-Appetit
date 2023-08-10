@@ -20,7 +20,10 @@ import com.example.recipe_app.R
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.utils.CurrentUser
 import com.example.recipe_app.utils.GreenSnackBar
+import com.example.recipe_app.utils.GreenSnackBar.showSnackBarLong
+import com.example.recipe_app.utils.GreenSnackBar.showSnackBarWithDismiss
 import com.example.recipe_app.utils.NetworkUtils
+import com.example.recipe_app.utils.NetworkUtils.isInternetAvailable
 import com.example.recipe_app.viewModels.HomeMealsViewModel
 import com.facebook.shimmer.ShimmerFrameLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,11 +63,11 @@ class HomeFragment : Fragment(), OnClickListener {
 
 
         val userId = CurrentUser.getCurrentUser(requireActivity())
-        if (NetworkUtils.isInternetAvailable(requireActivity())) {
+        if (isInternetAvailable(requireActivity())) {
             homeViewModel.getRandomMeal()
             homeViewModel.getMealsWithFavourite(userId)
         } else {
-            GreenSnackBar.showSnackBarWithDismiss(view, "No Internet Connection")
+            showSnackBarWithDismiss(view, "No Internet Connection")
         }
 
         recyclerView = view.findViewById(R.id.HomeRecyclerView)
@@ -114,7 +117,7 @@ class HomeFragment : Fragment(), OnClickListener {
         if (isChecked) {
             homeViewModel.insertFavMealToUser(meal, userId)
             recyclerAdapter.updateItem(true, meal)
-            GreenSnackBar.showSnackBarLong(requireView(), "Added to favourites")
+            showSnackBarLong(requireView(), "Added to favourites")
         } else {
             val builder = AlertDialog.Builder(context)
             builder.setMessage("Do you want to delete the item ?")
@@ -122,7 +125,7 @@ class HomeFragment : Fragment(), OnClickListener {
                 .setPositiveButton("Yes") { dialog, it ->
                     recyclerAdapter.updateItem(false, meal)
                     homeViewModel.deleteFavMealById(meal.idMeal, userId)
-                    GreenSnackBar.showSnackBarLong(requireView(), "Removed from favourites")
+                    showSnackBarLong(requireView(), "Removed from favourites")
                 }
                 .setNegativeButton("No") { dialog, _ ->
                     dialog.cancel()

@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.example.recipe_app.R
 import com.example.recipe_app.utils.CurrentUser
 import com.example.recipe_app.utils.GreenSnackBar
+import com.example.recipe_app.utils.GreenSnackBar.showSnackBarLong
 import com.example.recipe_app.viewModels.DetailsViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -122,7 +123,7 @@ class DetailsFragment : Fragment()  {
             if (isChecked)
             {
                 detailsViewModel.insertFavMealToUser(args.meal,userid)
-                GreenSnackBar.showSnackBarLong(view,"Added to favourites")
+                showSnackBarLong(view,"Added to favourites")
 
             }
             else
@@ -132,7 +133,7 @@ class DetailsFragment : Fragment()  {
                     .setCancelable(true)
                     .setPositiveButton("Yes"){ _, _ ->
                         detailsViewModel.deleteFavMealById(args.meal.idMeal,userid)
-                        GreenSnackBar.showSnackBarLong(view,"Removed from favourites")
+                        showSnackBarLong(view,"Removed from favourites")
                     }
                     .setNegativeButton("No"){dialog , it ->
                         dialog.cancel()

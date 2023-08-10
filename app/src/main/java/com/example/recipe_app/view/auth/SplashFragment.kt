@@ -22,6 +22,8 @@ class SplashFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+
         super.onViewCreated(view, savedInstanceState)
 
         //if user is logged in then navigate to home activity else navigate to login fragment

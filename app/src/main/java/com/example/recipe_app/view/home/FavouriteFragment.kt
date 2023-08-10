@@ -18,6 +18,8 @@ import com.example.recipe_app.R
 import com.example.recipe_app.model.MealX
 import com.example.recipe_app.utils.CurrentUser
 import com.example.recipe_app.utils.GreenSnackBar
+import com.example.recipe_app.utils.GreenSnackBar.showSnackBarLong
+import com.example.recipe_app.utils.GreenSnackBar.showSnackBarWithDismiss
 import com.example.recipe_app.utils.NetworkUtils.isInternetAvailable
 import com.example.recipe_app.viewModels.FavouriteViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,7 +49,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
             favouriteViewModel.getFavMealsByUserId(userid)
         }
         else{
-            GreenSnackBar.showSnackBarWithDismiss(view,"No Internet Connection")
+            showSnackBarWithDismiss(view,"No Internet Connection")
             }
         favRecyclerAdapter = FavMealAdapter(this)
         favRecyclerView.adapter = favRecyclerAdapter
@@ -77,7 +79,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
                                 .setPositiveButton("Yes"){ _, _ ->
                                     favouriteViewModel.deleteFavMealById(favRecyclerAdapter.listOfMeals[viewHolder.adapterPosition].idMeal,userid!!)
                                     favRecyclerAdapter.deleteItem(viewHolder.adapterPosition)
-                                    GreenSnackBar.showSnackBarLong(view,"Item Deleted")
+                                    showSnackBarLong(view,"Item Deleted")
                                     if(favRecyclerAdapter.listOfMeals.isEmpty()){
                                         lottieEmpty.visibility=View.VISIBLE
                                     }
@@ -88,6 +90,7 @@ class FavouriteFragment : Fragment(), OnClickListener {
                                     dialog.cancel()
                                     favRecyclerAdapter.notifyItemChanged(viewHolder.adapterPosition)
                                 }
+                                .setCancelable(false)
                             val dialog = builder.create()
                             dialog.show()
                         }

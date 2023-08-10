@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.recipe_app.R
 import com.example.recipe_app.model.PersonInfo
+import com.example.recipe_app.utils.GreenSnackBar
 import com.example.recipe_app.viewModels.AuthViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -110,12 +111,11 @@ class LoginFragment : Fragment() {
 
                         }
                         else{
-                            Toast.makeText(context, "Incorrect Password", Toast.LENGTH_LONG).show()
+                            GreenSnackBar.showSnackBarLong(view, "Incorrect Password")
                         }
                     }
                     else{
-                        Toast.makeText(context, "User not found please create an account", Toast.LENGTH_LONG).show()
-
+                        GreenSnackBar.showSnackBarLong(view, "User not found please create an account")
                     }
                 }
 
