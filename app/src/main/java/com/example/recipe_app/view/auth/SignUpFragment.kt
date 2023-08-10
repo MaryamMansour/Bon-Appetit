@@ -107,9 +107,7 @@ class SignUpFragment : Fragment() {
                         etLayoutEmail.error = null
                         val user = PersonInfo(0, email, password)
                         user.name = name
-                        lifecycleScope.launch(Dispatchers.IO) {
                             viewModel.insertUser(user)
-                            withContext(Dispatchers.Main) {
                                 Toast.makeText(context, "user created", Toast.LENGTH_LONG).show()
                                 findNavController().navigate(R.id.homeActivity)
                                 val pref = requireActivity().getSharedPreferences("mypref", 0)
@@ -118,8 +116,7 @@ class SignUpFragment : Fragment() {
                                 editor.putString("CurrentUserMail", email)
                                 editor.apply()
                                 activity?.finish()
-                            }
-                        }
+
                     }
                 }
             } else {
