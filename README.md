@@ -39,26 +39,26 @@ Happy cooking and exploring the diverse world of recipes with Recipe World! If y
 <summary>Click to expand</summary>
 
 ### Splash Screen
-<img src="app/screens/splash.jpeg" alt="splash" width="200" height="450">
+<img src="app/screens/splash.jpeg" alt="splash" width="210" height="450">
 
 ### Login Screen
-<img src="app/screens/login.jpeg" alt="login" width="200" height="450">
+<img src="app/screens/login.jpeg" alt="login" width="210" height="450">
 
 ### signup Screen
-<img src="app/screens/signup.jpeg" alt="signUp" width="200" height="450">
+<img src="app/screens/signup.jpeg" alt="signUp" width="210" height="450">
 
 ### Home Screen
-<img src="app/screens/home.jpeg" alt="Recipe List" width="200" height="450">
+<img src="app/screens/home.jpeg" alt="Recipe List" width="210" height="450">
 
 ### Recipe Details Screen
 
-<img src="app/screens/details.jpeg" alt="Recipe details" width="200" height="450">
+<img src="app/screens/details.jpeg" alt="Recipe details" width="210" height="450">
 
 ### search Screen
-<img src="app/screens/search.jpeg" alt="Recipe search" width="200" height="450">
+<img src="app/screens/search.jpeg" alt="Recipe search" width="210" height="450">
 
 ### favourite Screen
-<img src="app/screens/fav.jpeg" alt="Recipe fav" width="200" height="450">
+<img src="app/screens/fav.jpeg" alt="Recipe fav" width="210" height="450">
 
 
 
